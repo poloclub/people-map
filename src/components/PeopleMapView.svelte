@@ -1,0 +1,224 @@
+
+<style>
+
+.tooltip {
+  position: absolute;
+  font-size: 18px;
+  pointer-events: none;
+  background: lightsteelblue;       
+  border-radius: 8px;
+  width: 400px;                    
+  height: 400px;                   
+  padding: 2px; 
+  white-space: pre-line;
+}
+
+</style>
+
+<!-- Initialize SelectButton-->
+<select id="selectButton"></select>
+
+<!-- Create a div where the graph will take place -->
+<div id="PeopleMap"></div>
+
+<script>
+import data from './datapoints.js'
+import { onMount } from 'svelte';
+
+onMount(renderGraph);
+// set the dimensions and margins of the graph
+function renderGraph() {
+  var margin = {
+      top: 10,
+      right: 100,
+      bottom: 30,
+      left: 30
+    },
+    width = 800 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
+
+  // append the svg object to the body of the page
+  var svg = d3.select("#PeopleMap")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform",
+      "translate(" + margin.left + "," + margin.top + ")");
+
+  // Initialize a tooltip for hovering over dots in the graph
+  var tooltip = d3.select("#PeopleMap").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+
+  // Read the data from the JSON and begin visualizing
+
+  // List of keyword groups (here I have one group per column)
+  var allGroup = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
+  // add the options to the button
+  d3.select("#selectButton")
+    .selectAll('myOptions')
+    .data(allGroup)
+    .enter()
+    .append('option')
+    .text(function(d) {
+      return d;
+    }) // text showed in the menu
+    .attr("value", function(d) {
+      return d;
+    }) // corresponding value returned by the button
+
+
+  // Set domain of the xAxis
+  var x = d3.scaleLinear().range([0, width]);
+
+  x.domain([d3.min(data, function(d) {
+
+    var min = d.x0
+    for (var i = 0; i <= 15; i++) {
+      if (d["x" + i] < min) {
+        min = d["x" + i]
+      }
+    }
+    return min
+
+  }), d3.max(data, function(d) {
+
+    var max = d.x0
+    for (var i = 0; i <= 15; i++) {
+      if (d["x" + i] > max) {
+        max = d["x" + i]
+      }
+    }
+    return max
+
+  })]);
+  x.range([0, width])
+
+  // Append xAxis
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+
+  // Set domain of yAxis
+  var y = d3.scaleLinear().range([height, 0]);
+
+  y.domain([d3.min(data, function(d) {
+
+    var min = d.y0
+    for (var i = 0; i <= 15; i++) {
+      if (d["y" + i] < min) {
+        min = d["y" + i]
+      }
+    }
+    return min
+
+  }), d3.max(data, function(d) {
+
+    var max = d.y0
+    for (var i = 0; i <= 15; i++) {
+      if (d["y" + i] > max) {
+        max = d["y" + i]
+      }
+    }
+    return max
+
+  })]);
+  y.range([height, 0])
+
+  // Append yAxis
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+
+  // Blue, Orange, Red, Green, Brown, Yellow, Gray, Black, Pink
+  var colors = ["#0000CD", "#FFA500", "#FF0000", "#006400", "#8B4513", "#FFFF00", "#A9A9A9", "#000000", "#FF1493"]
+
+
+  // 7 shade gradient of blue, starting with most dark and growing lighter after that
+  var blueGradient = ["#084594", "#2171b5", "#4292c6", "#6baed6", "#9ecae1", "#c6dbef", "#eff3ff"]
+
+  // 7 shade gradient of green, starting with most dark and growing lighter after that
+  var greenGradient = ['#005a32', '#238b45', '#41ab5d', '#74c476', '#a1d99b', '#c7e9c0', '#edf8e9']
+
+
+  // Initialize dots with Zero Keywords
+  var dot = svg
+    .selectAll('circle')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr("cx", function(d) {
+      return x(+d["x0"])
+    })
+    .attr("cy", function(d) {
+      return y(+d["y0"])
+    })
+    .attr("r", 7)
+    .style("fill", function(d) {
+      return colors[d.group]
+    })
+    .style("stroke", "black")
+    .on("mouseover", function(dataPoint) {
+      tooltip.transition()
+        .style("opacity", 1.0);
+      console.log(dataPoint)
+      var tester = "Researcher: " + dataPoint.Author + "\n" + "\n" + "Affiliation: " + dataPoint.Affiliation +
+        "\n" + "\n" + "Google Scholar Keywords: " + dataPoint.KeyWords + "\n" + "\n" +
+        "Citations: " + dataPoint.Citations + "\n" + "\n" + "URL: " + dataPoint.URL
+      tooltip.html(tester)
+        .style("top", (height / 3) + "px")
+        .style("left", (width + 120) + "px");
+    })
+    .on("mouseout", function(dataPoint) {
+      tooltip.transition()
+        .style("opacity", 0);
+    });
+
+
+  // A function that update the chart
+  function update(data, selectedGroup) {
+
+    // Create new data with the selection?
+    var dataFilter = data.map(function(d) {
+      console.log(d)
+      return {
+        time: d["x" + selectedGroup],
+        value: d["y" + selectedGroup],
+        Author: d.Author,
+        Affiliation: d.Affiliation,
+        KeyWords: d.KeyWords,
+        Citations: d.Citations,
+        URL: d.URL
+      }
+    })
+
+
+    dot
+      .data(dataFilter)
+      .transition()
+      .duration(1000)
+      .attr("cx", function(d) {
+        return x(+d.time)
+      })
+      .attr("cy", function(d) {
+        return y(+d.value)
+      })
+  }
+
+  // When the button is changed, run the updateChart function
+  d3.select("#selectButton").on("change", function(d) {
+
+    // recover the option that has been chosen
+    var selectedOption = d3.select(this).property("value")
+
+    // run the updateChart function with this selected option
+    update(data, selectedOption)
+
+  })
+
+}
+</script>

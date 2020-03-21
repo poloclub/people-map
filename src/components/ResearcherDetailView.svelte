@@ -1,0 +1,1 @@
+<p>DetailView goes here</p>
