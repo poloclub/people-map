@@ -3,7 +3,7 @@
             background: #800080;
         }
 </style>
-<nav style="padding:10px" class="level">
+<nav style="padding:10px;margin-bottom:0;padding-bottom:20px;" class="level">
 
   <!-- Left side -->
   <div class="level-left">
