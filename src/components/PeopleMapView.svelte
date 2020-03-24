@@ -38,8 +38,10 @@ function renderGraph() {
 
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 100, bottom: 30, left: 30},
-      width = 800 - margin.left - margin.right,
-      height = 600 - margin.top - margin.bottom;
+      width = 700 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+
 
   // append the svg object to the body of the page
   var svg = d3.select("#PeopleMap")
@@ -114,9 +116,9 @@ function renderGraph() {
       x.range([0, width])
 
       // Append xAxis
-      svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+      var xAxis = svg.append("g")
+                     .attr("transform", "translate(0," + height + ")")
+                     .call(d3.axisBottom(x));
 
 
       // Set domain of yAxis
@@ -146,8 +148,10 @@ function renderGraph() {
       y.range([height, 0])
 
       // Append yAxis
-      svg.append("g")
-        .call(d3.axisLeft(y));
+      var yAxis = svg.append("g")
+                     .call(d3.axisLeft(y));
+
+
 
 
 

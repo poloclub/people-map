@@ -1,3 +1,12 @@
+<style>
+        .panel-heading{
+            background: #C0C0C0;
+        }
+        .panel-block{
+            background: #F5F5F5;
+        }
+</style>
+
 <nav class="panel">
   <p class="panel-heading">
     Research Topic Search

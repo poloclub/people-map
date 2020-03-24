@@ -1,4 +1,10 @@
-<article class="message is-info">
+<style>
+        .panel-block{
+            background: #E8E8E8;
+        }
+</style>
+
+<article class="message">
   <div class="message-header">
     <p>Researcher Information</p>
   </div>
