@@ -22,7 +22,7 @@
 <select id="clustersSelect"></select>
 
 <!-- Create a div where the graph will take place -->
-<div id="PeopleMap"></div>
+<div id="PeopleMap" style = "border: 1px solid grey;"></div>
 
 <script>
 import data from './datapoints.js'
@@ -38,8 +38,8 @@ function renderGraph() {
 
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 100, bottom: 30, left: 30},
-      width = 700 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+      width = 800 - margin.left - margin.right,
+      height = 600 - margin.top - margin.bottom;
 
 
 
