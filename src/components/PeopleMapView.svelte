@@ -8,10 +8,12 @@
   background: lightsteelblue;       
   border-radius: 8px;
   width: 400px;                    
-  height: 400px;                   
+  height: auto;                   
   padding: 2px; 
   white-space: pre-line;
 }
+
+
 
 </style>
 
@@ -113,12 +115,12 @@ function renderGraph() {
           return max
 
       })]); 
-      x.range([0, width])
 
       // Append xAxis
       var xAxis = svg.append("g")
                      .attr("transform", "translate(0," + height + ")")
-                     .call(d3.axisBottom(x));
+                     .call(d3.axisBottom(x).tickFormat(""));
+
 
 
       // Set domain of yAxis
@@ -145,11 +147,10 @@ function renderGraph() {
         return max
 
       })]); 
-      y.range([height, 0])
 
       // Append yAxis
       var yAxis = svg.append("g")
-                     .call(d3.axisLeft(y));
+                     .call(d3.axisLeft(y).tickFormat(""));
 
 
 
@@ -205,8 +206,8 @@ function renderGraph() {
                                 + "\n" + "\n" + "Google Scholar Keywords: " + dataPoint.KeyWords + "\n" + "\n" + 
                                 "Citations: " + dataPoint.Citations + "\n" + "\n" + "URL: " + dataPoint.URL
                   tooltip .html(tester)  
-                      .style("top", (height / 3) + "px")  
-                      .style("left", (width + 120) + "px");     
+                      .style("top", (height / 3 - 200) + "px")  
+                      .style("left", (width + 135) + "px");     
                   })
         .on("mouseout", function(dataPoint) {       
                   tooltip.transition()
@@ -294,3 +295,14 @@ function renderGraph() {
 }
 
 </script>
+<ul class="text is-size-7" style="padding-left: 20px;">
+    <li> - Each dot represents a researcher and their associated top 20 most cited publications.
+    </li>
+    <li> - Proximity between researchers indicates similarity in topics studied.
+    </li>
+    <li> - Distance between researchers indicates disparity in topics studied.
+    </li>
+    <li> - Cluster colors indicate groups of researchers associated with similar topics.
+    </li>
+
+</ul>
