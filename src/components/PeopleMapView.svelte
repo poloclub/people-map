@@ -17,11 +17,11 @@
 
 </style>
 
-<!-- Initialize SelectButton-->
-<select id="keywordsSelect"></select>
+<!-- Initialize SelectButton -->
+<!-- <select id="keywordsSelect"></select> -->
 
 <!-- Initialize clustersSelect-->
-<select id="clustersSelect"></select>
+<!-- <select id="clustersSelect"></select> -->
 
 <!-- Create a div where the graph will take place -->
 <div id="PeopleMap" style = "border: 1px solid grey; width: 100%; height: 100%"></div>
@@ -30,6 +30,8 @@
 import data from './datapoints.js'
 import rankData from './rankData.js'
 import { onMount } from 'svelte';
+
+import {selectedResearcherInfo, visKeywordEmphasis, visNumClusters} from '../stores/MapStore.js'
 
 onMount(renderGraph);
 // set the dimensions and margins of the graph
@@ -61,41 +63,16 @@ function renderGraph() {
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-  // Initialize a tooltip for hovering over dots in the graph
-  var tooltip = d3.select("#PeopleMap").append("div")
-                      .attr("class", "tooltip")
-                      .style("opacity", 0);
+  // // Initialize a tooltip for hovering over dots in the graph
+  // var tooltip = d3.select("#PeopleMap").append("div")
+  //                     .attr("class", "tooltip")
+  //                     .style("opacity", 0);
 
 
 
       for(var i = 0; i < rankData.length; i++) {
         data[i].rank = rankData[i].rank
       }
-
-
-      // List of keyword groups (here I have one group per column)
-      var keywordsGroup = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-
-      // add the options to the button
-      d3.select("#keywordsSelect")
-        .selectAll('myOptions')
-        .data(keywordsGroup)
-        .enter()
-        .append('option')
-        .text(function (d) { return d; }) // text showed in the menu
-        .attr("value", function (d) { return d; }) // corresponding value returned by the button
-
-
-      var clustersGroup = [1, 2, 3, 4, 5, 6]
-
-      // add the options to the button
-      d3.select("#clustersSelect")
-        .selectAll('myOptions')
-        .data(clustersGroup)
-        .enter()
-        .append('option')
-        .text(function (d) { return d; }) // text showed in the menu
-        .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
 
       // Set domain of the xAxis
@@ -207,19 +184,19 @@ function renderGraph() {
           })
           .style("stroke", "black")
           .on("mouseover", function(dataPoint) {
-                  tooltip.transition()       
-                      .style("opacity", 1.0);
-                  var tester = "Researcher: " + dataPoint.Author + "\n" + "\n" + "Affiliation: " + dataPoint.Affiliation
-                                + "\n" + "\n" + "Google Scholar Keywords: " + dataPoint.KeyWords + "\n" + "\n" + 
-                                "Citations: " + dataPoint.Citations + "\n" + "\n" + "URL: " + dataPoint.URL
-                  tooltip .html(tester)  
-                      .style("top", (height / 3 - 200) + "px")  
-                      .style("left", (width + 135) + "px");     
-                  })
-        .on("mouseout", function(dataPoint) {       
-                  tooltip.transition()
-                            .style("opacity", 0);   
-              });
+      
+            var updatedResearcherSelection = {
+              name: dataPoint.Author,
+              affiliation: dataPoint.Affiliation,
+              scholarKeywords: dataPoint.KeyWords,
+              citations: dataPoint.Citations,
+              url: dataPoint.URL
+            }
+
+            selectedResearcherInfo.set(updatedResearcherSelection)
+
+          })
+ 
 
 
       // A function that update the chart
@@ -274,30 +251,19 @@ function renderGraph() {
       }
 
 
-
     // When the button is changed, run the updateKeywords function and update the graph
-    d3.select("#keywordsSelect").on("change", function(d) {
-        
-        // recover the option that has been chosen
-        var selectedOption = d3.select(this).property("value")
-        
+    visKeywordEmphasis.subscribe((selectedOption) => {        
         // run the updateChart function with this selected option
         updateKeywords("keywordsClustersTester.json", selectedOption)
-
     })
-
-
+    
 
     // When the button is changed, run the updateChart function
-    d3.select("#clustersSelect").on("change", function(d) {
-        
-        // recover the option that has been chosen
-        var selectedOption = d3.select(this).property("value")
-        
-        // run the updateChart function with this selected option
-        updateClusters("keywordsClustersTester.json", selectedOption)
-
+    visNumClusters.subscribe((selectedOption) => {    
+      // run the updateChart function with this selected option
+      updateClusters("keywordsClustersTester.json", selectedOption)
     })
+        
 
 }
 

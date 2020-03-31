@@ -1,10 +1,26 @@
+<script>
+  var choices = [
+    "Artificial Intelligence",
+    "Natural Language Processing",
+    "Computer Vision",
+    "Human Computer Interaction",
+    "Deep Learning",
+    "Machine Learning"
+  ]
+
+  var handleInterestSelect = (choice) => {
+    console.log(choice)
+  }
+
+</script>
+
 <style>
-        .panel-heading{
-            background: #C0C0C0;
-        }
-        .panel-block{
-            background: #F5F5F5;
-        }
+  .panel-heading{
+      background: #C0C0C0;
+  }
+  .panel-block{
+      background: #F5F5F5;
+  }
 </style>
 
 <nav class="panel" style="width: 100%;">
@@ -19,40 +35,12 @@
       </span>
     </p>
   </div>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    Artificial Intelligence
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    Natural Language Processing
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    Computer Vision
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    Human-Computer Interaction
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    Deep Learning
-  </a>
-  <a class="panel-block">
-    <span class="panel-icon">
-      <i class="fas fa-book" aria-hidden="true"></i>
-    </span>
-    Machine Learning
-  </a>
+  {#each choices as choice}
+    <a on:click = {() => { handleInterestSelect(choice) }} class="panel-block">
+      <span class="panel-icon">
+        <i class="fas fa-book" aria-hidden="true"></i>
+      </span>
+      {choice}
+    </a>
+  {/each}
 </nav>
