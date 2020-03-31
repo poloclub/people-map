@@ -6,27 +6,6 @@
   import StatsView from './components/StatsView.svelte'
   import SummaryView from './components/SummaryView.svelte'
 
-
-  // example request code.
-  var url = "http://localhost:8000/"
-  var data = {
-    "inputString": "Machine Learning",
-    "numKeywords": 3,
-    "numChoices": 5
-  }
-  
-  fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data), 
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }).then((response) => {
-    return response.json()
-  }).then((json) => {
-    console.log(json);
-  });
-
 </script>
 
 <style>
