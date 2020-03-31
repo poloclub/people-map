@@ -259,6 +259,24 @@ function renderGraph() {
 
       }
 
+    function updateRanking(json) {
+    // Filter out data with the selection
+      var dataFilter = json.map(function(d) {
+        return { Rank: d["rank"] }
+      })
+      dot
+        .data(dataFilter)
+        .transition()
+        .duration(1000)
+          .style("fill", function(d) {
+            if (d.Rank == -1) {
+              return blueGradient[6]
+            } else {
+              return blueGradient[d.Rank]
+            }
+          })
+    }
+
 
     // example request code.	
 
@@ -282,17 +300,18 @@ function renderGraph() {
           "numChoices": $queryTopChoices	
         }	
           
-        // fetch(url, {	
-        //   method: 'POST',	
-        //   body: JSON.stringify(data), 	
-        //   headers: {	
-        //     'Content-Type': 'application/json'	
-        //   }	
-        // }).then((response) => {	
-        //   return response.json()	
-        // }).then((json) => {	
-        //   console.log(json);	
-        // });
+        fetch(url, {	
+          method: 'POST',	
+          body: JSON.stringify(data), 	
+          headers: {	
+            'Content-Type': 'application/json'	
+          }	
+        }).then((response) => {	
+          return response.json()	
+        }).then((json) => {	
+          // console.log(json);	
+          updateRanking(json)
+        });
 
       }, 750)
 
