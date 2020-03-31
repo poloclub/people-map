@@ -1,4 +1,5 @@
 <script>
+  import { selectedResearchInterest } from '../stores/MapStore.js'
   var choices = [
     "Artificial Intelligence",
     "Natural Language Processing",
@@ -9,7 +10,7 @@
   ]
 
   var handleInterestSelect = (choice) => {
-    console.log(choice)
+    selectedResearchInterest.set(choice)
   }
 
 </script>
@@ -29,7 +30,7 @@
   </p>
   <div class="panel-block">
     <p class="control has-icons-left">
-      <input class="input" type="text" placeholder="Search">
+      <input class="input" type="text" bind:value={$selectedResearchInterest} placeholder="Search">
       <span class="icon is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
       </span>

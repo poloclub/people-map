@@ -31,7 +31,16 @@ import data from './datapoints.js'
 import rankData from './rankData.js'
 import { onMount } from 'svelte';
 
-import {selectedResearcherInfo, visKeywordEmphasis, visNumClusters} from '../stores/MapStore.js'
+import {
+        selectedResearcherInfo, 
+        selectedResearchInterest, 
+        visKeywordEmphasis, 
+        visNumClusters,
+        queryKeywordEmphasis, 
+        queryTopChoices
+} from '../stores/MapStore.js'
+
+var currTimeout = null;
 
 onMount(renderGraph);
 // set the dimensions and margins of the graph
@@ -249,6 +258,47 @@ function renderGraph() {
 
 
       }
+
+
+    // example request code.	
+
+    // TODO: this subscription should listen to settings pane too!
+    selectedResearchInterest.subscribe((value) => {
+
+      // check if value is empty.
+      if (value.length == 0) {
+        return
+      }
+
+      // rate limit on frontend.
+      clearTimeout(currTimeout);
+      currTimeout = setTimeout(() => {
+
+        var url = "http://localhost:8000/"
+
+        var data = {	
+          "inputString": value,	
+          "numKeywords": $queryKeywordEmphasis,	
+          "numChoices": $queryTopChoices	
+        }	
+          
+        // fetch(url, {	
+        //   method: 'POST',	
+        //   body: JSON.stringify(data), 	
+        //   headers: {	
+        //     'Content-Type': 'application/json'	
+        //   }	
+        // }).then((response) => {	
+        //   return response.json()	
+        // }).then((json) => {	
+        //   console.log(json);	
+        // });
+
+      }, 750)
+
+
+    })
+
 
 
     // When the button is changed, run the updateKeywords function and update the graph
