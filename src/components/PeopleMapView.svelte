@@ -24,7 +24,7 @@
 <select id="clustersSelect"></select>
 
 <!-- Create a div where the graph will take place -->
-<div id="PeopleMap" style = "border: 1px solid grey;"></div>
+<div id="PeopleMap" style = "border: 1px solid grey; width: 100%; height: 100%"></div>
 
 <script>
 import data from './datapoints.js'
@@ -38,10 +38,17 @@ function renderGraph() {
   // Choose whether or not it will use the ranking coloring
   var rankOption = 0
 
+  var chartDiv = document.getElementById("PeopleMap");
+  var width = chartDiv.clientWidth;
+  var height = chartDiv.clientHeight;
+  console.log(width)
+  console.log(height)
+
+
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 100, bottom: 30, left: 30},
-      width = 800 - margin.left - margin.right,
-      height = 600 - margin.top - margin.bottom;
+      width = width - margin.left - margin.right,
+      height = height - margin.top - margin.bottom;
 
 
 

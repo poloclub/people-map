@@ -1,9 +1,9 @@
 <style>
         .content{
             background: #FFFFFF;
-            padding-top: 0px;
-            padding-left: 600px;
-            padding-right: 575px;
+            padding-top: 25px;
+            padding-left: 30%;
+            padding-right: 30%;
             padding-bottom: 100px;
             line-height: 40px;
         }

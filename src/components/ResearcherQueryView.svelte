@@ -7,7 +7,7 @@
         }
 </style>
 
-<nav class="panel">
+<nav class="panel" style="width: 100%;">
   <p class="panel-heading">
     Research Topic Search
   </p>
