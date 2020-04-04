@@ -365,11 +365,9 @@ function renderGraph() {
     // TODO: this subscription should listen to settings pane too!
     selectedResearchInterest.subscribe((value) => {
 
-      if (value != "") {
-        console.log(value)
-        updateRanking(value)
+      if (newRankData[value.toLowerCase()]) {
+        updateRanking(value.toLowerCase())
       }
-
 
     })
 
