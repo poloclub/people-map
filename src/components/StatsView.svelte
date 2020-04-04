@@ -23,7 +23,7 @@
   <div class="level-item has-text-centered">
     <div>
       <p class="text has-text-grey-light">Total Google Scholar Keywords</p>
-      <p class="text has-text-white is-size-3 has-text-weight-bold">124</p>
+      <p class="text has-text-white is-size-3 has-text-weight-bold">109</p>
     </div>
   </div>
   <div class="level-item has-text-centered">

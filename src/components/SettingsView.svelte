@@ -1,5 +1,5 @@
 <script>
-    import {queryKeywordEmphasis, queryTopChoices, visKeywordEmphasis, visNumClusters} from '../stores/MapStore.js'
+    import {queryKeywordEmphasis, queryTopChoices, visKeywordEmphasis, visNumClusters, displayNames} from '../stores/MapStore.js'
 </script>
 
 <style>
@@ -49,7 +49,7 @@
 
   </div>
   <div class="column">
-      <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:0px; font-size: 100%; width: 105%">Google Scholar Keywords Emphasis</h2>
+      <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:0px; font-size: 100%; width: 105%"> Emphasis on Scholar's Keywords</h2>
       <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$visKeywordEmphasis} min="0" max="15" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 80px;">
       <output for="sliderWithValue" style="top: 0px;background: grey;width: 40px;margin-left: 0px;">{$visKeywordEmphasis}</output>
   </div>
@@ -60,16 +60,16 @@
   </div>
   <div class="column" >
       <div class="field">
-        <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; ">Display Names</h2>
+        <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Display Names</h2>
         <input id="switchRtlExample" type="checkbox" name="switchRtlExample" 
-                   class="switch is-rtl" checked="checked">
-        <label for="switchRtlExample" style="padding-left: 25px;"></label>
+                   class="switch is-large is-rtl" bind:checked={$displayNames}>
+        <label for="switchRtlExample" style="padding-left: 20%; "></label>
       </div>
   </div>
   <div class="column" style="background: #D3D3D3;">
 
   </div>
-  <div class="column" style="background: #D3D3D3; ">
+  <div class="column" style="background: #D3D3D3;">
       
   </div>
   <div class="column" style="background: #D3D3D3;">

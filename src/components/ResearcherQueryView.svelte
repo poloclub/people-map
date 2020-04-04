@@ -1,12 +1,13 @@
 <script>
+
   import { selectedResearchInterest } from '../stores/MapStore.js'
+
   var choices = [
-    "Artificial Intelligence",
-    "Natural Language Processing",
-    "Computer Vision",
-    "Human Computer Interaction",
-    "Deep Learning",
-    "Machine Learning"
+    "Machine Learning (18)",
+    "Artificial Intelligence (7)",
+    "Robotics (6)",
+    "Signal Processing (5)",
+    "Optimization (4)"
   ]
 
   var handleInterestSelect = (choice) => {
@@ -45,3 +46,17 @@
     </a>
   {/each}
 </nav>
+
+<ul class="text is-size-7" style="padding-left: 20px;">
+    <li> - Use this search bar to see what scholars are most closely associated with a selected keyword.
+    </li>
+    <li> - The topics above are the most common keywords in the Google Scholar dataset.
+    </li>
+    <li> - Each number adjacent to a keyword above is the total number of scholars with that topic in their Google Scholar profile.
+    </li>
+
+</ul>
+
+
+
+

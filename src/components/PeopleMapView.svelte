@@ -29,6 +29,7 @@
 <script>
 import data from './datapoints.js'
 import rankData from './rankData.js'
+import newRankData from './ResearchQueryComplete.js'
 import { onMount } from 'svelte';
 
 import {
@@ -36,6 +37,7 @@ import {
         selectedResearchInterest, 
         visKeywordEmphasis, 
         visNumClusters,
+        displayNames,
         queryKeywordEmphasis, 
         queryTopChoices
 } from '../stores/MapStore.js'
@@ -43,7 +45,7 @@ import {
 var currTimeout = null;
 
 onMount(renderGraph);
-// set the dimensions and margins of the graph
+
 function renderGraph() {
   
   // Choose whether or not it will use the ranking coloring
@@ -52,25 +54,19 @@ function renderGraph() {
   var chartDiv = document.getElementById("PeopleMap");
   var width = chartDiv.clientWidth;
   var height = chartDiv.clientHeight;
-  console.log(width)
-  console.log(height)
 
 
-  // set the dimensions and margins of the graph
-  var margin = {top: 10, right: 100, bottom: 30, left: 30},
-      width = width - margin.left - margin.right,
-      height = height - margin.top - margin.bottom;
+  console.log(newRankData["machine learning (18)"][0][0].rank)
+
 
 
 
   // append the svg object to the body of the page
   var svg = d3.select("#PeopleMap")
     .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+      .attr("width", width)
+      .attr("height", height)
+    .append("g");
 
   // // Initialize a tooltip for hovering over dots in the graph
   // var tooltip = d3.select("#PeopleMap").append("div")
@@ -85,7 +81,7 @@ function renderGraph() {
 
 
       // Set domain of the xAxis
-      var x = d3.scaleLinear().range([0, width]);
+      var x = d3.scaleLinear().range([30, width - 30]);
 
       x.domain([d3.min(data, function(d) {
 
@@ -111,13 +107,12 @@ function renderGraph() {
 
       // Append xAxis
       var xAxis = svg.append("g")
-                     .attr("transform", "translate(0," + height + ")")
-                     .call(d3.axisBottom(x).tickFormat(""));
+                     .attr("transform", "translate(0," + height + ")");
 
 
 
       // Set domain of yAxis
-      var y = d3.scaleLinear().range([height, 0]);
+      var y = d3.scaleLinear().range([height - 20, 20]);
 
       y.domain([d3.min(data, function(d) {
 
@@ -142,8 +137,7 @@ function renderGraph() {
       })]); 
 
       // Append yAxis
-      var yAxis = svg.append("g")
-                     .call(d3.axisLeft(y).tickFormat(""));
+      var yAxis = svg.append("g");
 
 
 
@@ -154,10 +148,8 @@ function renderGraph() {
 
 
       // 7 shade gradient of blue, starting with most dark and growing lighter after that
-      var blueGradient = ["#084594","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef","#eff3ff"]
+      var blueGradient = ["#08306b","#08519c","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef", "#deebf7", "#f7fbff"]
 
-      // 7 shade gradient of green, starting with most dark and growing lighter after that
-      var greenGradient = ['#005a32', '#238b45', '#41ab5d', '#74c476', '#a1d99b', '#c7e9c0', '#edf8e9']
      
 
       // Filter out data with the selection
@@ -207,6 +199,20 @@ function renderGraph() {
           })
  
 
+      var text = svg.selectAll("text")
+                    .data(dataFilter)
+                 .enter()
+                    .append("text")
+                    .attr("x", function(d) {
+                        return x(d.XCoordinate) + 10
+                    })
+                    .attr("y", function(d) {
+                        return y(d.YCoordinate) + 4
+                    })
+                    .attr("font_family", "sans-serif")  // Font type
+                    .attr("font-size", "11px")  // Font size
+                    .attr("fill", "black");   // Font color
+
 
       // A function that update the chart
       function updateKeywords(json, selectedGroup) {
@@ -229,6 +235,18 @@ function renderGraph() {
                 .attr("cy", function(d) { 
                   return y(+d.yCoordinate) 
                 })
+
+            text.data(dataFilter)
+                .transition()
+                .duration(1000)
+                .attr("x", function(d) {
+                    return x(d.xCoordinate) + 10
+                })
+                .attr("y", function(d) {
+                    return y(d.yCoordinate) + 4
+                })
+
+            
               
 
 
@@ -259,64 +277,66 @@ function renderGraph() {
 
       }
 
-    function updateRanking(json) {
-    // Filter out data with the selection
-      var dataFilter = json.map(function(d) {
-        return { Rank: d["rank"] }
-      })
-      dot
-        .data(dataFilter)
-        .transition()
-        .duration(1000)
-          .style("fill", function(d) {
-            if (d.Rank == -1) {
-              return blueGradient[6]
-            } else {
-              return blueGradient[d.Rank]
-            }
-          })
+    // A function that update the chart with a new ranking coloring
+    function updateRanking(phrase) {
+
+        // Assign new ranking for current Research Query
+        for(var i = 0; i < newRankData[phrase][0].length; i++) {
+          data[i].currentRank = newRankData[phrase][0][i].rank
+        }
+
+        // Filter out data with the selection
+        var dataFilter = data.map(function(d) {
+          return { Author: d.Author, Affiliation: d.Affiliation, CurrentRank: d.currentRank,
+                   KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL } 
+        })
+
+
+        dot
+          .data(dataFilter)
+          .transition()
+          .duration(1000)
+            .style("fill", function(d) {
+              if (d.CurrentRank == -1 || d.CurrentRank == 9) {
+                return blueGradient[8]
+              } else {
+                return blueGradient[d.CurrentRank]
+              }
+            })
+
     }
 
 
-    // example request code.	
 
-    // TODO: this subscription should listen to settings pane too!
-    selectedResearchInterest.subscribe((value) => {
+    // A function that update the chart with a new cluster coloring
+    function updateNames(selectedOption) {
 
-      // check if value is empty.
-      if (value.length == 0) {
-        return
+
+            // Filter out data with the selection
+            var dataFilter = data.map(function(d) {
+                return { Author: d.Author, Affiliation: d.Affiliation, KeyWords: d.KeyWords, 
+                         Citations: d.Citations, URL: d.URL, Rank: d.Rank } 
+            })
+
+
+            text.data(dataFilter)
+                .transition()
+              .duration(1000)
+                .text(function(d) {
+                    if (selectedOption == true) {
+                      return d.Author
+                    } else {
+                      return ""
+                    }
+                })
+                .attr("font_family", "sans-serif")  // Font type
+                .attr("font-size", "11px")  // Font size
+                .attr("fill", "black");   // Font color
+              
+
+
+
       }
-
-      // rate limit on frontend.
-      clearTimeout(currTimeout);
-      currTimeout = setTimeout(() => {
-
-        var url = "http://localhost:8000/"
-
-        var data = {	
-          "inputString": value,	
-          "numKeywords": $queryKeywordEmphasis,	
-          "numChoices": $queryTopChoices	
-        }	
-          
-        fetch(url, {	
-          method: 'POST',	
-          body: JSON.stringify(data), 	
-          headers: {	
-            'Content-Type': 'application/json'	
-          }	
-        }).then((response) => {	
-          return response.json()	
-        }).then((json) => {	
-          // console.log(json);	
-          updateRanking(json)
-        });
-
-      }, 750)
-
-
-    })
 
 
 
@@ -332,6 +352,28 @@ function renderGraph() {
       // run the updateChart function with this selected option
       updateClusters("keywordsClustersTester.json", selectedOption)
     })
+
+
+    // When the button is changed, run the updateNames function
+    displayNames.subscribe((selectedOption) => {    
+      // run the updateNames function with this selected option
+      updateNames(selectedOption)
+    })
+
+
+
+    // TODO: this subscription should listen to settings pane too!
+    selectedResearchInterest.subscribe((value) => {
+
+      if (value != "") {
+        console.log(value)
+        updateRanking(value)
+      }
+
+
+    })
+
+
         
 
 }
@@ -340,9 +382,7 @@ function renderGraph() {
 <ul class="text is-size-7" style="padding-left: 20px;">
     <li> - Each dot represents a researcher and their associated top 20 most cited publications.
     </li>
-    <li> - Proximity between researchers indicates similarity in topics studied.
-    </li>
-    <li> - Distance between researchers indicates disparity in topics studied.
+    <li> - Proximity between researchers indicates similarity in topics studied while distance indicates disparity in topics studied.
     </li>
     <li> - Cluster colors indicate groups of researchers associated with similar topics.
     </li>
