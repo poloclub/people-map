@@ -2,14 +2,13 @@
 
   import { selectedResearchInterest } from '../stores/MapStore.js'
   import "string_score";
-  import newRankData from './ResearchQueryComplete.js'
+  import newRankData from './mostCitedMLFaculty.js'
 
 
   var fixedKeys = Object.keys(newRankData).map((key) => 
     key.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
   )
 
-  console.log(fixedKeys)
 
   var choices = [
     "Machine Learning (18)",

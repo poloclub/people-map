@@ -1,6 +1,6 @@
 <style>
         .level{
-            background: #800080;
+            background: #060B29;
         }
 </style>
 <nav style="padding:10px;margin-bottom:0;padding-bottom:20px;" class="level">

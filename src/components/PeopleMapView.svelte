@@ -27,10 +27,11 @@
 <div id="PeopleMap" style = "border: 1px solid grey; width: 100%; height: 100%"></div>
 
 <script>
-import data from './datapoints.js'
-import rankData from './rankData.js'
-import newRankData from './ResearchQueryComplete.js'
+import mostCitedMLFaculty from './mostCitedMLFacultyCoordinates.js'
+import mostRecentMLFaculty from './mostRecentMLFacultyCoordinates.js'
+import mostCitedMLFacultyRankData from './mostCitedMLFaculty.js'
 import { onMount } from 'svelte';
+
 
 import {
         selectedResearcherInfo, 
@@ -38,8 +39,7 @@ import {
         visKeywordEmphasis, 
         visNumClusters,
         displayNames,
-        queryKeywordEmphasis, 
-        queryTopChoices
+        queryKeywordEmphasis
 } from '../stores/MapStore.js'
 
 var currTimeout = null;
@@ -48,17 +48,10 @@ onMount(renderGraph);
 
 function renderGraph() {
   
-  // Choose whether or not it will use the ranking coloring
-  var rankOption = 0
 
   var chartDiv = document.getElementById("PeopleMap");
   var width = chartDiv.clientWidth;
   var height = chartDiv.clientHeight;
-
-
-  console.log(newRankData["machine learning (18)"][0][0].rank)
-
-
 
 
   // append the svg object to the body of the page
@@ -68,35 +61,24 @@ function renderGraph() {
       .attr("height", height)
     .append("g");
 
-  // // Initialize a tooltip for hovering over dots in the graph
-  // var tooltip = d3.select("#PeopleMap").append("div")
-  //                     .attr("class", "tooltip")
-  //                     .style("opacity", 0);
-
-
-
-      for(var i = 0; i < rankData.length; i++) {
-        data[i].rank = rankData[i].rank
-      }
-
 
       // Set domain of the xAxis
       var x = d3.scaleLinear().range([30, width - 30]);
 
-      x.domain([d3.min(data, function(d) {
+      x.domain([d3.min(mostCitedMLFaculty, function(d) {
 
         var min = d.x0
-        for (i = 0; i <= 15; i++) {
+        for (var i = 0; i <= 15; i++) {
           if (d["x" + i] < min) {
             min = d["x" + i]
           }
         }
         return min
 
-      }), d3.max(data, function(d) { 
+      }), d3.max(mostCitedMLFaculty, function(d) { 
         
           var max = d.x0
-          for (i = 0; i <= 15; i++) {
+          for (var i = 0; i <= 15; i++) {
             if (d["x" + i] > max) {
               max = d["x" + i]
             }
@@ -114,20 +96,20 @@ function renderGraph() {
       // Set domain of yAxis
       var y = d3.scaleLinear().range([height - 20, 20]);
 
-      y.domain([d3.min(data, function(d) {
+      y.domain([d3.min(mostCitedMLFaculty, function(d) {
 
           var min = d.y0
-          for (i = 0; i <= 15; i++) {
+          for (var i = 0; i <= 15; i++) {
             if (d["y" + i] < min) {
               min = d["y" + i]
             }
           }
           return min
 
-      }), d3.max(data, function(d) { 
+      }), d3.max(mostCitedMLFaculty, function(d) { 
         
-        var max = d.y0
-          for (i = 0; i <= 15; i++) {
+          var max = d.y0
+          for (var i = 0; i <= 15; i++) {
             if (d["y" + i] > max) {
               max = d["y" + i]
             }
@@ -153,10 +135,19 @@ function renderGraph() {
      
 
       // Filter out data with the selection
-      var dataFilter = data.map(function(d) {
-        return {XCoordinate: d["x0"], YCoordinate: d["y0"], Author: d.Author, Group: d.group, Rank: d.rank,
+      var dataFilter = mostCitedMLFaculty.map(function(d) {
+        return {XCoordinate: d["x0"], YCoordinate: d["y0"], Author: d.Author, Group: d.group,
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL} 
       })
+
+
+
+
+
+
+
+
+
 
 
       // Initialize dots with Zero Keywords and Five Clusters
@@ -173,15 +164,7 @@ function renderGraph() {
           })
           .attr("r", 7)
           .style("fill", function(d) {
-            if (rankOption == 1) {
-              if (d.Rank == -1) {
-                return blueGradient[6]
-              } else {
-                return blueGradient[d.Rank]
-              }
-            } else {
               return colors[d.Group]
-            }
           })
           .style("stroke", "black")
           .on("mouseover", function(dataPoint) {
@@ -219,7 +202,7 @@ function renderGraph() {
 
 
             // Filter out data with the selection
-            var dataFilter = data.map(function(d) {
+            var dataFilter = mostCitedMLFaculty.map(function(d) {
               return {xCoordinate: d["x" + selectedGroup], yCoordinate:d["y" + selectedGroup], Author: d.Author,
                       Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL} 
             })
@@ -258,7 +241,7 @@ function renderGraph() {
 
        
             // Filter out data with the selection
-            var dataFilter = data.map(function(d) {
+            var dataFilter = mostCitedMLFaculty.map(function(d) {
               return { Grouping: d["grouping" + selectedGroup], Author: d.Author, Affiliation: d.Affiliation, 
                        KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL } 
             })
@@ -278,15 +261,15 @@ function renderGraph() {
       }
 
     // A function that update the chart with a new ranking coloring
-    function updateRanking(phrase) {
+    function updateRanking(phrase, emphasis) {
 
         // Assign new ranking for current Research Query
-        for(var i = 0; i < newRankData[phrase][0].length; i++) {
-          data[i].currentRank = newRankData[phrase][0][i].rank
+        for(var i = 0; i < mostCitedMLFacultyRankData[phrase][emphasis].length; i++) {
+          mostCitedMLFaculty[i].currentRank = mostCitedMLFacultyRankData[phrase][emphasis][i].rank
         }
 
         // Filter out data with the selection
-        var dataFilter = data.map(function(d) {
+        var dataFilter = mostCitedMLFaculty.map(function(d) {
           return { Author: d.Author, Affiliation: d.Affiliation, CurrentRank: d.currentRank,
                    KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL } 
         })
@@ -313,7 +296,7 @@ function renderGraph() {
 
 
             // Filter out data with the selection
-            var dataFilter = data.map(function(d) {
+            var dataFilter = mostCitedMLFaculty.map(function(d) {
                 return { Author: d.Author, Affiliation: d.Affiliation, KeyWords: d.KeyWords, 
                          Citations: d.Citations, URL: d.URL, Rank: d.Rank } 
             })
@@ -362,11 +345,21 @@ function renderGraph() {
 
 
 
+    queryKeywordEmphasis.subscribe((emphasis) => {
+
+      var value = $selectedResearchInterest;
+      if (mostCitedMLFacultyRankData[value.toLowerCase()]) {
+        updateRanking(value.toLowerCase(), emphasis)
+      }
+
+    })
+
     // TODO: this subscription should listen to settings pane too!
     selectedResearchInterest.subscribe((value) => {
-
-      if (newRankData[value.toLowerCase()]) {
-        updateRanking(value.toLowerCase())
+      
+      var emphasis = $queryKeywordEmphasis;
+      if (mostCitedMLFacultyRankData[value.toLowerCase()]) {
+        updateRanking(value.toLowerCase(), emphasis)
       }
 
     })
