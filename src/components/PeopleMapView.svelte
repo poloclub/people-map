@@ -30,6 +30,8 @@
 import mostCitedMLFaculty from './mostCitedMLFacultyCoordinates.js'
 import mostRecentMLFaculty from './mostRecentMLFacultyCoordinates.js'
 import mostCitedMLFacultyRankData from './mostCitedMLFaculty.js'
+import mostRecentMLFacultyRankData from './mostRecentMLFaculty.js'
+
 import { onMount } from 'svelte';
 
 
@@ -39,10 +41,13 @@ import {
         visKeywordEmphasis, 
         visNumClusters,
         displayNames,
-        queryKeywordEmphasis
+        queryKeywordEmphasis,
+        datasetChoice
 } from '../stores/MapStore.js'
 
 var currTimeout = null;
+var currentSelectedFaculty = mostCitedMLFaculty;
+var currentSelectedFacultyRankData = mostCitedMLFacultyRankData;
 
 onMount(renderGraph);
 
@@ -65,7 +70,7 @@ function renderGraph() {
       // Set domain of the xAxis
       var x = d3.scaleLinear().range([30, width - 30]);
 
-      x.domain([d3.min(mostCitedMLFaculty, function(d) {
+      x.domain([d3.min(currentSelectedFaculty, function(d) {
 
         var min = d.x0
         for (var i = 0; i <= 15; i++) {
@@ -75,7 +80,7 @@ function renderGraph() {
         }
         return min
 
-      }), d3.max(mostCitedMLFaculty, function(d) { 
+      }), d3.max(currentSelectedFaculty, function(d) { 
         
           var max = d.x0
           for (var i = 0; i <= 15; i++) {
@@ -96,7 +101,7 @@ function renderGraph() {
       // Set domain of yAxis
       var y = d3.scaleLinear().range([height - 20, 20]);
 
-      y.domain([d3.min(mostCitedMLFaculty, function(d) {
+      y.domain([d3.min(currentSelectedFaculty, function(d) {
 
           var min = d.y0
           for (var i = 0; i <= 15; i++) {
@@ -106,7 +111,7 @@ function renderGraph() {
           }
           return min
 
-      }), d3.max(mostCitedMLFaculty, function(d) { 
+      }), d3.max(currentSelectedFaculty, function(d) { 
         
           var max = d.y0
           for (var i = 0; i <= 15; i++) {
@@ -135,7 +140,7 @@ function renderGraph() {
      
 
       // Filter out data with the selection
-      var dataFilter = mostCitedMLFaculty.map(function(d) {
+      var dataFilter = currentSelectedFaculty.map(function(d) {
         return {XCoordinate: d["x0"], YCoordinate: d["y0"], Author: d.Author, Group: d.group,
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL} 
       })
@@ -202,7 +207,7 @@ function renderGraph() {
 
 
             // Filter out data with the selection
-            var dataFilter = mostCitedMLFaculty.map(function(d) {
+            var dataFilter = currentSelectedFaculty.map(function(d) {
               return {xCoordinate: d["x" + selectedGroup], yCoordinate:d["y" + selectedGroup], Author: d.Author,
                       Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL} 
             })
@@ -241,7 +246,7 @@ function renderGraph() {
 
        
             // Filter out data with the selection
-            var dataFilter = mostCitedMLFaculty.map(function(d) {
+            var dataFilter = currentSelectedFaculty.map(function(d) {
               return { Grouping: d["grouping" + selectedGroup], Author: d.Author, Affiliation: d.Affiliation, 
                        KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL } 
             })
@@ -264,12 +269,12 @@ function renderGraph() {
     function updateRanking(phrase, emphasis) {
 
         // Assign new ranking for current Research Query
-        for(var i = 0; i < mostCitedMLFacultyRankData[phrase][emphasis].length; i++) {
-          mostCitedMLFaculty[i].currentRank = mostCitedMLFacultyRankData[phrase][emphasis][i].rank
+        for(var i = 0; i < currentSelectedFacultyRankData[phrase][emphasis].length; i++) {
+          currentSelectedFaculty[i].currentRank = currentSelectedFacultyRankData[phrase][emphasis][i].rank
         }
 
         // Filter out data with the selection
-        var dataFilter = mostCitedMLFaculty.map(function(d) {
+        var dataFilter = currentSelectedFaculty.map(function(d) {
           return { Author: d.Author, Affiliation: d.Affiliation, CurrentRank: d.currentRank,
                    KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL } 
         })
@@ -296,7 +301,7 @@ function renderGraph() {
 
 
             // Filter out data with the selection
-            var dataFilter = mostCitedMLFaculty.map(function(d) {
+            var dataFilter = currentSelectedFaculty.map(function(d) {
                 return { Author: d.Author, Affiliation: d.Affiliation, KeyWords: d.KeyWords, 
                          Citations: d.Citations, URL: d.URL, Rank: d.Rank } 
             })
@@ -348,7 +353,7 @@ function renderGraph() {
     queryKeywordEmphasis.subscribe((emphasis) => {
 
       var value = $selectedResearchInterest;
-      if (mostCitedMLFacultyRankData[value.toLowerCase()]) {
+      if (currentSelectedFacultyRankData[value.toLowerCase()]) {
         updateRanking(value.toLowerCase(), emphasis)
       }
 
@@ -358,12 +363,32 @@ function renderGraph() {
     selectedResearchInterest.subscribe((value) => {
       
       var emphasis = $queryKeywordEmphasis;
-      if (mostCitedMLFacultyRankData[value.toLowerCase()]) {
+      if (currentSelectedFacultyRankData[value.toLowerCase()]) {
         updateRanking(value.toLowerCase(), emphasis)
       }
 
     })
 
+
+    datasetChoice.subscribe((value) => {
+
+      if (value == "ML Faculty: Most Cited Publications") {
+        currentSelectedFaculty = mostCitedMLFaculty;
+        currentSelectedFacultyRankData = mostCitedMLFacultyRankData;
+      } else if (value == "ML Faculty: Most Recent Publications") {
+        currentSelectedFaculty = mostRecentMLFaculty;
+        currentSelectedFacultyRankData = mostRecentMLFacultyRankData;
+      }
+
+      // var emphasis = $queryKeywordEmphasis;
+      // if (currentSelectedFacultyRankData[value.toLowerCase()]) {
+      //   updateRanking(value.toLowerCase(), emphasis)
+      // }
+      // updateKeywords("keywordsClustersTester.json", $visKeywordEmphasis)
+      // updateClusters("keywordsClustersTester.json", $visNumClusters)
+      // updateKeywords("keywordsClustersTester.json", $visKeywordEmphasis)
+
+    })
 
         
 

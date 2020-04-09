@@ -14,6 +14,16 @@
     function handleSubmit() {
       alert(`answered question ${selected.id} (${selected.text}) with "${answer}"`);
     }
+
+    var dropdownShown = false;
+
+    const selectionClicked = (selection) => {
+      dropdownShown = !dropdownShown;
+      if (selection) {
+        datasetChoice.set(selection)
+      }
+    }
+
 </script>
 
 <style>
@@ -77,36 +87,37 @@
       </div>
   </div>
   <div class="column" style="overflow: visible">
-        <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Dataset</h2>
-        <div class="dropdown is-hoverable">
-          <div class="dropdown-trigger">
-            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-              <span>Dropdown button</span>
-              <span class="icon is-small">
-                <i class="fas fa-angle-down" aria-hidden="true"></i>
-              </span>
-            </button>
-          </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <a href="#" class="dropdown-item">
-              <u>ML Faculty:</u> Most Cited Publications
-            </a>
-            <hr class="dropdown-divider">
-            <a href="#" class="dropdown-item">
-              <u>ML Faculty:</u> Most Recent Publications
-            </a>
-            <hr class="dropdown-divider">
-            <a href="#" class="dropdown-item">
-              <u>Affiliated Faculty:</u> Most Cited Publications
-            </a>
-            <hr class="dropdown-divider">
-            <a href="#" class="dropdown-item">
-              <u>Affiliated Faculty:</u> Most Recent Publications
-            </a>
-          </div>
+    <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Dataset</h2>
+    <div class="dropdown {dropdownShown ? 'is-active' : ''}">
+      <div class="dropdown-trigger">
+        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => { selectionClicked(); }}>
+          <span>{$datasetChoice}</span>
+          <span class="icon is-small">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </button>
+      
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          <a class="dropdown-item" on:click={() => { selectionClicked("ML Faculty: Most Cited Publications"); }}>
+            <u>ML Faculty:</u> Most Cited Publications
+          </a>
+          <hr class="dropdown-divider">
+          <a class="dropdown-item" on:click={() => { selectionClicked("ML Faculty: Most Recent Publications"); }}>
+            <u>ML Faculty:</u> Most Recent Publications
+          </a>
+          <hr class="dropdown-divider">
+          <a class="dropdown-item" on:click={() => { selectionClicked("Affiliated Faculty: Most Cited Publications"); }}>
+            <u>Affiliated Faculty:</u> Most Cited Publications
+          </a>
+          <hr class="dropdown-divider">
+          <a class="dropdown-item" on:click={() => { selectionClicked("Affiliated Faculty: Most Recent Publications"); }}>
+            <u>Affiliated Faculty:</u> Most Recent Publications
+          </a>
         </div>
       </div>
+    </div>
   </div>
   <div class="column" style="background: #4C58A8;">
       
