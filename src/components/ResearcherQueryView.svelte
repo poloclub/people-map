@@ -1,13 +1,29 @@
 <script>
 
-  import { selectedResearchInterest } from '../stores/MapStore.js'
+  import { selectedResearchInterest, datasetChoice } from '../stores/MapStore.js'
   import "string_score";
-  import newRankData from './mostCitedMLFaculty.js'
+  import citedRankData from './mostCitedMLFaculty.js'
+  import recentRankData from './mostRecentMLFaculty.js'
+
+  var newRankData = {}
+  var fixedKeys = []
+
+  datasetChoice.subscribe((value) => {
+    if (value == "Most Cited") {
+      newRankData = citedRankData
+      // console.log("SWIRCHING TO CINTIEED")
+    } else {
+      newRankData = recentRankData
+      // console.log("SWIRCHING TO RECENTNNT")
+
+    }
+
+    fixedKeys = Object.keys(newRankData).map((key) => 
+      key.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
+    )
+  })
 
 
-  var fixedKeys = Object.keys(newRankData).map((key) => 
-    key.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
-  )
 
 
   var choices = [
@@ -19,7 +35,7 @@
   ]
 
   selectedResearchInterest.subscribe((val) => {
-    choices = fixedKeys.sort((a, b) => b.score(val) - a.score(val)).slice(0, 5)
+    choices = fixedKeys.sort((a, b) => b.score(val) - a.score(val)) // .slice(0, 5)
   })
 
   var handleInterestSelect = (choice) => {
@@ -59,14 +75,16 @@
       </span>
     </p>
   </div>
-  {#each choices as choice}
-    <a on:click = {() => { handleInterestSelect(choice) }} class="panel-block">
-      <span class="panel-icon">
-        <i class="fas fa-book" aria-hidden="true"></i>
-      </span>
-      {choice}
-    </a>
-  {/each}
+  <div style="overflow: scroll; height: 391px">
+    {#each choices as choice}
+      <a on:click = {() => { handleInterestSelect(choice) }} class="panel-block">
+        <span class="panel-icon">
+          <i class="fas fa-book" aria-hidden="true"></i>
+        </span>
+        {choice}
+      </a>
+    {/each}
+  </div>
 </nav>
 
 <ul class="text is-size-7" style="padding-left: 20px;">

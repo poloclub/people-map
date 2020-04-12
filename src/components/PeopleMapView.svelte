@@ -27,6 +27,9 @@
 <div id="PeopleMap" style = "border: 1px solid grey; width: 100%; height: 100%"></div>
 
 <script>
+
+import cov from "compute-covariance";
+import SingularValueDecomposition from 'svd-js';
 import mostCitedMLFaculty from './mostCitedMLFacultyCoordinates.js'
 import mostRecentMLFaculty from './mostRecentMLFacultyCoordinates.js'
 import mostCitedMLFacultyRankData from './mostCitedMLFaculty.js'
@@ -41,6 +44,7 @@ import {
         visKeywordEmphasis, 
         visNumClusters,
         displayNames,
+        displayDistributions,
         queryKeywordEmphasis,
         datasetChoice
 } from '../stores/MapStore.js'
@@ -141,13 +145,161 @@ function renderGraph() {
 
       // Filter out data with the selection
       var dataFilter = currentSelectedFaculty.map(function(d) {
-        return {XCoordinate: d["x0"], YCoordinate: d["y0"], Author: d.Author, Group: d.group,
+        return {xCoordinate: d["x0"], yCoordinate: d["y0"], Author: d.Author, Group: d.grouping6,
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL} 
       })
 
 
+      //Isolates the clusters of researchers for ellipse computation
+      function splitResearchers(filteredData, groupingNumber) {
+
+        var arrayOfClusteredResearchers = []
+        var total = 0
+        var currentGroup = 0
+        var currentSet = []
+        while (total < filteredData.length) {
+          currentSet = filteredData.filter(function(d) {
+              if (d.Group == currentGroup) {
+                return d
+              }
+          })
+
+          arrayOfClusteredResearchers[currentGroup] = currentSet
+          total += currentSet.length
+          currentGroup += 1
+
+        }
+
+        return arrayOfClusteredResearchers
+
+      }
 
 
+      //Separates the researcher groups into arrays of x and y coordinates
+      function generateXAndYCoordinates(splitGroups, keywordsEmphasis) {
+        
+        var totalCoordinates = []
+        for (var i = 0; i < splitGroups.length; i++) {
+          var currentGroup = []
+          for (var j = 0; j < splitGroups[i].length; j++) {
+            currentGroup[j] = [splitGroups[i][j].xCoordinate, splitGroups[i][j].yCoordinate]
+          }
+          totalCoordinates[i] = currentGroup
+        }
+        return totalCoordinates
+      }
+
+      //Gets the center among all of the coordinates and the eigenvectors
+      function generateEllipseInfo(coordinateMatrices) {
+        
+        var totalInfo = []
+
+        for (var i = 0; i < coordinateMatrices.length; i++) {
+          
+          var centerX = 0
+          var centerY = 0
+          var xValues = []
+          var yValues = []
+
+          for (var j = 0; j < coordinateMatrices[i].length; j++) {
+            centerX += coordinateMatrices[i][j][0]
+            centerY += coordinateMatrices[i][j][1]
+            xValues[j] = coordinateMatrices[i][j][0]
+            yValues[j] = coordinateMatrices[i][j][1]
+          }
+
+          centerX = centerX / coordinateMatrices[i].length
+          centerY = centerY / coordinateMatrices[i].length
+
+          var covarianceMatrix = cov(xValues, yValues)
+          var eigenvectors = (SingularValueDecomposition.SVD(covarianceMatrix)).u
+          var eigenvalues = (SingularValueDecomposition.SVD(covarianceMatrix)).q
+
+          var currentEllipseData = {CenterX: centerX, CenterY: centerY, Eigenvectors: eigenvectors, Eigenvalues: eigenvalues, Group: i}
+
+          totalInfo[i] = currentEllipseData
+        }
+
+        return totalInfo
+
+      }
+
+      // Process initial info for ellipses
+      var separation = splitResearchers(dataFilter, 6)
+      var completedSet = generateXAndYCoordinates(separation, 0)
+      var ellipseInfo = generateEllipseInfo(completedSet)
+
+      var currentEllipseInfo = ellipseInfo;
+
+      // Ellipses representing the Gaussian distribution
+      var centralEllipse = svg.selectAll('centralEllipse')
+                             .data(ellipseInfo)
+                          .enter()
+                             .append('ellipse');
+
+      centralEllipse.attr("rx", function(d) {
+                               return x(d.Eigenvalues[0] / d.Eigenvalues[1]) / 6
+                          })
+                    .attr("ry", function(d) {
+                                return y(d.Eigenvalues[1]) / 6
+                          })
+                    .attr("transform", function(d) {
+                                var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
+                                angle = (angle / 3.1415) * 180 + 90
+                                return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
+                          })
+                    .attr('stroke-width', 0)
+                    .attr('fill', function(d) {
+                            return colors[d.Group]
+                          })
+                    .attr("opacity", "0%");
+
+
+      var innerEllipse = svg.selectAll('innerEllipse')
+                             .data(ellipseInfo)
+                          .enter()
+                             .append('ellipse');
+
+      innerEllipse.attr("rx", function(d) {
+                               return x(d.Eigenvalues[0] / d.Eigenvalues[1]) / 10
+                          })
+                    .attr("ry", function(d) {
+                                return y(d.Eigenvalues[1]) / 12
+                          })
+                    .attr("transform", function(d) {
+                                var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
+                                angle = (angle / 3.1415) * 180 + 90
+                                return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
+                          })
+                    .attr('stroke-width', 0)
+                    .attr('fill', function(d) {
+                            return colors[d.Group]
+                          })
+                    .attr("opacity", "0%");
+
+
+
+      var outerEllipse = svg.selectAll('outerEllipse')
+                             .data(ellipseInfo)
+                          .enter()
+                             .append('ellipse');
+
+      outerEllipse.attr("rx", function(d) {
+                               return x(d.Eigenvalues[0] / d.Eigenvalues[1]) / 4
+                          })
+                    .attr("ry", function(d) {
+                                return y(d.Eigenvalues[1]) / 4
+                          })
+                    .attr("transform", function(d) {
+                                var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
+                                angle = (angle / 3.1415) * 180 + 90
+                                return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
+                          })
+                    .attr('stroke-width', 0)
+                    .attr('fill', function(d) {
+                            return colors[d.Group]
+                          })
+                    .attr("opacity", "0%");
 
 
 
@@ -162,10 +314,10 @@ function renderGraph() {
         .enter()
         .append('circle')
           .attr("cx", function(d) {
-            return x(d.XCoordinate) 
+            return x(d.xCoordinate) 
           })
           .attr("cy", function(d) { 
-            return y(d.YCoordinate) 
+            return y(d.yCoordinate) 
           })
           .attr("r", 7)
           .style("fill", function(d) {
@@ -192,10 +344,10 @@ function renderGraph() {
                  .enter()
                     .append("text")
                     .attr("x", function(d) {
-                        return x(d.XCoordinate) + 10
+                        return x(d.xCoordinate) + 10
                     })
                     .attr("y", function(d) {
-                        return y(d.YCoordinate) + 4
+                        return y(d.yCoordinate) + 4
                     })
                     .attr("font_family", "sans-serif")  // Font type
                     .attr("font-size", "11px")  // Font size
@@ -299,7 +451,6 @@ function renderGraph() {
     // A function that update the chart with a new cluster coloring
     function updateNames(selectedOption) {
 
-
             // Filter out data with the selection
             var dataFilter = currentSelectedFaculty.map(function(d) {
                 return { Author: d.Author, Affiliation: d.Affiliation, KeyWords: d.KeyWords, 
@@ -328,6 +479,207 @@ function renderGraph() {
 
 
 
+
+      // A function that updates the chart with a new Gaussian distribution set
+      function updateDistributions(selectedOption, keywordsEmphasis, clustersNumber) {
+
+
+
+          centralEllipse.data(currentEllipseInfo)
+                        .transition()
+                        .duration(1000)
+                        .attr("opacity", "0%")
+
+          innerEllipse.data(currentEllipseInfo)
+                        .transition()
+                        .duration(1000)
+                        .attr("opacity", "0%")
+
+          outerEllipse.data(currentEllipseInfo)
+                        .transition()
+                        .duration(1000)
+                        .attr("opacity", "0%")
+
+
+
+          // Filter out data with the selection
+          var dataFilter = currentSelectedFaculty.map(function(d) {
+            return {xCoordinate: d["x" + keywordsEmphasis], yCoordinate:d["y" + keywordsEmphasis], Author: d.Author,
+                    Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, 
+                    Group: d["grouping" + clustersNumber]} 
+          })
+
+          var separation = splitResearchers(dataFilter, clustersNumber)
+          var completedSet = generateXAndYCoordinates(separation, keywordsEmphasis)
+          var ellipseInfo = generateEllipseInfo(completedSet)
+
+          currentEllipseInfo = ellipseInfo
+
+
+
+          centralEllipse.data(ellipseInfo)
+                        .transition()
+                        .duration(1000)
+                        .attr("rx", function(d) {
+
+                                  var firstEigenvalue = d.Eigenvalues[0]
+                                  var secondEigenvalue = d.Eigenvalues[1]
+                                  var confidenceInterval = Math.sqrt(d.Eigenvalues[0] * 5.991 * 4)
+                                  return confidenceInterval * width / 3
+
+                              })
+                        .attr("ry", function(d) {
+
+                                  var firstEigenvalue = d.Eigenvalues[0]
+                                  var secondEigenvalue = d.Eigenvalues[1]
+                                  var confidenceInterval = Math.abs(Math.sqrt(d.Eigenvalues[1] * 5.991 * 4))
+                                  return confidenceInterval * height / 3
+
+                              })
+                        .attr("transform", function(d) {
+                                    var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
+                                    angle = (angle / 3.1415) * 180
+                                    return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
+                              })
+                        .attr('stroke-width', 0)
+                        .attr('fill', function(d) {
+                                return colors[d.Group]
+                              })
+                        .attr("opacity", function(d) {
+                            if (selectedOption == true) {
+                                return "15%"
+                            } else {
+                                return "0%"
+                            }
+                        });
+
+            innerEllipse.data(ellipseInfo)
+                        .transition()
+                        .duration(1000)
+                        .attr("rx", function(d) {
+
+                                  var firstEigenvalue = d.Eigenvalues[0]
+                                  var secondEigenvalue = d.Eigenvalues[1]
+                                  var confidenceInterval = Math.sqrt(d.Eigenvalues[0] * 5.991 * 4)
+                                  return confidenceInterval * width / 6
+
+                              })
+                        .attr("ry", function(d) {
+
+                                  var firstEigenvalue = d.Eigenvalues[0]
+                                  var secondEigenvalue = d.Eigenvalues[1]
+                                  var confidenceInterval = Math.abs(Math.sqrt(d.Eigenvalues[1] * 5.991 * 4))
+                                  return confidenceInterval * height / 6
+
+                              })
+                        .attr("transform", function(d) {
+                                    var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
+                                    angle = (angle / 3.1415) * 180
+                                    return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
+                              })
+                        .attr('stroke-width', 0)
+                        .attr('fill', function(d) {
+                                return colors[d.Group]
+                              })
+                        .attr("opacity", function(d) {
+                            if (selectedOption == true) {
+                                return "25%"
+                            } else {
+                                return "0%"
+                            }
+                        });
+
+            outerEllipse.data(ellipseInfo)
+                        .transition()
+                        .duration(1000)
+                        .attr("rx", function(d) {
+
+                                  var firstEigenvalue = d.Eigenvalues[0]
+                                  var secondEigenvalue = d.Eigenvalues[1]
+                                  var confidenceInterval = Math.sqrt(d.Eigenvalues[0] * 5.991 * 4)
+                                  return confidenceInterval * width / 2
+                                   
+
+                              })
+                        .attr("ry", function(d) {
+
+                                  var firstEigenvalue = d.Eigenvalues[0]
+                                  var secondEigenvalue = d.Eigenvalues[1]
+                                  var confidenceInterval = Math.abs(Math.sqrt(d.Eigenvalues[1] * 5.991 * 4))
+                                  return confidenceInterval * height / 2
+
+                              })
+                        .attr("transform", function(d) {
+                                    var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
+                                    angle = (angle / 3.1415) * 180
+                                    return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
+                              })
+                        .attr('stroke-width', 0)
+                        .attr('fill', function(d) {
+                                return colors[d.Group]
+                              })
+                        .attr("opacity", function(d) {
+                            if (selectedOption == true) {
+                                return "5%"
+                            } else {
+                                return "0%"
+                            }
+                        });
+                
+      }
+
+
+
+
+
+      // A function that update the chart
+      function updateDataset(json, selectedKeywords, selectedClusters) {
+
+
+            // Filter out data with the selection
+            var dataFilter = currentSelectedFaculty.map(function(d) {
+              return {xCoordinate: d["x" + selectedKeywords], yCoordinate:d["y" + selectedKeywords], Author: d.Author,
+                      Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL,
+                      Grouping: d["grouping" + selectedClusters]} 
+            })
+
+
+            dot
+              .data(dataFilter)
+              .transition()
+              .duration(1000)
+                .attr("cx", function(d) {
+                  return x(+d.xCoordinate) 
+                })
+                .attr("cy", function(d) { 
+                  return y(+d.yCoordinate) 
+                })
+                .style("fill", function(d) {
+                  return colors[d.Grouping]
+                })
+
+            text.data(dataFilter)
+                .transition()
+                .duration(1000)
+                .attr("x", function(d) {
+                    return x(d.xCoordinate) + 10
+                })
+                .attr("y", function(d) {
+                    return y(d.yCoordinate) + 4
+                })
+
+            
+              
+
+
+
+      }
+
+
+
+
+
+
     // When the button is changed, run the updateKeywords function and update the graph
     visKeywordEmphasis.subscribe((selectedOption) => {        
         // run the updateChart function with this selected option
@@ -339,7 +691,9 @@ function renderGraph() {
     visNumClusters.subscribe((selectedOption) => {    
       // run the updateChart function with this selected option
       updateClusters("keywordsClustersTester.json", selectedOption)
+      updateDistributions($displayDistributions, $visKeywordEmphasis, selectedOption)
     })
+
 
 
     // When the button is changed, run the updateNames function
@@ -348,6 +702,12 @@ function renderGraph() {
       updateNames(selectedOption)
     })
 
+
+    // When the button is changed, run the updateDistributions function
+    displayDistributions.subscribe((selectedOption) => {    
+      // run the updateNames function with this selected option
+      updateDistributions(selectedOption, $visKeywordEmphasis, $visNumClusters)
+    })
 
 
     queryKeywordEmphasis.subscribe((emphasis) => {
@@ -372,10 +732,10 @@ function renderGraph() {
 
     datasetChoice.subscribe((value) => {
 
-      if (value == "ML Faculty: Most Cited Publications") {
+      if (value == "Most Cited") {
         currentSelectedFaculty = mostCitedMLFaculty;
         currentSelectedFacultyRankData = mostCitedMLFacultyRankData;
-      } else if (value == "ML Faculty: Most Recent Publications") {
+      } else if (value == "Most Recent") {
         currentSelectedFaculty = mostRecentMLFaculty;
         currentSelectedFacultyRankData = mostRecentMLFacultyRankData;
       }
@@ -384,10 +744,9 @@ function renderGraph() {
       // if (currentSelectedFacultyRankData[value.toLowerCase()]) {
       //   updateRanking(value.toLowerCase(), emphasis)
       // }
-      // updateKeywords("keywordsClustersTester.json", $visKeywordEmphasis)
-      // updateClusters("keywordsClustersTester.json", $visNumClusters)
-      // updateKeywords("keywordsClustersTester.json", $visKeywordEmphasis)
 
+      updateDataset("keywordsClustersTester.json", $visKeywordEmphasis, $visNumClusters)
+      updateDistributions($displayDistributions, $visKeywordEmphasis, $visNumClusters)
     })
 
         

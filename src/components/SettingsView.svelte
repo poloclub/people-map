@@ -1,5 +1,5 @@
 <script>
-    import {queryKeywordEmphasis, visKeywordEmphasis, visNumClusters, displayNames, datasetChoice} from '../stores/MapStore.js'
+    import {queryKeywordEmphasis, visKeywordEmphasis, visNumClusters, displayNames, displayDistributions, datasetChoice} from '../stores/MapStore.js'
 
     let questions = [
       { id: 1, text: `Where did you go to school?` },
@@ -69,7 +69,7 @@
 
   </div>
   <div class="column">
-      <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:0px; font-size: 100%; width: 105%"> Emphasis on Scholar's Keywords</h2>
+      <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:0px; font-size: 100%; width: 105%"> Weight on Scholar's Keywords</h2>
       <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$visKeywordEmphasis} min="0" max="15" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 80px;">
       <output for="sliderWithValue" style="top: 0px;background: grey;width: 40px;margin-left: 0px;">{$visKeywordEmphasis}</output>
   </div>
@@ -81,13 +81,21 @@
   <div class="column" >
       <div class="field">
         <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Display Names</h2>
-        <input id="switchRtlExample" type="checkbox" name="switchRtlExample" 
+        <input id="distributionSwitch" type="checkbox" name="switchRtlExample" 
                    class="switch is-large is-rtl" bind:checked={$displayNames}>
+        <label for="distributionSwitch" style="padding-left: 20%; "></label>
+      </div>
+  </div>
+  <div class="column" >
+      <div class="field">
+        <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Display Distributions</h2>
+        <input id="switchRtlExample" type="checkbox" name="switchRtlExample" 
+                   class="switch is-large is-rtl" bind:checked={$displayDistributions}>
         <label for="switchRtlExample" style="padding-left: 20%; "></label>
       </div>
   </div>
-  <div class="column" style="overflow: visible">
-    <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Dataset</h2>
+  <div class="column" style="overflow: visible; width: 120%">
+    <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Publication Set</h2>
     <div class="dropdown {dropdownShown ? 'is-active' : ''}">
       <div class="dropdown-trigger">
         <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => { selectionClicked(); }}>
@@ -100,20 +108,12 @@
       </div>
       <div class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
-          <a class="dropdown-item" on:click={() => { selectionClicked("ML Faculty: Most Cited Publications"); }}>
-            <u>ML Faculty:</u> Most Cited Publications
+          <a class="dropdown-item" on:click={() => { selectionClicked("Most Cited"); }}>
+            <u>Most Cited</u>
           </a>
           <hr class="dropdown-divider">
-          <a class="dropdown-item" on:click={() => { selectionClicked("ML Faculty: Most Recent Publications"); }}>
-            <u>ML Faculty:</u> Most Recent Publications
-          </a>
-          <hr class="dropdown-divider">
-          <a class="dropdown-item" on:click={() => { selectionClicked("Affiliated Faculty: Most Cited Publications"); }}>
-            <u>Affiliated Faculty:</u> Most Cited Publications
-          </a>
-          <hr class="dropdown-divider">
-          <a class="dropdown-item" on:click={() => { selectionClicked("Affiliated Faculty: Most Recent Publications"); }}>
-            <u>Affiliated Faculty:</u> Most Recent Publications
+          <a class="dropdown-item" on:click={() => { selectionClicked("Most Recent"); }}>
+            <u>Most Recent</u>
           </a>
         </div>
       </div>
