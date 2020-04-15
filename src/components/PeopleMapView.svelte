@@ -30,10 +30,68 @@
 
 import cov from "compute-covariance";
 import SingularValueDecomposition from 'svd-js';
+
 import mostCitedMLFaculty from './mostCitedMLFacultyCoordinates.js'
 import mostRecentMLFaculty from './mostRecentMLFacultyCoordinates.js'
+
 import mostCitedMLFacultyRankData from './mostCitedMLFaculty.js'
 import mostRecentMLFacultyRankData from './mostRecentMLFaculty.js'
+
+import mostCitedMLFacultyClusters from './mostCitedMLFacultyClusters.js'
+import mostRecentMLFacultyClusters from './mostRecentMLFacultyClusters.js'
+
+console.log(mostCitedMLFacultyClusters.length)
+console.log(mostRecentMLFacultyClusters)
+
+// Merge the data between mostCitedMLFaculty and mostCitedMLFacultyClusters
+for (var i = 0; i < mostCitedMLFacultyClusters.length; i++) {
+
+  mostCitedMLFaculty[i]["grouping1,0"] = mostCitedMLFaculty[i]["grouping1"]
+  mostCitedMLFaculty[i]["grouping2,0"] = mostCitedMLFaculty[i]["grouping2"]
+  mostCitedMLFaculty[i]["grouping3,0"] = mostCitedMLFaculty[i]["grouping3"]
+  mostCitedMLFaculty[i]["grouping4,0"] = mostCitedMLFaculty[i]["grouping4"]
+  mostCitedMLFaculty[i]["grouping5,0"] = mostCitedMLFaculty[i]["grouping5"]
+  mostCitedMLFaculty[i]["grouping6,0"] = mostCitedMLFaculty[i]["grouping6"]
+
+
+  for (var k = 1; k <= 10; k++) {
+      mostCitedMLFaculty[i]["grouping1," + k] = mostCitedMLFacultyClusters[i]["grouping1," + k]
+      mostCitedMLFaculty[i]["grouping2," + k] = mostCitedMLFacultyClusters[i]["grouping2," + k]
+      mostCitedMLFaculty[i]["grouping3," + k] = mostCitedMLFacultyClusters[i]["grouping3," + k]
+      mostCitedMLFaculty[i]["grouping4," + k] = mostCitedMLFacultyClusters[i]["grouping4," + k]
+      mostCitedMLFaculty[i]["grouping5," + k] = mostCitedMLFacultyClusters[i]["grouping5," + k]
+      mostCitedMLFaculty[i]["grouping6," + k] = mostCitedMLFacultyClusters[i]["grouping6," + k]
+  }
+}
+
+
+
+// Merge the data between mostRecentMLFaculty and mostRecentMLFacultyClusters
+for (var i = 0; i < mostRecentMLFacultyClusters.length; i++) {
+  console.log(i)
+
+  mostRecentMLFaculty[i]["grouping1,0"] = mostRecentMLFaculty[i]["grouping1"]
+  mostRecentMLFaculty[i]["grouping2,0"] = mostRecentMLFaculty[i]["grouping2"]
+  mostRecentMLFaculty[i]["grouping3,0"] = mostRecentMLFaculty[i]["grouping3"]
+  mostRecentMLFaculty[i]["grouping4,0"] = mostRecentMLFaculty[i]["grouping4"]
+  mostRecentMLFaculty[i]["grouping5,0"] = mostRecentMLFaculty[i]["grouping5"]
+  mostRecentMLFaculty[i]["grouping6,0"] = mostRecentMLFaculty[i]["grouping6"]
+
+
+  for (var k = 1; k <= 10; k++) {
+      mostRecentMLFaculty[i]["grouping1," + k] = mostRecentMLFacultyClusters[i]["grouping1," + k]
+      mostRecentMLFaculty[i]["grouping2," + k] = mostRecentMLFacultyClusters[i]["grouping2," + k]
+      mostRecentMLFaculty[i]["grouping3," + k] = mostRecentMLFacultyClusters[i]["grouping3," + k]
+      mostRecentMLFaculty[i]["grouping4," + k] = mostRecentMLFacultyClusters[i]["grouping4," + k]
+      mostRecentMLFaculty[i]["grouping5," + k] = mostRecentMLFacultyClusters[i]["grouping5," + k]
+      mostRecentMLFaculty[i]["grouping6," + k] = mostRecentMLFacultyClusters[i]["grouping6," + k]
+  }
+}
+
+
+
+
+console.log("Did we do it!")
 
 import { onMount } from 'svelte';
 
@@ -355,13 +413,14 @@ function renderGraph() {
 
 
       // A function that update the chart
-      function updateKeywords(json, selectedGroup) {
+      function updateKeywords(json, selectedGroup, clustersNumber) {
 
 
             // Filter out data with the selection
             var dataFilter = currentSelectedFaculty.map(function(d) {
               return {xCoordinate: d["x" + selectedGroup], yCoordinate:d["y" + selectedGroup], Author: d.Author,
-                      Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL} 
+                      Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL,
+                      Group: d["grouping" + clustersNumber + "," + selectedGroup]} 
             })
 
 
@@ -374,6 +433,9 @@ function renderGraph() {
                 })
                 .attr("cy", function(d) { 
                   return y(+d.yCoordinate) 
+                })
+                .style("fill", function(d) {
+                  return colors[d.Group]
                 })
 
             text.data(dataFilter)
@@ -394,12 +456,12 @@ function renderGraph() {
       }
 
       // A function that update the chart with a new cluster coloring
-      function updateClusters(json, selectedGroup) {
+      function updateClusters(json, selectedGroup, keywordsEmphasis) {
 
        
             // Filter out data with the selection
             var dataFilter = currentSelectedFaculty.map(function(d) {
-              return { Grouping: d["grouping" + selectedGroup], Author: d.Author, Affiliation: d.Affiliation, 
+              return { Grouping: d["grouping" + selectedGroup + "," + keywordsEmphasis], Author: d.Author, Affiliation: d.Affiliation, 
                        KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL } 
             })
 
@@ -506,7 +568,7 @@ function renderGraph() {
           var dataFilter = currentSelectedFaculty.map(function(d) {
             return {xCoordinate: d["x" + keywordsEmphasis], yCoordinate:d["y" + keywordsEmphasis], Author: d.Author,
                     Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, 
-                    Group: d["grouping" + clustersNumber]} 
+                    Group: d["grouping" + clustersNumber + "," + keywordsEmphasis]} 
           })
 
           var separation = splitResearchers(dataFilter, clustersNumber)
@@ -640,7 +702,7 @@ function renderGraph() {
             var dataFilter = currentSelectedFaculty.map(function(d) {
               return {xCoordinate: d["x" + selectedKeywords], yCoordinate:d["y" + selectedKeywords], Author: d.Author,
                       Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL,
-                      Grouping: d["grouping" + selectedClusters]} 
+                      Grouping: d["grouping" + selectedClusters + "," + selectedKeywords]} 
             })
 
 
@@ -683,14 +745,15 @@ function renderGraph() {
     // When the button is changed, run the updateKeywords function and update the graph
     visKeywordEmphasis.subscribe((selectedOption) => {        
         // run the updateChart function with this selected option
-        updateKeywords("keywordsClustersTester.json", selectedOption)
+        updateKeywords("keywordsClustersTester.json", selectedOption, $visNumClusters)
+        updateDistributions($displayDistributions, selectedOption, $visNumClusters)
     })
     
 
     // When the button is changed, run the updateChart function
     visNumClusters.subscribe((selectedOption) => {    
       // run the updateChart function with this selected option
-      updateClusters("keywordsClustersTester.json", selectedOption)
+      updateClusters("keywordsClustersTester.json", selectedOption, $visKeywordEmphasis)
       updateDistributions($displayDistributions, $visKeywordEmphasis, selectedOption)
     })
 
@@ -725,6 +788,8 @@ function renderGraph() {
       var emphasis = $queryKeywordEmphasis;
       if (currentSelectedFacultyRankData[value.toLowerCase()]) {
         updateRanking(value.toLowerCase(), emphasis)
+        $displayDistributions = false
+        updateDistributions($displayDistributions, $visKeywordEmphasis, $visNumClusters)
       }
 
     })

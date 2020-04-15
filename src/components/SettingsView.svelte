@@ -70,7 +70,7 @@
   </div>
   <div class="column">
       <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:0px; font-size: 100%; width: 105%"> Weight on Scholar's Keywords</h2>
-      <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$visKeywordEmphasis} min="0" max="15" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 80px;">
+      <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$visKeywordEmphasis} min="0" max="10" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 80px;">
       <output for="sliderWithValue" style="top: 0px;background: grey;width: 40px;margin-left: 0px;">{$visKeywordEmphasis}</output>
   </div>
   <div class="column">
