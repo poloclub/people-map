@@ -20,11 +20,11 @@
 </style>
 
 <StatsView />
-<SettingsView />
+<!-- <SettingsView /> -->
 <div class="columns" style="padding-bottom: 0px;">
-  <div class="column is-one-quarter">
+  <!-- <div class="column is-one-quarter">
     <ResearcherQueryView />
-  </div>
+  </div> -->
   <div class="column is-two-quarters" style="height: 750px; padding-bottom: 100px;">
     <PeopleMapView />
   </div>
