@@ -6,23 +6,27 @@
 
 <style>
   .message-body {
-      background: #E8E8E8;
+      background: #FFFFFF;
   }
   .text {
+
       overflow: hidden;
       text-overflow: ellipsis;
   }
 </style>
 
-<article class="message is-dark">
-  <div class="message-header" >
-    <p>Researcher Information</p>
+<div class="content">
+  <div class="message">
+    <p class="text is-size-6" style="color: #808080; margin-bottom: 0px"> Name </p>
+    <p class="text is-size-5" style="color: #484848;"> {$selectedResearcherInfo.name} </p>
+    <p class="text is-size-6" style="color: #808080; margin-bottom: 0px"> Affiliation </p>
+    <p class="text is-size-5" style="color: #484848;"> {$selectedResearcherInfo.affiliation} </p>
+    <p class="text is-size-6" style="color: #808080; margin-bottom: 0px"> Google Scholar Keywords </p>
+    <p class="text is-size-5" style="color: #484848;"> {$selectedResearcherInfo.scholarKeywords} </p>
+    <p class="text is-size-6" style="color: #808080; margin-bottom: 0px"> Citations </p>
+    <p class="text is-size-5" style="color: #484848;"> {$selectedResearcherInfo.citations} </p>
+    <p class="text is-size-6" style="color: #808080; margin-bottom: 0px"> URL </p>
+    <p class="text is-size-5"> {$selectedResearcherInfo.url} </p>
   </div>
-  <div class="message-body">
-    <p class="text is-size-5"> <u class="text has-text-weight-semibold"> Name: </u> {$selectedResearcherInfo.name} </p>
-    <p class="text is-size-5"> <u class="text has-text-weight-semibold"> Affiliation: </u> {$selectedResearcherInfo.affiliation} </p>
-    <p class="text is-size-5"> <u class="text has-text-weight-semibold"> Google Scholar Keywords: </u> {$selectedResearcherInfo.scholarKeywords} </p>
-    <p class="text is-size-5"> <u class="text has-text-weight-semibold"> Citations: </u> {$selectedResearcherInfo.citations} </p>
-    <p class="text is-size-5"> <u class="text has-text-weight-semibold"> URL: </u> {$selectedResearcherInfo.url} </p>
-  </div>
-</article>
+</div>
+

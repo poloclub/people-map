@@ -11,11 +11,8 @@
   datasetChoice.subscribe((value) => {
     if (value == "Most Cited") {
       newRankData = citedRankData
-      // console.log("SWIRCHING TO CINTIEED")
     } else {
       newRankData = recentRankData
-      // console.log("SWIRCHING TO RECENTNNT")
-
     }
 
     fixedKeys = Object.keys(newRankData).map((key) => 
