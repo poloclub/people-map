@@ -16,9 +16,6 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "compute-covariance": "^1.0.1",
-    "sirv-cli": "^0.4.4",
-    "string_score": "^0.1.22",
-    "svd-js": "^1.0.6"
+    "sirv-cli": "^0.4.4"
   }
 }

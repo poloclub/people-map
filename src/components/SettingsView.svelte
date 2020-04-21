@@ -1,20 +1,6 @@
 <script>
     import {queryKeywordEmphasis, visKeywordEmphasis, visNumClusters, displayNames, displayDistributions, datasetChoice} from '../stores/MapStore.js'
 
-    let questions = [
-      { id: 1, text: `Where did you go to school?` },
-      { id: 2, text: `What is your mother's name?` },
-      { id: 3, text: `What is another personal fact that an attacker could easily find with Google?` }
-    ];
-
-    let selected;
-
-    let answer = '';
-
-    function handleSubmit() {
-      alert(`answered question ${selected.id} (${selected.text}) with "${answer}"`);
-    }
-
     var dropdownShown = false;
 
     const selectionClicked = (selection) => {
@@ -60,64 +46,27 @@
 </style>
 <div class="columns" style="overflow: visible">
   <div class="column" >
-      <h2 class="text has-text-weight-bold" style="padding-bottom:0px; font-size: 100%; width: 105%">Google Scholar Keywords Emphasis</h2>
+      <h2 class="text" style="padding-bottom:0px; font-size: 100%; width: 105%">Keywords Emphasis</h2>
       <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$queryKeywordEmphasis} min="0" max="5" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; 
-      margin-bottom: 0px; width: 80px;">
-      <output for="sliderWithValue" style="top: 0px;background: grey;width: 40px;margin-left: 0px;">{$queryKeywordEmphasis}</output>
+      margin-bottom: 0px; width: 120px;">
   </div>
   <div class="column" style="background: #4C58A8;">
 
   </div>
-  <div class="column">
-      <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:0px; font-size: 100%; width: 105%"> Weight on Scholar's Keywords</h2>
-      <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$visKeywordEmphasis} min="0" max="15" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 80px;">
-      <output for="sliderWithValue" style="top: 0px;background: grey;width: 40px;margin-left: 0px;">{$visKeywordEmphasis}</output>
-  </div>
-  <div class="column">
-      <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:0px; border: 0px; font-size: 100%; width: 105%">Total Number of Clusters</h2>
-      <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$visNumClusters} min="1" max="6" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 80px;">
-      <output for="sliderWithValue" style="top: 0px;background: grey;width: 40px;margin-left: 0px;">{$visNumClusters}</output>
-  </div>
-  <div class="column" >
-      <div class="field">
-        <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Display Names</h2>
-        <input id="distributionSwitch" type="checkbox" name="switchRtlExample" 
-                   class="switch is-large is-rtl" bind:checked={$displayNames}>
-        <label for="distributionSwitch" style="padding-left: 20%; "></label>
-      </div>
-  </div>
-  <div class="column" >
-      <div class="field">
-        <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Display Distributions</h2>
-        <input id="switchRtlExample" type="checkbox" name="switchRtlExample" 
-                   class="switch is-large is-rtl" bind:checked={$displayDistributions}>
-        <label for="switchRtlExample" style="padding-left: 20%; "></label>
-      </div>
-  </div>
-  <div class="column" style="overflow: visible; width: 120%">
-    <h2 class="text is-size-6 has-text-weight-bold" style="padding-bottom:5px; padding-left: 10%; padding-right: 10%;">Publication Set</h2>
-    <div class="dropdown {dropdownShown ? 'is-active' : ''}">
-      <div class="dropdown-trigger">
-        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => { selectionClicked(); }}>
-          <span>{$datasetChoice}</span>
-          <span class="icon is-small">
-            <i class="fas fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </button>
+  <div class="column" style="background: #4C58A8;">
       
-      </div>
-      <div class="dropdown-menu" id="dropdown-menu" role="menu">
-        <div class="dropdown-content">
-          <a class="dropdown-item" on:click={() => { selectionClicked("Most Cited"); }}>
-            <u>Most Cited</u>
-          </a>
-          <hr class="dropdown-divider">
-          <a class="dropdown-item" on:click={() => { selectionClicked("Most Recent"); }}>
-            <u>Most Recent</u>
-          </a>
-        </div>
-      </div>
-    </div>
+  </div>
+  <div class="column" style="background: #4C58A8;">
+      
+  </div>
+  <div class="column" style="background: #4C58A8;">
+      
+  </div>
+  <div class="column" style="background: #4C58A8;">
+      
+  </div>
+  <div class="column" style="background: #4C58A8;">
+      
   </div>
   <div class="column" style="background: #4C58A8;">
       
