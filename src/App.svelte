@@ -5,6 +5,8 @@
   import SettingsView from './components/SettingsView.svelte'
   import StatsView from './components/StatsView.svelte'
   import SummaryView from './components/SummaryView.svelte'
+  import FirstToggleRow from './components/FirstToggleRow.svelte'
+  import SecondToggleRow from './components/SecondToggleRow.svelte' 
 
 </script>
 
@@ -27,6 +29,12 @@
     <PeopleMapView />
   </div>
   <div class="column is-one-quarter">
+    <div class="columns" style="padding-bottom: 0px;">
+      <FirstToggleRow />
+    </div>
+    <div class="columns" style="padding-bottom: 0px;">
+      <SecondToggleRow />
+    </div>
     <ResearcherDetailView />
   </div>
 </div>

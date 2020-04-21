@@ -41,7 +41,8 @@ import mostCitedMLFacultyClusters from './mostCitedMLFacultyClusters.js'
 import mostRecentMLFacultyClusters from './mostRecentMLFacultyClusters.js'
 
 console.log(mostCitedMLFacultyClusters.length)
-console.log(mostRecentMLFacultyClusters)
+console.log("test")
+console.log(mostRecentMLFaculty.length)
 
 // Merge the data between mostCitedMLFaculty and mostCitedMLFacultyClusters
 for (var i = 0; i < mostCitedMLFacultyClusters.length; i++) {
@@ -91,7 +92,7 @@ for (var i = 0; i < mostRecentMLFacultyClusters.length; i++) {
 
 
 
-console.log("Did we do it!")
+console.log("We did that!")
 
 import { onMount } from 'svelte';
 
@@ -290,53 +291,6 @@ function renderGraph() {
       var currentEllipseInfo = ellipseInfo;
 
       // Ellipses representing the Gaussian distribution
-      var centralEllipse = svg.selectAll('centralEllipse')
-                             .data(ellipseInfo)
-                          .enter()
-                             .append('ellipse');
-
-      centralEllipse.attr("rx", function(d) {
-                               return x(d.Eigenvalues[0] / d.Eigenvalues[1]) / 6
-                          })
-                    .attr("ry", function(d) {
-                                return y(d.Eigenvalues[1]) / 6
-                          })
-                    .attr("transform", function(d) {
-                                var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
-                                angle = (angle / 3.1415) * 180 + 90
-                                return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
-                          })
-                    .attr('stroke-width', 0)
-                    .attr('fill', function(d) {
-                            return colors[d.Group]
-                          })
-                    .attr("opacity", "0%");
-
-
-      var innerEllipse = svg.selectAll('innerEllipse')
-                             .data(ellipseInfo)
-                          .enter()
-                             .append('ellipse');
-
-      innerEllipse.attr("rx", function(d) {
-                               return x(d.Eigenvalues[0] / d.Eigenvalues[1]) / 10
-                          })
-                    .attr("ry", function(d) {
-                                return y(d.Eigenvalues[1]) / 12
-                          })
-                    .attr("transform", function(d) {
-                                var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
-                                angle = (angle / 3.1415) * 180 + 90
-                                return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
-                          })
-                    .attr('stroke-width', 0)
-                    .attr('fill', function(d) {
-                            return colors[d.Group]
-                          })
-                    .attr("opacity", "0%");
-
-
-
       var outerEllipse = svg.selectAll('outerEllipse')
                              .data(ellipseInfo)
                           .enter()
@@ -353,17 +307,18 @@ function renderGraph() {
                                 angle = (angle / 3.1415) * 180 + 90
                                 return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
                           })
-                    .attr('stroke-width', 0)
-                    .attr('fill', function(d) {
-                            return colors[d.Group]
-                          })
+                    .style("fill", function(d) {
+                        return "url(#radial-gradient" + d.Group + ")"
+                    })
+                    .style('mix-blend-mode',"multiply")
                     .attr("opacity", "0%");
 
 
 
 
 
-
+      // Set the jittering width
+      var jitterWidth = 0
 
       // Initialize dots with Zero Keywords and Five Clusters
       var dot = svg
@@ -372,10 +327,10 @@ function renderGraph() {
         .enter()
         .append('circle')
           .attr("cx", function(d) {
-            return x(d.xCoordinate) 
+            return x(d.xCoordinate) + Math.random() * jitterWidth
           })
           .attr("cy", function(d) { 
-            return y(d.yCoordinate) 
+            return y(d.yCoordinate) + Math.random() * jitterWidth
           })
           .attr("r", 7)
           .style("fill", function(d) {
@@ -402,14 +357,121 @@ function renderGraph() {
                  .enter()
                     .append("text")
                     .attr("x", function(d) {
-                        return x(d.xCoordinate) + 10
+                        return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
                     })
                     .attr("y", function(d) {
-                        return y(d.yCoordinate) + 4
+                        return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
                     })
                     .attr("font_family", "sans-serif")  // Font type
                     .attr("font-size", "11px")  // Font size
                     .attr("fill", "black");   // Font color
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // Add gradient ellipses
+      var defs = svg.append("defs");
+
+      //Append a radialGradient element to the defs and give it a unique id
+      var radialGradient0 = defs.append("radialGradient")
+          .attr("id", "radial-gradient0")
+          .attr("rx", "50%")   //The radius of the gradient
+          .attr("ry", "50%");   //The radius of the gradient
+      radialGradient0.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", colors[0])
+          .attr("opacity", "50%");
+      radialGradient0.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", "#F8F8F8")
+          .attr("opacity", "50%");
+
+      var radialGradient1 = defs.append("radialGradient")
+          .attr("id", "radial-gradient1")
+          .attr("rx", "50%")   //The radius of the gradient
+          .attr("ry", "50%");   //The radius of the gradient
+      radialGradient1.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", colors[1])
+          .attr("opacity", "50%");
+      radialGradient1.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", "#F8F8F8")
+          .attr("opacity", "50%");
+
+      var radialGradient2 = defs.append("radialGradient")
+          .attr("id", "radial-gradient2")
+          .attr("rx", "50%")   //The radius of the gradient
+          .attr("ry", "50%");   //The radius of the gradient
+      radialGradient2.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", colors[2])
+          .attr("opacity", "50%");
+      radialGradient2.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", "#F8F8F8")
+          .attr("opacity", "50%");
+
+      var radialGradient3 = defs.append("radialGradient")
+          .attr("id", "radial-gradient3")
+          .attr("rx", "50%")   //The radius of the gradient
+          .attr("ry", "50%");   //The radius of the gradient
+      radialGradient3.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", colors[3])
+          .attr("opacity", "50%");
+      radialGradient3.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", "#F8F8F8")
+          .attr("opacity", "50%");
+
+      var radialGradient4 = defs.append("radialGradient")
+          .attr("id", "radial-gradient4")
+          .attr("rx", "50%")   //The radius of the gradient
+          .attr("ry", "50%");   //The radius of the gradient
+      radialGradient4.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", colors[4])
+          .attr("opacity", "50%");
+      radialGradient4.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", "#F8F8F8")
+          .attr("opacity", "50%");
+
+      var radialGradient5 = defs.append("radialGradient")
+          .attr("id", "radial-gradient5")
+          .attr("rx", "50%")   //The radius of the gradient
+          .attr("ry", "50%");   //The radius of the gradient
+      radialGradient5.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", colors[5])
+          .attr("opacity", "50%");
+      radialGradient5.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", "#F8F8F8")
+          .attr("opacity", "50%");
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       // A function that update the chart
@@ -429,10 +491,10 @@ function renderGraph() {
               .transition()
               .duration(1000)
                 .attr("cx", function(d) {
-                  return x(+d.xCoordinate) 
+                  return x(+d.xCoordinate) + Math.random() * jitterWidth
                 })
                 .attr("cy", function(d) { 
-                  return y(+d.yCoordinate) 
+                  return y(+d.yCoordinate) + Math.random() * jitterWidth 
                 })
                 .style("fill", function(d) {
                   return colors[d.Group]
@@ -442,10 +504,10 @@ function renderGraph() {
                 .transition()
                 .duration(1000)
                 .attr("x", function(d) {
-                    return x(d.xCoordinate) + 10
+                    return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
                 })
                 .attr("y", function(d) {
-                    return y(d.yCoordinate) + 4
+                    return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
                 })
 
             
@@ -483,7 +545,9 @@ function renderGraph() {
     function updateRanking(phrase, emphasis) {
 
         // Assign new ranking for current Research Query
-        for(var i = 0; i < currentSelectedFacultyRankData[phrase][emphasis].length; i++) {
+        for(var i = 0; i < currentSelectedFaculty.length; i++) {
+          console.log(phrase)
+          console.log(emphasis)
           currentSelectedFaculty[i].currentRank = currentSelectedFacultyRankData[phrase][emphasis][i].rank
         }
 
@@ -546,17 +610,6 @@ function renderGraph() {
       function updateDistributions(selectedOption, keywordsEmphasis, clustersNumber) {
 
 
-
-          centralEllipse.data(currentEllipseInfo)
-                        .transition()
-                        .duration(1000)
-                        .attr("opacity", "0%")
-
-          innerEllipse.data(currentEllipseInfo)
-                        .transition()
-                        .duration(1000)
-                        .attr("opacity", "0%")
-
           outerEllipse.data(currentEllipseInfo)
                         .transition()
                         .duration(1000)
@@ -577,79 +630,6 @@ function renderGraph() {
 
           currentEllipseInfo = ellipseInfo
 
-
-
-          centralEllipse.data(ellipseInfo)
-                        .transition()
-                        .duration(1000)
-                        .attr("rx", function(d) {
-
-                                  var firstEigenvalue = d.Eigenvalues[0]
-                                  var secondEigenvalue = d.Eigenvalues[1]
-                                  var confidenceInterval = Math.sqrt(d.Eigenvalues[0] * 5.991 * 4)
-                                  return confidenceInterval * width / 3
-
-                              })
-                        .attr("ry", function(d) {
-
-                                  var firstEigenvalue = d.Eigenvalues[0]
-                                  var secondEigenvalue = d.Eigenvalues[1]
-                                  var confidenceInterval = Math.abs(Math.sqrt(d.Eigenvalues[1] * 5.991 * 4))
-                                  return confidenceInterval * height / 3
-
-                              })
-                        .attr("transform", function(d) {
-                                    var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
-                                    angle = (angle / 3.1415) * 180
-                                    return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
-                              })
-                        .attr('stroke-width', 0)
-                        .attr('fill', function(d) {
-                                return colors[d.Group]
-                              })
-                        .attr("opacity", function(d) {
-                            if (selectedOption == true) {
-                                return "15%"
-                            } else {
-                                return "0%"
-                            }
-                        });
-
-            innerEllipse.data(ellipseInfo)
-                        .transition()
-                        .duration(1000)
-                        .attr("rx", function(d) {
-
-                                  var firstEigenvalue = d.Eigenvalues[0]
-                                  var secondEigenvalue = d.Eigenvalues[1]
-                                  var confidenceInterval = Math.sqrt(d.Eigenvalues[0] * 5.991 * 4)
-                                  return confidenceInterval * width / 6
-
-                              })
-                        .attr("ry", function(d) {
-
-                                  var firstEigenvalue = d.Eigenvalues[0]
-                                  var secondEigenvalue = d.Eigenvalues[1]
-                                  var confidenceInterval = Math.abs(Math.sqrt(d.Eigenvalues[1] * 5.991 * 4))
-                                  return confidenceInterval * height / 6
-
-                              })
-                        .attr("transform", function(d) {
-                                    var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
-                                    angle = (angle / 3.1415) * 180
-                                    return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
-                              })
-                        .attr('stroke-width', 0)
-                        .attr('fill', function(d) {
-                                return colors[d.Group]
-                              })
-                        .attr("opacity", function(d) {
-                            if (selectedOption == true) {
-                                return "25%"
-                            } else {
-                                return "0%"
-                            }
-                        });
 
             outerEllipse.data(ellipseInfo)
                         .transition()
@@ -676,13 +656,13 @@ function renderGraph() {
                                     angle = (angle / 3.1415) * 180
                                     return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
                               })
-                        .attr('stroke-width', 0)
-                        .attr('fill', function(d) {
-                                return colors[d.Group]
-                              })
+                        .style("fill", function(d) {
+                            return "url(#radial-gradient" + d.Group + ")"
+                        })
+                        .style('mix-blend-mode',"multiply")
                         .attr("opacity", function(d) {
                             if (selectedOption == true) {
-                                return "5%"
+                                return "50%"
                             } else {
                                 return "0%"
                             }
@@ -711,10 +691,10 @@ function renderGraph() {
               .transition()
               .duration(1000)
                 .attr("cx", function(d) {
-                  return x(+d.xCoordinate) 
+                  return x(+d.xCoordinate) + Math.random() * jitterWidth
                 })
                 .attr("cy", function(d) { 
-                  return y(+d.yCoordinate) 
+                  return y(+d.yCoordinate) + Math.random() * jitterWidth
                 })
                 .style("fill", function(d) {
                   return colors[d.Grouping]
