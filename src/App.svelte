@@ -25,16 +25,17 @@
   <!-- <div class="column is-one-quarter">
     <ResearcherQueryView />
   </div> -->
-  <div class="column is-two-quarters" style="height: 750px; padding-bottom: 100px;">
+  <div class="column is-two-thirds" style="height: 750px; padding-bottom: 100px;">
     <PeopleMapView />
   </div>
-  <div class="column is-one-quarter">
+  <div class="column is-one-third">
     <div class="columns" style="padding-bottom: 0px;">
       <FirstToggleRow />
     </div>
     <div class="columns" style="padding-bottom: 0px;">
       <SecondToggleRow />
     </div>
+    <div class="is-divider"></div>
     <ResearcherDetailView />
   </div>
 </div>
