@@ -26,9 +26,6 @@
     )
   })
 
-
-
-
   var choices = [
     "Machine Learning (18)",
     "Artificial Intelligence (7)",
@@ -38,7 +35,7 @@
   ]
 
   selectedResearchInterest.subscribe((val) => {
-    choices = fixedKeys.sort((a, b) => b.score(val) - a.score(val)) // .slice(0, 5)
+    choices = fixedKeys.sort((a, b) => b.score(val) - a.score(val)).slice(0, 5)
   })
 
   var handleInterestSelect = (choice) => {
@@ -51,6 +48,24 @@
     if (keyCode == 13) {
       selectedResearchInterest.set(choices[0])
     }
+  }
+
+  var onFocus = () => {
+    var input = document.getElementById("autocomplete-input")
+    var choices = document.getElementById("autocomplete-choices")
+    choices.style.top = input.getBoundingClientRect().top + 50 + "px";
+    choices.style.left = input.getBoundingClientRect().left + "px";
+    choices.style.width = input.getBoundingClientRect().width + "px";
+
+    choices.style.visibility = "visible";
+
+  }
+
+  var onBlur = () => {
+    var choices = document.getElementById("autocomplete-choices")
+    choices.style.top = "1000px";
+    choices.style.left = "1000px";
+    choices.style.visibility = "hidden";
   }
 
 </script>
@@ -93,8 +108,9 @@
 
   <div class="panel-block">
     <p class="control has-icons-left">
-      <input class="input" type="text" 
+      <input class="input" id="autocomplete-input" type="text" 
         on:keydown={handleKeydown}
+        on:focus={onFocus} on:blur={onBlur}
         bind:value={$selectedResearchInterest} placeholder="Search">
       <span class="icon is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
@@ -102,5 +118,15 @@
     </p>
   </div>
 
-
 </nav>
+
+<div id="autocomplete-choices" style="visibility: hidden; top: 1000px; left: 1000px; z-index: 100; position: absolute; width: 300px; background: white;">
+  {#each choices as choice}
+    <a on:click = {() => { handleInterestSelect(choice) }} class="panel-block">
+      <span class="panel-icon">
+        <i class="fas fa-book" aria-hidden="true"></i>
+      </span>
+      {choice}
+    </a>
+  {/each}
+</div>
