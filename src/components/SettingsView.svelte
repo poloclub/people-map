@@ -1,14 +1,7 @@
 <script>
     import {queryKeywordEmphasis, visKeywordEmphasis, visNumClusters, displayNames, displayDistributions, datasetChoice} from '../stores/MapStore.js'
 
-    var dropdownShown = false;
 
-    const selectionClicked = (selection) => {
-      dropdownShown = !dropdownShown;
-      if (selection) {
-        datasetChoice.set(selection)
-      }
-    }
 
 </script>
 
