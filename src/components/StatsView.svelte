@@ -122,7 +122,7 @@
 
 <div id="autocomplete-choices" style="visibility: hidden; top: 1000px; left: 1000px; z-index: 100; position: absolute; width: 300px; background: white;">
   {#each choices as choice}
-    <a on:click = {() => { handleInterestSelect(choice) }} class="panel-block">
+    <a on:mousedown = {() => { handleInterestSelect(choice) }} class="panel-block">
       <span class="panel-icon">
         <i class="fas fa-book" aria-hidden="true"></i>
       </span>
