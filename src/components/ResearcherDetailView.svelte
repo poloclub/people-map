@@ -5,18 +5,15 @@
 </script>
 
 <style>
-  .message-body {
-      background: #FFFFFF;
-  }
   .text {
-
+      background: #F8F8F8;
       overflow: hidden;
       text-overflow: ellipsis;
   }
 </style>
 
-<div class="content">
-  <div class="message">
+<div class="content" style="background: #F8F8F8;">
+  <div class="message" style="background: #F8F8F8;">
     <p class="text is-size-6" style="color: #808080; margin-bottom: 0px"> Name </p>
     <p class="text is-size-5" style="color: #484848;"> {$selectedResearcherInfo.name} </p>
     <p class="text is-size-6" style="color: #808080; margin-bottom: 0px"> Affiliation </p>
