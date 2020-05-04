@@ -19,6 +19,7 @@
     "compute-covariance": "^1.0.1",
     "sirv-cli": "^0.4.4",
     "string_score": "^0.1.22",
-    "svd-js": "^1.0.6"
+    "svd-js": "^1.0.6",
+    "svelte-autocomplete": "0.0.4"
   }
 }
