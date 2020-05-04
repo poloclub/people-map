@@ -83,35 +83,35 @@
 
   <div class="level-item has-text-centered">
     <div>
-      <p class="text has-text-grey-light">Scholars</p>
+      <p class="text has-text-white">Scholars</p>
       <p class="text has-text-white is-size-3 has-text-weight-bold">45</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
-      <p class="text has-text-grey-light">Total Google Scholar Keywords</p>
+      <p class="text has-text-white">Total Google Scholar Keywords</p>
       <p class="text has-text-white is-size-3 has-text-weight-bold">109</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
-      <p class="text has-text-grey-light"> Publications Analyzed</p>
+      <p class="text has-text-white"> Publications Analyzed</p>
       <p class="text has-text-white is-size-3 has-text-weight-bold"> 797 </p>
     </div>
   </div>
 
-  <div class="column" >
-    <h2 class="text has-text-grey-light" style="padding-bottom:0px; font-size: 100%; width: 105%">Keywords Emphasis</h2>
+  <div class="column">
+    <h2 class="text has-text-white" style="padding-bottom:0px; font-size: 100%; width: 105%">Keywords Emphasis</h2>
     <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$queryKeywordEmphasis} min="0" max="5" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; 
-    margin-bottom: 0px; width: 120px;">
+    margin-bottom: 0px; width: 150px;">
   </div>
 
-  <div class="panel-block">
+  <div class="panel-block" style="padding-left: 0px">
     <p class="control has-icons-left">
-      <input class="input" id="autocomplete-input" type="text" 
+      <input class="input" id="autocomplete-input" type="text" style="width: 300px;" 
         on:keydown={handleKeydown}
         on:focus={onFocus} on:blur={onBlur}
-        bind:value={$selectedResearchInterest} placeholder="Search">
+        bind:value={$selectedResearchInterest} placeholder="Search a Research Topic">
       <span class="icon is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
       </span>

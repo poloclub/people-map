@@ -1,29 +1,4 @@
 
-<style>
-
-.tooltip {
-  position: absolute;
-  font-size: 18px;
-  pointer-events: none;
-  background: lightsteelblue;       
-  border-radius: 8px;
-  width: 400px;                    
-  height: auto;                   
-  padding: 2px; 
-  white-space: pre-line;
-}
-
-
-
-</style>
-
-<!-- Initialize SelectButton -->
-<!-- <select id="keywordsSelect"></select> -->
-
-<!-- Initialize clustersSelect-->
-<!-- <select id="clustersSelect"></select> -->
-
-<!-- Create a div where the graph will take place -->
 <div id="PeopleMap" style = "border: 1px solid grey; width: 100%; height: 100%"></div>
 
 <script>
@@ -92,7 +67,6 @@ for (var i = 0; i < mostRecentMLFacultyClusters.length; i++) {
 
 
 
-console.log("We did that!")
 
 import { onMount } from 'svelte';
 
@@ -205,7 +179,7 @@ function renderGraph() {
       // Filter out data with the selection
       var dataFilter = currentSelectedFaculty.map(function(d) {
         return {xCoordinate: d["x0"], yCoordinate: d["y0"], Author: d.Author, Group: d.grouping6,
-                Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL} 
+                Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL} 
       })
 
 
@@ -320,6 +294,29 @@ function renderGraph() {
       // Set the jittering width
       var jitterWidth = 0
 
+
+
+      var text = svg.selectAll("text")
+                    .data(dataFilter)
+                 .enter()
+                    .append("text")
+                    .text(function(d) {
+                        return d.Author
+                    })
+                    .attr("x", function(d) {
+                        return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
+                    })
+                    .attr("y", function(d) {
+                        return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
+                    })
+                    .style("text-shadow","-1.5px 0 white, 0 1.5px white, 1.5px 0 white, 0 -1.5px white")
+                    .attr("font_family", "sans-serif")  // Font type
+                    .attr("font-size", "11px")  // Font size
+                    .attr("fill", "black");   // Font color
+
+
+
+
       // Initialize dots with Zero Keywords and Five Clusters
       var dot = svg
         .selectAll('circle')
@@ -332,11 +329,13 @@ function renderGraph() {
           .attr("cy", function(d) { 
             return y(d.yCoordinate) + Math.random() * jitterWidth
           })
-          .attr("r", 7)
+          .attr("r", 8)
           .style("fill", function(d) {
               return colors[d.Group]
           })
-          .style("stroke", "black")
+          .style("stroke", "grey")
+          .style("stroke-width", "1px")
+          .attr("opacity", "70%")
           .on("mouseover", function(dataPoint) {
       
             var updatedResearcherSelection = {
@@ -344,27 +343,35 @@ function renderGraph() {
               affiliation: dataPoint.Affiliation,
               scholarKeywords: dataPoint.KeyWords,
               citations: dataPoint.Citations,
-              url: dataPoint.URL
+              url: dataPoint.URL,
+              pictureURL: dataPoint.PictureURL
             }
 
             selectedResearcherInfo.set(updatedResearcherSelection)
 
+            text.data(dataFilter)
+                .transition()
+              .duration(1000)
+                .attr("opacity", function(d) {
+                    if (d.Author == dataPoint.Author & $displayNames == true) {
+                      return "100%"
+                    } else {
+                      return "0%"
+                    }
+                })
           })
- 
-
-      var text = svg.selectAll("text")
-                    .data(dataFilter)
-                 .enter()
-                    .append("text")
-                    .attr("x", function(d) {
-                        return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
-                    })
-                    .attr("y", function(d) {
-                        return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
-                    })
-                    .attr("font_family", "sans-serif")  // Font type
-                    .attr("font-size", "11px")  // Font size
-                    .attr("fill", "black");   // Font color
+          .on("mouseout", function(dataPoint) {
+              text.data(dataFilter)
+                .transition()
+              .duration(2000)
+                .attr("opacity", function(d) {
+                    if ($displayNames == true) {
+                      return "100%"
+                    } else {
+                      return "0%"
+                    }
+                })
+          });
 
 
 
@@ -482,7 +489,7 @@ function renderGraph() {
             var dataFilter = currentSelectedFaculty.map(function(d) {
               return {xCoordinate: d["x" + selectedGroup], yCoordinate:d["y" + selectedGroup], Author: d.Author,
                       Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL,
-                      Group: d["grouping" + clustersNumber + "," + selectedGroup]} 
+                      Group: d["grouping" + clustersNumber + "," + selectedGroup], PictureURL: d.PictureURL} 
             })
 
 
@@ -524,7 +531,7 @@ function renderGraph() {
             // Filter out data with the selection
             var dataFilter = currentSelectedFaculty.map(function(d) {
               return { Grouping: d["grouping" + selectedGroup + "," + keywordsEmphasis], Author: d.Author, Affiliation: d.Affiliation, 
-                       KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL } 
+                       KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL } 
             })
 
 
@@ -554,7 +561,7 @@ function renderGraph() {
         // Filter out data with the selection
         var dataFilter = currentSelectedFaculty.map(function(d) {
           return { Author: d.Author, Affiliation: d.Affiliation, CurrentRank: d.currentRank,
-                   KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL } 
+                   KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL } 
         })
 
 
@@ -580,25 +587,23 @@ function renderGraph() {
             // Filter out data with the selection
             var dataFilter = currentSelectedFaculty.map(function(d) {
                 return { Author: d.Author, Affiliation: d.Affiliation, KeyWords: d.KeyWords, 
-                         Citations: d.Citations, URL: d.URL, Rank: d.Rank } 
+                         Citations: d.Citations, URL: d.URL, Rank: d.Rank, PictureURL: d.PictureURL } 
             })
 
 
             text.data(dataFilter)
                 .transition()
               .duration(1000)
-                .text(function(d) {
-                    if (selectedOption == true) {
-                      return d.Author
-                    } else {
-                      return ""
-                    }
-                })
                 .attr("font_family", "sans-serif")  // Font type
                 .attr("font-size", "11px")  // Font size
-                .attr("fill", "black");   // Font color
-              
-
+                .attr("fill", "black")   // Font color
+                .attr("opacity", function(d){
+                    if (selectedOption == true) {
+                      return "100%"
+                    } else {
+                      return "0%"
+                    }
+                });
 
 
       }
@@ -621,7 +626,7 @@ function renderGraph() {
           var dataFilter = currentSelectedFaculty.map(function(d) {
             return {xCoordinate: d["x" + keywordsEmphasis], yCoordinate:d["y" + keywordsEmphasis], Author: d.Author,
                     Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, 
-                    Group: d["grouping" + clustersNumber + "," + keywordsEmphasis]} 
+                    Group: d["grouping" + clustersNumber + "," + keywordsEmphasis], PictureURL: d.PictureURL} 
           })
 
           var separation = splitResearchers(dataFilter, clustersNumber)
@@ -682,7 +687,7 @@ function renderGraph() {
             var dataFilter = currentSelectedFaculty.map(function(d) {
               return {xCoordinate: d["x" + selectedKeywords], yCoordinate:d["y" + selectedKeywords], Author: d.Author,
                       Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL,
-                      Grouping: d["grouping" + selectedClusters + "," + selectedKeywords]} 
+                      Grouping: d["grouping" + selectedClusters + "," + selectedKeywords], PictureURL: d.PictureURL} 
             })
 
 
@@ -777,10 +782,10 @@ function renderGraph() {
 
     datasetChoice.subscribe((value) => {
 
-      if (value == "Most Cited") {
+      if (value == "Most Cited Publications") {
         currentSelectedFaculty = mostCitedMLFaculty;
         currentSelectedFacultyRankData = mostCitedMLFacultyRankData;
-      } else if (value == "Most Recent") {
+      } else if (value == "Most Recent Publications") {
         currentSelectedFaculty = mostRecentMLFaculty;
         currentSelectedFacultyRankData = mostRecentMLFacultyRankData;
       }
@@ -800,7 +805,7 @@ function renderGraph() {
 
 </script>
 <ul class="text is-size-7" style="padding-left: 20px;">
-    <li> - Each dot represents a researcher and their associated top 20 most cited publications.
+    <li> - Each dot represents a researcher and their associated top 50 publications from the publication set selected.
     </li>
     <li> - Proximity between researchers indicates similarity in topics studied while distance indicates disparity in topics studied.
     </li>

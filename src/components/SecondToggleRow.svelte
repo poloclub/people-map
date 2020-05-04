@@ -46,20 +46,33 @@
 </style>
 
 <div class="columns" style="background: #F8F8F8;">
-	  <div class="column is-half" >
-	      <div class="field">
-	        <h2 class="text is-size-6" style="padding-bottom:5px; padding-left: 44%;">Display Clusters</h2>
-	        <input id="switchRtlExample" type="checkbox" name="switchRtlExample" 
-	                   class="switch is-large is-rtl" bind:checked={$displayDistributions}>
-	        <label for="switchRtlExample" style="padding-left: 45%; "></label>
-	      </div>
-	  </div>
-    <div class="column is-half">
-      <div class="field">
-        <h2 class="text is-size-6" style="padding-bottom:5px; padding-left: 15%">Display Names</h2>
-        <input id="distributionSwitch" type="checkbox" name="switchRtlExample" 
-                   class="switch is-large is-rtl" bind:checked={$displayNames}>
-        <label for="distributionSwitch" style="padding-left: 15%; "></label>
+	  <div class="column is-half" style="padding-left: 15%; padding-top: 4%">
+      <h2 class="text is-size-6" style="padding-bottom:0px; font-size: 100%; width: 115%"> Keywords Weight </h2>
+      <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$visKeywordEmphasis} min="0" max="10" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 120px;">
+    </div>
+    <div class="column is-half" style="overflow: visible; width: 120%">
+        <h2 class="text is-size-6" style="padding-bottom:5px; padding-right: 10%;">Publication Set</h2>
+        <div class="dropdown {dropdownShown ? 'is-active' : ''}" style="padding-left: 2%">
+          <div class="dropdown-trigger">
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => { selectionClicked(); }}>
+              <span>{$datasetChoice}</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <a class="dropdown-item" on:click={() => { selectionClicked("Most Cited Publications"); }}>
+                <u>Most Cited Publications</u>
+              </a>
+              <hr class="dropdown-divider">
+              <a class="dropdown-item" on:click={() => { selectionClicked("Most Recent Publications"); }}>
+                <u>Most Recent Publications</u>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-  </div>
 </div>
