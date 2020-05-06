@@ -6,6 +6,7 @@ PeopleMap is an interactive, web-based tool that uses natural language processin
 
 By analyzing this information through a variety of natural language processing techniques, such as NMF and TFIDF, we can get a better understanding of the topics and focuses related to the variety of academic researchers. These connections and groups can, in turn, be visualized through a graphical system of nodes and clusters that builds a more intuitive image of the researchers, which helps us understand the vastness of academic diversity better.
 
+![PeopleMapPhoto](PeopleMap.png)
 
 # Working Demo
 Click the following link to access a live demo:
