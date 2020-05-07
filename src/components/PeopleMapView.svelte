@@ -351,7 +351,7 @@ function renderGraph() {
 
             text.data(dataFilter)
                 .transition()
-              .duration(1000)
+              .duration(200)
                 .attr("opacity", function(d) {
                     if (d.Author == dataPoint.Author & $displayNames == true) {
                       return "100%"
@@ -363,7 +363,7 @@ function renderGraph() {
           .on("mouseout", function(dataPoint) {
               text.data(dataFilter)
                 .transition()
-              .duration(2000)
+              .duration(200)
                 .attr("opacity", function(d) {
                     if ($displayNames == true) {
                       return "100%"
