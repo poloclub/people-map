@@ -6,61 +6,57 @@
 import cov from "compute-covariance";
 import SingularValueDecomposition from 'svd-js';
 
-import mostCitedMLFaculty from './mostCitedMLFacultyCoordinates.js'
-import mostRecentMLFaculty from './mostRecentMLFacultyCoordinates.js'
+import citedCoordinates from './citedCoordinates.js'
+import recentCoordinates from './recentCoordinates.js'
 
-import mostCitedMLFacultyRankData from './mostCitedMLFaculty.js'
-import mostRecentMLFacultyRankData from './mostRecentMLFaculty.js'
+import citedResearchQuery from './citedResearchQuery.js'
+import recentResearchQuery from './recentResearchQuery.js'
 
-import mostCitedMLFacultyClusters from './mostCitedMLFacultyClusters.js'
-import mostRecentMLFacultyClusters from './mostRecentMLFacultyClusters.js'
+import citedClusters from './citedClusters.js'
+import recentClusters from './recentClusters.js'
 
-console.log(mostCitedMLFacultyClusters.length)
-console.log("test")
-console.log(mostRecentMLFaculty.length)
 
-// Merge the data between mostCitedMLFaculty and mostCitedMLFacultyClusters
-for (var i = 0; i < mostCitedMLFacultyClusters.length; i++) {
+// Merge the data between citedCoordinates and citedClusters
+for (var i = 0; i < citedClusters.length; i++) {
 
-  mostCitedMLFaculty[i]["grouping1,0"] = mostCitedMLFaculty[i]["grouping1"]
-  mostCitedMLFaculty[i]["grouping2,0"] = mostCitedMLFaculty[i]["grouping2"]
-  mostCitedMLFaculty[i]["grouping3,0"] = mostCitedMLFaculty[i]["grouping3"]
-  mostCitedMLFaculty[i]["grouping4,0"] = mostCitedMLFaculty[i]["grouping4"]
-  mostCitedMLFaculty[i]["grouping5,0"] = mostCitedMLFaculty[i]["grouping5"]
-  mostCitedMLFaculty[i]["grouping6,0"] = mostCitedMLFaculty[i]["grouping6"]
+  citedCoordinates[i]["grouping1,0"] = citedCoordinates[i]["grouping1"]
+  citedCoordinates[i]["grouping2,0"] = citedCoordinates[i]["grouping2"]
+  citedCoordinates[i]["grouping3,0"] = citedCoordinates[i]["grouping3"]
+  citedCoordinates[i]["grouping4,0"] = citedCoordinates[i]["grouping4"]
+  citedCoordinates[i]["grouping5,0"] = citedCoordinates[i]["grouping5"]
+  citedCoordinates[i]["grouping6,0"] = citedCoordinates[i]["grouping6"]
 
 
   for (var k = 1; k <= 10; k++) {
-      mostCitedMLFaculty[i]["grouping1," + k] = mostCitedMLFacultyClusters[i]["grouping1," + k]
-      mostCitedMLFaculty[i]["grouping2," + k] = mostCitedMLFacultyClusters[i]["grouping2," + k]
-      mostCitedMLFaculty[i]["grouping3," + k] = mostCitedMLFacultyClusters[i]["grouping3," + k]
-      mostCitedMLFaculty[i]["grouping4," + k] = mostCitedMLFacultyClusters[i]["grouping4," + k]
-      mostCitedMLFaculty[i]["grouping5," + k] = mostCitedMLFacultyClusters[i]["grouping5," + k]
-      mostCitedMLFaculty[i]["grouping6," + k] = mostCitedMLFacultyClusters[i]["grouping6," + k]
+      citedCoordinates[i]["grouping1," + k] = citedClusters[i]["grouping1," + k]
+      citedCoordinates[i]["grouping2," + k] = citedClusters[i]["grouping2," + k]
+      citedCoordinates[i]["grouping3," + k] = citedClusters[i]["grouping3," + k]
+      citedCoordinates[i]["grouping4," + k] = citedClusters[i]["grouping4," + k]
+      citedCoordinates[i]["grouping5," + k] = citedClusters[i]["grouping5," + k]
+      citedCoordinates[i]["grouping6," + k] = citedClusters[i]["grouping6," + k]
   }
 }
 
 
 
-// Merge the data between mostRecentMLFaculty and mostRecentMLFacultyClusters
-for (var i = 0; i < mostRecentMLFacultyClusters.length; i++) {
-  console.log(i)
+// Merge the data between recentCoordinates and recentClusters
+for (var i = 0; i < recentClusters.length; i++) {
 
-  mostRecentMLFaculty[i]["grouping1,0"] = mostRecentMLFaculty[i]["grouping1"]
-  mostRecentMLFaculty[i]["grouping2,0"] = mostRecentMLFaculty[i]["grouping2"]
-  mostRecentMLFaculty[i]["grouping3,0"] = mostRecentMLFaculty[i]["grouping3"]
-  mostRecentMLFaculty[i]["grouping4,0"] = mostRecentMLFaculty[i]["grouping4"]
-  mostRecentMLFaculty[i]["grouping5,0"] = mostRecentMLFaculty[i]["grouping5"]
-  mostRecentMLFaculty[i]["grouping6,0"] = mostRecentMLFaculty[i]["grouping6"]
+  recentCoordinates[i]["grouping1,0"] = recentCoordinates[i]["grouping1"]
+  recentCoordinates[i]["grouping2,0"] = recentCoordinates[i]["grouping2"]
+  recentCoordinates[i]["grouping3,0"] = recentCoordinates[i]["grouping3"]
+  recentCoordinates[i]["grouping4,0"] = recentCoordinates[i]["grouping4"]
+  recentCoordinates[i]["grouping5,0"] = recentCoordinates[i]["grouping5"]
+  recentCoordinates[i]["grouping6,0"] = recentCoordinates[i]["grouping6"]
 
 
   for (var k = 1; k <= 10; k++) {
-      mostRecentMLFaculty[i]["grouping1," + k] = mostRecentMLFacultyClusters[i]["grouping1," + k]
-      mostRecentMLFaculty[i]["grouping2," + k] = mostRecentMLFacultyClusters[i]["grouping2," + k]
-      mostRecentMLFaculty[i]["grouping3," + k] = mostRecentMLFacultyClusters[i]["grouping3," + k]
-      mostRecentMLFaculty[i]["grouping4," + k] = mostRecentMLFacultyClusters[i]["grouping4," + k]
-      mostRecentMLFaculty[i]["grouping5," + k] = mostRecentMLFacultyClusters[i]["grouping5," + k]
-      mostRecentMLFaculty[i]["grouping6," + k] = mostRecentMLFacultyClusters[i]["grouping6," + k]
+      recentCoordinates[i]["grouping1," + k] = recentClusters[i]["grouping1," + k]
+      recentCoordinates[i]["grouping2," + k] = recentClusters[i]["grouping2," + k]
+      recentCoordinates[i]["grouping3," + k] = recentClusters[i]["grouping3," + k]
+      recentCoordinates[i]["grouping4," + k] = recentClusters[i]["grouping4," + k]
+      recentCoordinates[i]["grouping5," + k] = recentClusters[i]["grouping5," + k]
+      recentCoordinates[i]["grouping6," + k] = recentClusters[i]["grouping6," + k]
   }
 }
 
@@ -83,8 +79,8 @@ import {
 } from '../stores/MapStore.js'
 
 var currTimeout = null;
-var currentSelectedFaculty = mostCitedMLFaculty;
-var currentSelectedFacultyRankData = mostCitedMLFacultyRankData;
+var currentSelectedFaculty = citedCoordinates;
+var currentSelectedFacultyRankData = citedResearchQuery;
 
 onMount(renderGraph);
 
@@ -481,7 +477,7 @@ function renderGraph() {
 
 
 
-      // A function that update the chart
+      // Upon change of keywords emphasis, updates the graph visualization
       function updateKeywords(json, selectedGroup, clustersNumber) {
 
 
@@ -581,7 +577,7 @@ function renderGraph() {
 
 
 
-    // A function that update the chart with a new cluster coloring
+    // A function that update the chart with the researcher names, either displayed or undisplayed
     function updateNames(selectedOption) {
 
             // Filter out data with the selection
@@ -679,7 +675,7 @@ function renderGraph() {
 
 
 
-      // A function that update the chart
+      // A function that updates the graph with the new dataset
       function updateDataset(json, selectedKeywords, selectedClusters) {
 
 
@@ -735,7 +731,7 @@ function renderGraph() {
     })
     
 
-    // When the button is changed, run the updateChart function
+    // When the button is changed, run the updateClusters function and update the graph
     visNumClusters.subscribe((selectedOption) => {    
       // run the updateChart function with this selected option
       updateClusters("keywordsClustersTester.json", selectedOption, $visKeywordEmphasis)
@@ -744,20 +740,21 @@ function renderGraph() {
 
 
 
-    // When the button is changed, run the updateNames function
+    // When the button is changed, run the updateNames function and update the graph
     displayNames.subscribe((selectedOption) => {    
       // run the updateNames function with this selected option
       updateNames(selectedOption)
     })
 
 
-    // When the button is changed, run the updateDistributions function
+    // When the button is changed, run the updateDistributions function and update the graph
     displayDistributions.subscribe((selectedOption) => {    
       // run the updateNames function with this selected option
       updateDistributions(selectedOption, $visKeywordEmphasis, $visNumClusters)
     })
 
 
+    // When a new keyword emphasis is inputted for the research query, update the graph with the new ranking
     queryKeywordEmphasis.subscribe((emphasis) => {
 
       var value = $selectedResearchInterest;
@@ -767,7 +764,7 @@ function renderGraph() {
 
     })
 
-    // TODO: this subscription should listen to settings pane too!
+    // When a new research query is inputted, update the graph with the new ranking
     selectedResearchInterest.subscribe((value) => {
       
       var emphasis = $queryKeywordEmphasis;
@@ -779,24 +776,20 @@ function renderGraph() {
 
     })
 
-
+    // When a new dataset is selected, update the graph with the new dataset
     datasetChoice.subscribe((value) => {
 
       if (value == "Most Cited Publications") {
-        currentSelectedFaculty = mostCitedMLFaculty;
-        currentSelectedFacultyRankData = mostCitedMLFacultyRankData;
+        currentSelectedFaculty = citedCoordinates;
+        currentSelectedFacultyRankData = citedResearchQuery;
       } else if (value == "Most Recent Publications") {
-        currentSelectedFaculty = mostRecentMLFaculty;
-        currentSelectedFacultyRankData = mostRecentMLFacultyRankData;
+        currentSelectedFaculty = recentCoordinates;
+        currentSelectedFacultyRankData = recentResearchQuery;
       }
-
-      // var emphasis = $queryKeywordEmphasis;
-      // if (currentSelectedFacultyRankData[value.toLowerCase()]) {
-      //   updateRanking(value.toLowerCase(), emphasis)
-      // }
 
       updateDataset("keywordsClustersTester.json", $visKeywordEmphasis, $visNumClusters)
       updateDistributions($displayDistributions, $visKeywordEmphasis, $visNumClusters)
+
     })
 
         

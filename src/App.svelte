@@ -1,7 +1,6 @@
 <script>
   import PeopleMapView from './components/PeopleMapView.svelte'
   import ResearcherDetailView from './components/ResearcherDetailView.svelte'
-  import ResearcherQueryView from './components/ResearcherQueryView.svelte'
   import StatsView from './components/StatsView.svelte'
   import SummaryView from './components/SummaryView.svelte'
   import FirstToggleRow from './components/FirstToggleRow.svelte'

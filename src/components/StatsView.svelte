@@ -8,11 +8,13 @@
 
   import { queryKeywordEmphasis, selectedResearchInterest, datasetChoice } from '../stores/MapStore.js'
   import "string_score";
-  import citedRankData from './mostCitedMLFaculty.js'
-  import recentRankData from './mostRecentMLFaculty.js'
+  import citedRankData from './citedResearchQuery.js'
+  import recentRankData from './recentResearchQuery.js'
+  import citedCoordinates from './citedCoordinates.js'
 
   var newRankData = {}
   var fixedKeys = []
+
 
   datasetChoice.subscribe((value) => {
     if (value == "Most Cited") {
@@ -26,13 +28,7 @@
     )
   })
 
-  var choices = [
-    "Machine Learning (18)",
-    "Artificial Intelligence (7)",
-    "Robotics (6)",
-    "Signal Processing (5)",
-    "Optimization (4)"
-  ]
+  var choices = []
 
   selectedResearchInterest.subscribe((val) => {
     choices = fixedKeys.sort((a, b) => b.score(val) - a.score(val)).slice(0, 5)
@@ -84,19 +80,19 @@
   <div class="level-item has-text-centered">
     <div>
       <p class="text has-text-white">Scholars</p>
-      <p class="text has-text-white is-size-3 has-text-weight-bold">45</p>
+      <p class="text has-text-white is-size-3 has-text-weight-bold">{citedCoordinates.length}</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
       <p class="text has-text-white">Total Google Scholar Keywords</p>
-      <p class="text has-text-white is-size-3 has-text-weight-bold">109</p>
+      <p class="text has-text-white is-size-3 has-text-weight-bold">{(Object.keys(citedRankData)).length}</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
       <p class="text has-text-white"> Publications Analyzed</p>
-      <p class="text has-text-white is-size-3 has-text-weight-bold"> 797 </p>
+      <p class="text has-text-white is-size-3 has-text-weight-bold"> {(citedCoordinates.length) * 50} </p>
     </div>
   </div>
 
