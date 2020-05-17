@@ -23,7 +23,7 @@
   <ul class="text is-size-5">
     <li> <u>Keywords Weight:</u> This slider allows you to affect the weight placed on each researcher’s Google Scholar keywords when constructing their vectorizations. The more emphasis placed on their keywords, the more closely they are aligned with the words they use to describe their own work. Placing the slider furthest to the left puts no emphasis on their Google Scholar keywords while placing the slider furthest to the right puts a great deal of emphasis.
     </li>
-    <li> <u>#Clusters:</u> This slider allows you to determine the total number of clusters used to split the researchers. More clusters leads to a higher coherence within each cluster but also can lead to fairly arbitrary splits; a good balance is to pick a cluster value that optimizes both coherence and logical cluster divisions. The default value loaded for this graph is optimized to balance both.
+    <li> <u>#Clusters:</u> This slider allows you to determine the total number of clusters used to split the researchers. More clusters leads to a higher coherence within each cluster but also can lead to fairly arbitrary splits; a good balance is to pick a cluster value that optimizes both coherence and logical cluster divisions.
     </li>
     <li> <u>Display Gradient:</u> This toggle reveals the different Gaussian distributions that generate the clusters in the visualization. Each gradient represents a separate standard distribution in the Gaussian mixture model of the visualization. The gradient extends out three standard deviations in each direction of its axes.
     </li>

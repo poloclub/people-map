@@ -14,7 +14,7 @@ const displayDistributions = writable(false)
 const selectedResearcherInfo = writable({
   name: "",
   affiliation: "",
-  scholarKeywords: "",
+  scholarKeywords: ["","","","",""],
   citations: "",
   url: "",
   pictureURL: "https://scholar.google.com/citations/images/avatar_scholar_256.png"

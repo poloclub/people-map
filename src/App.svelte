@@ -3,8 +3,7 @@
   import ResearcherDetailView from './components/ResearcherDetailView.svelte'
   import StatsView from './components/StatsView.svelte'
   import SummaryView from './components/SummaryView.svelte'
-  import FirstToggleRow from './components/FirstToggleRow.svelte'
-  import SecondToggleRow from './components/SecondToggleRow.svelte' 
+  import ToggleRow from './components/ToggleRow.svelte'
 
 </script>
 
@@ -19,22 +18,13 @@
 
 <StatsView />
 <!-- <SettingsView /> -->
-<div class="columns" style="padding-bottom: 0px;">
-  <!-- <div class="column is-one-quarter">
-    <ResearcherQueryView />
-  </div> -->
-  <div class="column is-two-thirds" style="height: 750px; padding-bottom: 100px;">
+<div class="columns" style="padding-top: 0px; margin-bottom: 0px; margin-left: 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px;">
+  <div class="column is-two-thirds" style="height: 750px; padding-bottom: 60px; margin-bottom: 0px; background: #FFFFFF; padding-right: 0px; padding-left: 0px; margin-left: 0px; margin-right: 0px">
     <PeopleMapView />
   </div>
-  <div class="column is-one-third">
-    <div class="columns" style="padding-bottom: 0px;">
-      <FirstToggleRow />
-    </div>
-    <div class="columns" style="padding-bottom: 0px;">
-      <SecondToggleRow />
-    </div>
-    <div class="is-divider"></div>
+  <div class="column is-one-third" style="padding-right: 20px;">
     <ResearcherDetailView />
   </div>
 </div>
+<ToggleRow />
 <SummaryView />

@@ -1,5 +1,5 @@
 
-<div id="PeopleMap" style = "border: 1px solid grey; width: 100%; height: 100%"></div>
+<div id="PeopleMap" style = "width: 100%; height: 100%; background: #FFFFFF;"></div>
 
 <script>
 
@@ -14,6 +14,7 @@ import recentResearchQuery from './recentResearchQuery.js'
 
 import citedClusters from './citedClusters.js'
 import recentClusters from './recentClusters.js'
+
 
 
 // Merge the data between citedCoordinates and citedClusters
@@ -101,7 +102,7 @@ function renderGraph() {
 
 
       // Set domain of the xAxis
-      var x = d3.scaleLinear().range([30, width - 30]);
+      var x = d3.scaleLinear().range([50, width - 30]);
 
       x.domain([d3.min(currentSelectedFaculty, function(d) {
 
@@ -132,7 +133,7 @@ function renderGraph() {
 
 
       // Set domain of yAxis
-      var y = d3.scaleLinear().range([height - 20, 20]);
+      var y = d3.scaleLinear().range([height - 60, 20]);
 
       y.domain([d3.min(currentSelectedFaculty, function(d) {
 
@@ -168,7 +169,7 @@ function renderGraph() {
 
 
       // 7 shade gradient of blue, starting with most dark and growing lighter after that
-      var blueGradient = ["#08306b","#08519c","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef", "#deebf7", "#f7fbff"]
+      var blueGradient = ["#08306b","#08519c","#2171b5","#4292c6","#6baed6","#c6dbef","#c6dbef", "#c6dbef", "#c6dbef"]
 
      
 
@@ -177,6 +178,8 @@ function renderGraph() {
         return {xCoordinate: d["x0"], yCoordinate: d["y0"], Author: d.Author, Group: d.grouping6,
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL} 
       })
+
+
 
 
       //Isolates the clusters of researchers for ellipse computation
@@ -287,28 +290,12 @@ function renderGraph() {
 
 
 
+
+
       // Set the jittering width
       var jitterWidth = 0
 
 
-
-      var text = svg.selectAll("text")
-                    .data(dataFilter)
-                 .enter()
-                    .append("text")
-                    .text(function(d) {
-                        return d.Author
-                    })
-                    .attr("x", function(d) {
-                        return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
-                    })
-                    .attr("y", function(d) {
-                        return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
-                    })
-                    .style("text-shadow","-1.5px 0 white, 0 1.5px white, 1.5px 0 white, 0 -1.5px white")
-                    .attr("font_family", "sans-serif")  // Font type
-                    .attr("font-size", "11px")  // Font size
-                    .attr("fill", "black");   // Font color
 
 
 
@@ -329,15 +316,21 @@ function renderGraph() {
           .style("fill", function(d) {
               return colors[d.Group]
           })
-          .style("stroke", "grey")
-          .style("stroke-width", "1px")
           .attr("opacity", "70%")
           .on("mouseover", function(dataPoint) {
+
+            var keywordTokens = dataPoint.KeyWords.split(", ")
+
+            var finalTokens = ["","","","",""]
+
+            for (var i = 0; i < keywordTokens.length; i++) {
+                finalTokens[i] = keywordTokens[i]
+            }
       
             var updatedResearcherSelection = {
               name: dataPoint.Author,
               affiliation: dataPoint.Affiliation,
-              scholarKeywords: dataPoint.KeyWords,
+              scholarKeywords: finalTokens,
               citations: dataPoint.Citations,
               url: dataPoint.URL,
               pictureURL: dataPoint.PictureURL
@@ -374,6 +367,23 @@ function renderGraph() {
 
 
 
+          var text = svg.selectAll("text")
+                    .data(dataFilter)
+                 .enter()
+                    .append("text")
+                    .text(function(d) {
+                        return d.Author
+                    })
+                    .attr("x", function(d) {
+                        return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
+                    })
+                    .attr("y", function(d) {
+                        return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
+                    })
+                    .style("text-shadow","-1.5px 0 white, 0 1.5px white, 1.5px 0 white, 0 -1.5px white")
+                    .attr("font_family", "sans-serif")  // Font type
+                    .attr("font-size", "11px")  // Font size
+                    .attr("fill", "black");   // Font color
 
 
 
@@ -549,9 +559,9 @@ function renderGraph() {
 
         // Assign new ranking for current Research Query
         for(var i = 0; i < currentSelectedFaculty.length; i++) {
-          console.log(phrase)
-          console.log(emphasis)
+
           currentSelectedFaculty[i].currentRank = currentSelectedFacultyRankData[phrase][emphasis][i].rank
+
         }
 
         // Filter out data with the selection
@@ -797,12 +807,22 @@ function renderGraph() {
 }
 
 </script>
-<ul class="text is-size-7" style="padding-left: 20px;">
-    <li> - Each dot represents a researcher and their associated top 50 publications from the publication set selected.
-    </li>
-    <li> - Proximity between researchers indicates similarity in topics studied while distance indicates disparity in topics studied.
-    </li>
-    <li> - Cluster colors indicate groups of researchers associated with similar topics.
-    </li>
 
-</ul>
+
+
+<nav class="level" style="padding-top: 0px; margin-top: 0px; padding-bottom: 15px; padding-left: 15px;">
+
+  <input id="ShowNamesSwitch" type="checkbox" name="ShowNamesSwitch" 
+                class="switch is-small is-rounded" style="padding-top: 0px;" bind:checked={$displayNames}>
+  <label for="ShowNamesSwitch" ></label>
+  <p class="text is-black" style="width: 105%; padding-top: 14px">Show Names</p>
+
+  <p class="text is-black" style="padding-top: 14px;">#Clusters</p>
+  <input id="sliderWithValue" class="slider has-output svelte-1v4uv99 is-circle is-purple" bind:value={$visNumClusters} min="1" max="6" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 150px; padding-top: 37px; fill: #4B0082; padding-right: 25px">
+
+  <input id="ShowGradientsSwitch" type="checkbox" name="ShowGradientsSwitch" 
+                class="switch is-small is-rounded" style="padding-top: 0px" bind:checked={$displayDistributions}>
+  <label for="ShowGradientsSwitch" ></label>
+  <p class="text is-black" style="padding-top: 14px; width: 20%">Show Gradients</p>
+
+</nav>

@@ -1,7 +1,11 @@
 <style>
-        .level{
-            background: #6e3dff
+
+    .level{
+            background: #4B0082
         }
+
+
+
 </style>
 
 <script>
@@ -71,43 +75,45 @@
   <!-- Left side -->
   <div class="level-left">
     <div class="level-item">
-      <p class="text is-size-3 has-text-white">
-          PeopleMap
+      <img src="logo.png" style="width: 50px%; height: 50px;">
+    </div>
+    <div class="level-item">
+      <p class="text has-text-white" style="font-size: 40px; font-weight: lighter">
+          for
+      </p>
+    </div>
+    <div class="level-item">
+      <p class="text has-text-white" style="font-size: 40px">
+          ML@GT Faculty 
       </p>
     </div>
   </div>
 
   <div class="level-item has-text-centered">
     <div>
-      <p class="text has-text-white">Scholars</p>
       <p class="text has-text-white is-size-3 has-text-weight-bold">{citedCoordinates.length}</p>
     </div>
-  </div>
-  <div class="level-item has-text-centered">
     <div>
-      <p class="text has-text-white">Total Google Scholar Keywords</p>
-      <p class="text has-text-white is-size-3 has-text-weight-bold">{(Object.keys(citedRankData)).length}</p>
+      <i class="fas fa-child fa-2x" style="color: white"></i>
     </div>
   </div>
   <div class="level-item has-text-centered">
-    <div>
-      <p class="text has-text-white"> Publications Analyzed</p>
-      <p class="text has-text-white is-size-3 has-text-weight-bold"> {(citedCoordinates.length) * 50} </p>
+    <div class="tooltip">
+        <div class="level-item has-text-centered">
+          <p class="text has-text-white is-size-3 has-text-weight-bold">{(Object.keys(citedRankData)).length}</p>
+          <i class="fas fa-atom fa-2x" style="color: white"></i>
+        </div>
     </div>
   </div>
 
-  <div class="column">
-    <h2 class="text has-text-white" style="padding-bottom:0px; font-size: 100%; width: 105%">Keywords Emphasis</h2>
-    <input id="sliderWithValue" class="slider has-output svelte-1v4uv99" bind:value={$queryKeywordEmphasis} min="0" max="5" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; 
-    margin-bottom: 0px; width: 150px;">
-  </div>
+
 
   <div class="panel-block" style="padding-left: 0px">
     <p class="control has-icons-left">
-      <input class="input" id="autocomplete-input" type="text" style="width: 300px;" 
+      <input class="input" id="autocomplete-input" type="text" style="width: 500px;" 
         on:keydown={handleKeydown}
         on:focus={onFocus} on:blur={onBlur}
-        bind:value={$selectedResearchInterest} placeholder="Search a Research Topic">
+        bind:value={$selectedResearchInterest} placeholder="Find a Researcher or query a Research Topic">
       <span class="icon is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
       </span>
