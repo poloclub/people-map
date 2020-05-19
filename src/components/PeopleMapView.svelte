@@ -1,5 +1,5 @@
 
-<div id="PeopleMap" style = "width: 100%; height: 100%; background: #FFFFFF;"></div>
+<div id="PeopleMap" style = "width: 100%; height: 100%; background: #FFFFFF; "></div>
 
 <script>
 
@@ -82,6 +82,7 @@ import {
 var currTimeout = null;
 var currentSelectedFaculty = citedCoordinates;
 var currentSelectedFacultyRankData = citedResearchQuery;
+
 
 onMount(renderGraph);
 
@@ -171,6 +172,8 @@ function renderGraph() {
       // 7 shade gradient of blue, starting with most dark and growing lighter after that
       var blueGradient = ["#08306b","#08519c","#2171b5","#4292c6","#6baed6","#c6dbef","#c6dbef", "#c6dbef", "#c6dbef"]
 
+
+
      
 
       // Filter out data with the selection
@@ -178,6 +181,28 @@ function renderGraph() {
         return {xCoordinate: d["x0"], yCoordinate: d["y0"], Author: d.Author, Group: d.grouping6,
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL} 
       })
+
+
+
+      // Assign researcher detail view to display the first datapoint data
+      var keywordTokens = dataFilter[0].KeyWords.split(", ")
+
+      var finalTokens = ["","","","",""]
+
+      for (var i = 0; i < keywordTokens.length; i++) {
+          finalTokens[i] = keywordTokens[i]
+      }
+      
+      var updatedResearcherSelection = {
+          name: dataFilter[0].Author,
+          affiliation: dataFilter[0].Affiliation,
+          scholarKeywords: finalTokens,
+          citations: dataFilter[0].Citations,
+          url: dataFilter[0].URL,
+          pictureURL: dataFilter[0].PictureURL
+      }
+
+      selectedResearcherInfo.set(updatedResearcherSelection)
 
 
 
@@ -319,6 +344,8 @@ function renderGraph() {
           .attr("opacity", "70%")
           .on("mouseover", function(dataPoint) {
 
+
+
             var keywordTokens = dataPoint.KeyWords.split(", ")
 
             var finalTokens = ["","","","",""]
@@ -340,7 +367,7 @@ function renderGraph() {
 
             text.data(dataFilter)
                 .transition()
-              .duration(200)
+              .duration(300)
                 .attr("opacity", function(d) {
                     if (d.Author == dataPoint.Author & $displayNames == true) {
                       return "100%"
@@ -348,11 +375,30 @@ function renderGraph() {
                       return "0%"
                     }
                 })
+
+            dot.data(dataFilter)
+                .transition()
+              .duration(300)
+                .attr("opacity", function(d) {
+                    if (d.Author == dataPoint.Author) {
+                      return "100%"
+                    } else {
+                      return "20%"
+                    }
+                })
+                .attr("r", function(d) {
+                    if (d.Author == dataPoint.Author) {
+                      return 10
+                    } else {
+                      return 8
+                    }
+                })
+
           })
           .on("mouseout", function(dataPoint) {
               text.data(dataFilter)
                 .transition()
-              .duration(200)
+              .duration(300)
                 .attr("opacity", function(d) {
                     if ($displayNames == true) {
                       return "100%"
@@ -360,6 +406,12 @@ function renderGraph() {
                       return "0%"
                     }
                 })
+
+              dot.data(dataFilter)
+                .transition()
+              .duration(300)
+                .attr("opacity", "70%")
+                .attr("r", 8)
           });
 
 
