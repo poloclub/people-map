@@ -75,7 +75,7 @@
   <!-- Left side -->
   <div class="level-left">
     <div class="level-item">
-      <img src="logo.png" style="width: 50px%; height: 50px;">
+      <img src="./logo.png" style="width: 50px%; height: 50px;">
     </div>
     <div class="level-item">
       <p class="text has-text-white" style="font-size: 40px; font-weight: lighter">
