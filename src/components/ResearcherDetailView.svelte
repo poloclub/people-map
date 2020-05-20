@@ -1,6 +1,6 @@
 <script>
 
-  import { selectedResearcherInfo } from '../stores/MapStore.js'
+  import { selectedResearcherInfo, selectedResearchInterest } from '../stores/MapStore.js'
 
 </script>
 
@@ -30,21 +30,15 @@
       <p class="text is-size-6" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
           <a href= {$selectedResearcherInfo.url} target="_blank" style="color: #4B0082">Google Scholar </a> keywords
       </p>
-      <p class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
-          {$selectedResearcherInfo.scholarKeywords[0]} 
-      </p>
-      <p class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
-          {$selectedResearcherInfo.scholarKeywords[1]} 
-      </p>
-      <p class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
-          {$selectedResearcherInfo.scholarKeywords[2]} 
-      </p>
-      <p class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
-          {$selectedResearcherInfo.scholarKeywords[3]} 
-      </p>
-      <p class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
-          {$selectedResearcherInfo.scholarKeywords[4]} 
-      </p>
+
+      {#each $selectedResearcherInfo.scholarKeywords as scholarKeyword }
+        { #if scholarKeyword.length != 0 }
+        <p on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set("")}} class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
+          {scholarKeyword} 
+        </p>
+        {/if}
+      {/each}
+
 
     </div>
   </div>
