@@ -14,14 +14,14 @@
   }
 </style>
 
-<div class="columns is-centered" style="background: #F8F8F8;">
+<div class="columns is-centered" style="background: #F8F8F8; min-width:410px;">
   <div class="column">
     <div class="photo" style="margin-left: auto; margin-right: auto; width: 45%; display: block; padding-left: 20px; padding-right: 20px; padding-top: 15%">
       <div class="image_container" style="background: grey; display: flex; justify-content: center; align-items: center; width: 150px; height: 150px; border: 1px solid grey; border-radius: 50%; overflow: hidden; padding: 20px;">
           <img src="{$selectedResearcherInfo.pictureURL}" style="width: 100%; height: auto;">
       </div>
     </div>
-    <div class="content">
+    <div class="content" style="min-width: 410px;">
       <p class="text is-size-2 has-text-weight-bold" style="color: #484848; text-align: center; margin-bottom: 0px;"> {$selectedResearcherInfo.name}  </p>
       <p class="text is-size-5" style="color: #484848; text-align: center; margin-bottom: 0px;"> {$selectedResearcherInfo.affiliation} </p>
 
@@ -30,7 +30,7 @@
       </p>
 
       <p class="text is-size-6" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
-          <a href= {$selectedResearcherInfo.url} target="_blank" style="color: #4B0082">Google Scholar </a> keywords
+          <a href= {$selectedResearcherInfo.url} target="_blank" style="color: #652DC1;">Google Scholar </a> keywords
       </p>
 
       {#each $selectedResearcherInfo.scholarKeywords as scholarKeyword }
@@ -40,7 +40,7 @@
           if (lockedInterest.length == 0) 
             lockedInterest = scholarKeyword 
           else lockedInterest = ""
-          }} on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set(lockedInterest)}} class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
+          }} on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set(lockedInterest)}} class="text is-size-5" style="color: #8B72BE; text-align: left; margin-bottom: 0px; font-weight: lighter; margin-left: 20%"> 
           {scholarKeyword} 
         </p>
         {/if}

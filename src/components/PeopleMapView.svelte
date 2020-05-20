@@ -183,9 +183,14 @@ function renderGraph() {
       })
 
 
+      // Currently click author
+
+      var currentlyClicked = ""
+
+
 
       // Assign researcher detail view to display the first datapoint data
-      var keywordTokens = dataFilter[0].KeyWords.split(", ")
+      var keywordTokens = dataFilter[2].KeyWords.split(", ")
 
       var finalTokens = ["","","","",""]
 
@@ -194,12 +199,12 @@ function renderGraph() {
       }
       
       var updatedResearcherSelection = {
-          name: dataFilter[0].Author,
-          affiliation: dataFilter[0].Affiliation,
+          name: dataFilter[2].Author,
+          affiliation: dataFilter[2].Affiliation,
           scholarKeywords: finalTokens,
-          citations: dataFilter[0].Citations,
-          url: dataFilter[0].URL,
-          pictureURL: dataFilter[0].PictureURL
+          citations: dataFilter[2].Citations,
+          url: dataFilter[2].URL,
+          pictureURL: dataFilter[2].PictureURL
       }
 
       selectedResearcherInfo.set(updatedResearcherSelection)
@@ -344,55 +349,57 @@ function renderGraph() {
           .attr("opacity", "70%")
           .on("mouseover", function(dataPoint) {
 
+              if (currentlyClicked == "") {
 
+                  var keywordTokens = dataPoint.KeyWords.split(", ")
 
-            var keywordTokens = dataPoint.KeyWords.split(", ")
+                  var finalTokens = ["","","","",""]
 
-            var finalTokens = ["","","","",""]
+                  for (var i = 0; i < keywordTokens.length; i++) {
+                      finalTokens[i] = keywordTokens[i]
+                  }
+            
+                  var updatedResearcherSelection = {
+                    name: dataPoint.Author,
+                    affiliation: dataPoint.Affiliation,
+                    scholarKeywords: finalTokens,
+                    citations: dataPoint.Citations,
+                    url: dataPoint.URL,
+                    pictureURL: dataPoint.PictureURL
+                  }
 
-            for (var i = 0; i < keywordTokens.length; i++) {
-                finalTokens[i] = keywordTokens[i]
-            }
-      
-            var updatedResearcherSelection = {
-              name: dataPoint.Author,
-              affiliation: dataPoint.Affiliation,
-              scholarKeywords: finalTokens,
-              citations: dataPoint.Citations,
-              url: dataPoint.URL,
-              pictureURL: dataPoint.PictureURL
-            }
+                  selectedResearcherInfo.set(updatedResearcherSelection)
 
-            selectedResearcherInfo.set(updatedResearcherSelection)
+                  text.data(dataFilter)
+                      .transition()
+                    .duration(300)
+                      .attr("opacity", function(d) {
+                          if (d.Author == dataPoint.Author & $displayNames == true) {
+                            return "100%"
+                          } else {
+                            return "0%"
+                          }
+                      })
 
-            text.data(dataFilter)
-                .transition()
-              .duration(300)
-                .attr("opacity", function(d) {
-                    if (d.Author == dataPoint.Author & $displayNames == true) {
-                      return "100%"
-                    } else {
-                      return "0%"
-                    }
-                })
+                  dot.data(dataFilter)
+                      .transition()
+                    .duration(300)
+                      .attr("opacity", function(d) {
+                          if (d.Author == dataPoint.Author) {
+                            return "100%"
+                          } else {
+                            return "20%"
+                          }
+                      })
+                      .attr("r", function(d) {
+                          if (d.Author == dataPoint.Author) {
+                            return 10
+                          } else {
+                            return 8
+                          }
+                      })
 
-            dot.data(dataFilter)
-                .transition()
-              .duration(300)
-                .attr("opacity", function(d) {
-                    if (d.Author == dataPoint.Author) {
-                      return "100%"
-                    } else {
-                      return "20%"
-                    }
-                })
-                .attr("r", function(d) {
-                    if (d.Author == dataPoint.Author) {
-                      return 10
-                    } else {
-                      return 8
-                    }
-                })
+              }
 
           })
           .on("mouseout", function(dataPoint) {
@@ -410,9 +417,41 @@ function renderGraph() {
               dot.data(dataFilter)
                 .transition()
               .duration(300)
-                .attr("opacity", "70%")
-                .attr("r", 8)
-          });
+                .attr("opacity", function(d) {
+                    if (currentlyClicked != "") {
+
+                        if (currentlyClicked == d.Author) {
+                          return "100%"
+                        } else {
+                          return "20%"
+                        }
+
+                    } else {
+                        return "70%"
+                    }
+                    
+                })
+                .attr("r", function(d) {
+
+                    if (currentlyClicked != "") {
+
+                        if (currentlyClicked == d.Author) {
+                          return 10
+                        } else {
+                          return 8
+                        }
+
+                    } else {
+                        return 8
+                    }
+
+                })
+          })
+          .on("click", function(dataPoint) {
+
+              handleClick(dataPoint);
+
+          })
 
 
 
@@ -540,7 +579,7 @@ function renderGraph() {
 
 
       // Upon change of keywords emphasis, updates the graph visualization
-      function updateKeywords(json, selectedGroup, clustersNumber) {
+      function updateKeywords(selectedGroup, clustersNumber) {
 
 
             // Filter out data with the selection
@@ -583,7 +622,7 @@ function renderGraph() {
       }
 
       // A function that update the chart with a new cluster coloring
-      function updateClusters(json, selectedGroup, keywordsEmphasis) {
+      function updateClusters(selectedGroup, keywordsEmphasis) {
 
        
             // Filter out data with the selection
@@ -738,7 +777,7 @@ function renderGraph() {
 
 
       // A function that updates the graph with the new dataset
-      function updateDataset(json, selectedKeywords, selectedClusters) {
+      function updateDataset(selectedKeywords, selectedClusters) {
 
 
             // Filter out data with the selection
@@ -781,6 +820,62 @@ function renderGraph() {
       }
 
 
+      function handleClick(dataPoint) {
+
+
+          if (currentlyClicked == "") {
+
+                    currentlyClicked = dataPoint.Author
+
+                    dot.data(dataFilter)
+                        .transition()
+                      .duration(300)
+                        .attr("opacity", function(d) {
+                            if (d.Author == dataPoint.Author) {
+                              return "100%"
+                            } else {
+                              return "20%"
+                            }
+                        })
+                        .attr("r", function(d) {
+                            if (d.Author == dataPoint.Author) {
+                              return 10
+                            } else {
+                              return 8
+                            }
+                        })
+                        .attr("stroke-width", function(d) {
+                            if (d.Author == dataPoint.Author) {
+                              return "2px"
+                            } else {
+                              return "0px"
+                            }
+                        })
+                        .attr("stroke", function(d) {
+                            if (d.Author == dataPoint.Author) {
+                              return "#6495ED"
+                            } else {
+                              return "black"
+                            }
+                        })
+
+                } else if (currentlyClicked != "" & dataPoint.Author == currentlyClicked) {
+
+                    dot.data(dataFilter)
+                              .transition()
+                            .duration(300)
+                              .attr("opacity", "70%")
+                              .attr("r", 8)
+                              .attr("stroke-width", "0px")
+
+                    currentlyClicked = ""
+
+                }
+
+
+      }
+
+
 
 
 
@@ -788,7 +883,7 @@ function renderGraph() {
     // When the button is changed, run the updateKeywords function and update the graph
     visKeywordEmphasis.subscribe((selectedOption) => {        
         // run the updateChart function with this selected option
-        updateKeywords("keywordsClustersTester.json", selectedOption, $visNumClusters)
+        updateKeywords(selectedOption, $visNumClusters)
         updateDistributions($displayDistributions, selectedOption, $visNumClusters)
     })
     
@@ -796,7 +891,7 @@ function renderGraph() {
     // When the button is changed, run the updateClusters function and update the graph
     visNumClusters.subscribe((selectedOption) => {    
       // run the updateChart function with this selected option
-      updateClusters("keywordsClustersTester.json", selectedOption, $visKeywordEmphasis)
+      updateClusters(selectedOption, $visKeywordEmphasis)
       updateDistributions($displayDistributions, $visKeywordEmphasis, selectedOption)
     })
 
@@ -811,8 +906,9 @@ function renderGraph() {
 
     // When the button is changed, run the updateDistributions function and update the graph
     displayDistributions.subscribe((selectedOption) => {    
-      // run the updateNames function with this selected option
+      
       updateDistributions(selectedOption, $visKeywordEmphasis, $visNumClusters)
+      updateClusters($visNumClusters, $visKeywordEmphasis)
     })
 
 
@@ -830,7 +926,7 @@ function renderGraph() {
     selectedResearchInterest.subscribe((value) => {
       
       if (value == "") {
-        updateClusters("keywordsClustersTester.json", $visNumClusters, $visKeywordEmphasis)
+        updateClusters($visNumClusters, $visKeywordEmphasis)
         return
       }
 
@@ -854,7 +950,7 @@ function renderGraph() {
         currentSelectedFacultyRankData = recentResearchQuery;
       }
 
-      updateDataset("keywordsClustersTester.json", $visKeywordEmphasis, $visNumClusters)
+      updateDataset($visKeywordEmphasis, $visNumClusters)
       updateDistributions($displayDistributions, $visKeywordEmphasis, $visNumClusters)
 
     })
@@ -875,7 +971,7 @@ function renderGraph() {
   <p class="text is-black" style="width: 105%; padding-top: 14px">Show Names</p>
 
   <p class="text is-black" style="padding-top: 14px;">#Clusters</p>
-  <input id="sliderWithValue" class="slider has-output svelte-1v4uv99 is-circle is-purple" bind:value={$visNumClusters} min="1" max="6" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 150px; padding-top: 37px; fill: #4B0082; padding-right: 25px">
+  <input id="sliderWithValue" class="slider has-output svelte-1v4uv99 is-circle is-purple" bind:value={$visNumClusters} min="1" max="6" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 150px; padding-top: 37px; fill: #652DC1; padding-right: 25px">
 
   <input id="ShowGradientsSwitch" type="checkbox" name="ShowGradientsSwitch" 
                 class="switch is-small is-rounded" style="padding-top: 0px" bind:checked={$displayDistributions}>

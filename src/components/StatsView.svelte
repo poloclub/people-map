@@ -1,7 +1,7 @@
 <style>
 
     .level{
-            background: #4B0082
+            background: #652DC1;
         }
 
 
@@ -83,33 +83,33 @@
       </p>
     </div>
     <div class="level-item">
-      <p class="text has-text-white" style="font-size: 40px">
-          ML@GT Faculty 
+      <p class="text has-text-white" style="font-size: 40px;">
+          IDEaS@GT Faculty
       </p>
     </div>
   </div>
 
   <div class="level-item has-text-centered">
     <div>
-      <p class="text has-text-white is-size-3 has-text-weight-bold">{citedCoordinates.length}</p>
+      <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{citedCoordinates.length}</p>
     </div>
     <div>
-      <i class="fas fa-child fa-2x" style="color: white"></i>
+      <i class="fas fa-child fa-2x" style="color: white; opacity: 75%;"></i>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div class="tooltip">
         <div class="level-item has-text-centered">
-          <p class="text has-text-white is-size-3 has-text-weight-bold">{(Object.keys(citedRankData)).length}</p>
-          <i class="fas fa-atom fa-2x" style="color: white"></i>
+          <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{(Object.keys(citedRankData)).length}</p>
+          <i class="fas fa-atom fa-2x" style="color: white; opacity: 75%;"></i>
         </div>
     </div>
   </div>
 
 
 
-  <div class="panel-block" style="padding-left: 0px">
-    <p class="control has-icons-left">
+  <div class="panel-block" style="padding-left: 0px; border: 0px solid white;">
+    <p class="control has-icons-left" style="padding-right: 10px;">
       <input class="input" id="autocomplete-input" type="text" style="width: 500px;" 
         on:keydown={handleKeydown}
         on:focus={onFocus} on:blur={onBlur}
@@ -118,7 +118,10 @@
         <i class="fas fa-search" aria-hidden="true"></i>
       </span>
     </p>
+
   </div>
+
+  <button class="button" style="background: #8B72BE; color: white; margin-right: 10px;" > Clear </button>
 
 </nav>
 
@@ -132,3 +135,4 @@
     </a>
   {/each}
 </div>
+
