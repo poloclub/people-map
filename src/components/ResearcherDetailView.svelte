@@ -1,6 +1,8 @@
 <script>
 
   import { selectedResearcherInfo, selectedResearchInterest } from '../stores/MapStore.js'
+  var researcherLocked = false;
+  var lockedInterest = ""
 
 </script>
 
@@ -33,12 +35,18 @@
 
       {#each $selectedResearcherInfo.scholarKeywords as scholarKeyword }
         { #if scholarKeyword.length != 0 }
-        <p on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set("")}} class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
+        <!-- clean this up!!!!!!!!! break it out into seperate functions, etc.-->
+        <p on:click={() =>{ 
+          if (lockedInterest.length == 0) 
+            lockedInterest = scholarKeyword 
+          else lockedInterest = ""
+          }} on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set(lockedInterest)}} class="text is-size-5" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
           {scholarKeyword} 
         </p>
         {/if}
       {/each}
 
+<!-- selectedResearchInterest.set("") -->
 
     </div>
   </div>

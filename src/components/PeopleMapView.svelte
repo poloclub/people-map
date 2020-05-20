@@ -829,6 +829,11 @@ function renderGraph() {
     // When a new research query is inputted, update the graph with the new ranking
     selectedResearchInterest.subscribe((value) => {
       
+      if (value == "") {
+        updateClusters("keywordsClustersTester.json", $visNumClusters, $visKeywordEmphasis)
+        return
+      }
+
       var emphasis = $queryKeywordEmphasis;
       if (currentSelectedFacultyRankData[value.toLowerCase()]) {
         updateRanking(value.toLowerCase(), emphasis)
