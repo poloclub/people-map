@@ -38,7 +38,7 @@
   }
 </style>
 
-<div class="columns is-centered" style="background: #F8F8F8; min-width:410px;">
+<div class="columns is-centered" style="background: #F8F8F8; min-width:410px; cursor: default;">
   <div class="column">
     <div class="photo" style="margin-left: auto; margin-right: auto; width: 45%; display: block; padding-left: 20px; padding-right: 20px; padding-top: 15%">
       <div class="image-container">
@@ -50,17 +50,17 @@
       <p class="text is-size-5" style="color: #484848; text-align: center; margin-bottom: 0px;"> {$selectedResearcherInfo.affiliation} </p>
 
       <p class="text is-size-6" style="color: #484848; text-align: center; margin-bottom: 20px"> 
-            <span class="light-font" style="font-weight: lighter">Citations:</span> {$selectedResearcherInfo.citations} 
+            <span class="light-font" >Citations:</span> {$selectedResearcherInfo.citations} 
       </p>
 
-      <p class="text is-size-6" style="color: #484848; text-align: left; margin-bottom: 0px; font-weight: lighter; padding-left: 20%"> 
+      <p class="text is-size-6" style="color: #484848; text-align: left; margin-bottom: 0px; padding-left: 20%"> 
           <a href= {$selectedResearcherInfo.url} target="_blank" style="color: #652DC1;">Google Scholar </a> keywords
       </p>
 
       {#each $selectedResearcherInfo.scholarKeywords as scholarKeyword }
         { #if scholarKeyword.length != 0 }
         <!-- clean this up!!!!!!!!! break it out into seperate functions, etc.-->
-        <p style="color: #8B72BE; text-align: left; margin-bottom: 0px; {lockedInterest == scholarKeyword ? "font-weight: bold;" : "font-weight: lighter;"} margin-left: 20%" on:click={() =>{ 
+        <p style="color: #8B72BE; text-align: left; margin-bottom: 0px; {lockedInterest == scholarKeyword ? "font-weight: bold;" : "font-weight: normal;"} margin-left: 20%" on:click={() =>{ 
           if (lockedInterest.length == 0) 
             lockedInterest = scholarKeyword 
           else lockedInterest = ""

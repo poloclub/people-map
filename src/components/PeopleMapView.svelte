@@ -169,8 +169,8 @@ function renderGraph() {
       var colors = ["#0000CD","#FFA500", "#FF0000","#006400","#8B4513","#FFFF00","#A9A9A9","#000000","#FF1493"]
 
 
-      // 7 shade gradient of blue, starting with most dark and growing lighter after that
-      var blueGradient = ["#08306b","#08519c","#2171b5","#4292c6","#6baed6","#c6dbef","#c6dbef", "#c6dbef", "#c6dbef"]
+      // 7 shade gradient of purple, starting with most dark and growing lighter after that
+      var purpleGradient = ["#3f007d","#54278f","#6a51a3","#807dba","#9e9ac8","#bcbddc","#dadaeb","#efedf5","#fcfbfd"]
 
 
 
@@ -373,13 +373,13 @@ function renderGraph() {
                   text.data(dataFilter)
                       .transition()
                     .duration(300)
-                      .attr("opacity", function(d) {
-                          if (d.Author == dataPoint.Author & $displayNames == true) {
-                            return "100%"
-                          } else {
-                            return "0%"
-                          }
-                      })
+                      .text(function(d) {
+                        if (d.Author == dataPoint.Author & $displayNames == true) {
+                          return d.Author
+                        } else {
+                          return ""
+                        }
+                    })
 
                   dot.data(dataFilter)
                       .transition()
@@ -406,13 +406,13 @@ function renderGraph() {
               text.data(dataFilter)
                 .transition()
               .duration(300)
-                .attr("opacity", function(d) {
-                    if ($displayNames == true) {
-                      return "100%"
-                    } else {
-                      return "0%"
-                    }
-                })
+                .text(function(d) {
+                        if ($displayNames == true) {
+                          return d.Author
+                        } else {
+                          return ""
+                        }
+                    })
 
               dot.data(dataFilter)
                 .transition()
@@ -463,7 +463,7 @@ function renderGraph() {
                  .enter()
                     .append("text")
                     .text(function(d) {
-                        return d.Author
+                        return ""
                     })
                     .attr("x", function(d) {
                         return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
@@ -667,10 +667,10 @@ function renderGraph() {
           .transition()
           .duration(1000)
             .style("fill", function(d) {
-              if (d.CurrentRank == -1 || d.CurrentRank == 9) {
-                return blueGradient[8]
+              if (d.CurrentRank == -1 || d.CurrentRank >= 5) {
+                return purpleGradient[6]
               } else {
-                return blueGradient[d.CurrentRank]
+                return purpleGradient[d.CurrentRank]
               }
             })
 
@@ -694,13 +694,13 @@ function renderGraph() {
                 .attr("font_family", "sans-serif")  // Font type
                 .attr("font-size", "11px")  // Font size
                 .attr("fill", "black")   // Font color
-                .attr("opacity", function(d){
-                    if (selectedOption == true) {
-                      return "100%"
-                    } else {
-                      return "0%"
-                    }
-                });
+                .text(function(d) {
+                        if (selectedOption == true) {
+                          return d.Author
+                        } else {
+                          return ""
+                        }
+                    })
 
 
       }

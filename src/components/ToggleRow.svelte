@@ -57,17 +57,17 @@
 
   <div class="level-left">
     <div class="level-item" style="margin-right: 0px">
-      <p class="text has-text-white" style="font-size: 20px; padding-left: 20px; margin-right: 0px; padding-right: 8px; padding-right: 4px">
+      <p class="text has-text-white" style="font-size: 20px; padding-left: 20px; margin-right: 0px; padding-right: 8px;">
           Create map based on 
       </p>
     </div>
     <div class="level-item" style="overflow: visible; margin-right: 0px; padding-right: 8px;">
         <div class="dropdown is-up {dropdownShownDataset ? 'is-active' : ''}" style="padding-left: 2%;">
           <div class="dropdown-trigger" style="background-color: #8B72BE; border-radius: 10px;">
-            <button class="button" style="background-color: #8B72BE; border: 0px solid white; border-radius: 15px; height: 0px; margin-bottom: 30px; padding-top: 0px; padding-bottom: 0px; padding-left: 6px; padding-right: 6px;" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => { selectionClickedDataset(); }}>
-              <span style="color: white; font-size: 20px; padding-bottom: 5px;">{$datasetChoice}</span>
-              <span class="icon is-small">
-                <i class="fas fa-angle-up fa-2x" style="color: white; padding-bottom: 5px; padding-left: 3px; padding-right: 8px;" aria-hidden="true"></i>
+            <button class="button" style="background-color: #8B72BE; border: 0px solid white; border-radius: 15px; padding-left: 6px; padding-right: 6px;" aria-haspopup="true" aria-controls="dropdown-menu" on:click={() => { selectionClickedDataset(); }}>
+              <span style="color: white; font-size: 20px;">{$datasetChoice}</span>
+              <span class="icon is-small" style="padding-right: 5px;">
+                <i class="fas fa-angle-up fa-2x" style="color: white; padding-left: 3px; padding-right: 8px;" aria-hidden="true"></i>
               </span>
             </button>
           
@@ -93,10 +93,10 @@
     <div class="level-item" style="overflow: visible; margin-right: 0px; padding-right: 8px;">
         <div class="dropdown is-up {dropdownShownEmphasis ? 'is-active' : ''}" style="padding-left: 2%;">
           <div class="dropdown-trigger" style="background-color: #8B72BE; border-radius: 10px;">
-            <button class="button" aria-haspopup="true" style="background-color: #8B72BE; border: 0px solid white; border-radius: 15px; height: 0px; margin-bottom: 30px; padding-top: 0px; padding-bottom: 0px; padding-left: 6px; padding-right: 6px;" aria-controls="dropdown-menu" on:click={() => { selectionClickedEmphasis(); }}>
-              <span style="color: white; font-size: 20px; padding-bottom: 5px;">{displayAdjective($visKeywordEmphasis)}</span>
-              <span class="icon is-medium">
-                <i class="fas fa-angle-up fa-2x" style="color: white; padding-bottom: 5px; padding-left: 3px; padding-right: 8px;" aria-hidden="true"></i>
+            <button class="button" aria-haspopup="true" style="background-color: #8B72BE; border: 0px solid white; border-radius: 15px; padding-left: 6px; padding-right: 6px;" aria-controls="dropdown-menu" on:click={() => { selectionClickedEmphasis(); }}>
+              <span style="color: white; font-size: 20px;">{displayAdjective($visKeywordEmphasis)}</span>
+              <span class="icon is-medium" style="padding-right: 5px;">
+                <i class="fas fa-angle-up fa-2x" style="color: white; padding-left: 3px; padding-right: 8px;" aria-hidden="true"></i>
               </span>
             </button>
           

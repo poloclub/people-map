@@ -90,13 +90,12 @@
   </div>
 
   <div class="level-item has-text-centered">
-    <div class="level-item has-text-centered" aria-label="Scholars Analyzed" data-balloon-pos="down">
+    <div class="level-item has-text-centered" aria-label="Scholars Analyzed" data-balloon-pos="down" style="padding-right: 20px;">
       <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{citedCoordinates.length}</p>
       <i class="fas fa-child fa-2x" style="color: white; opacity: 75%;"></i>
     </div>
-  </div>
-  <div class="level-item has-text-centered">
-    <div class="level-item has-text-centered" aria-label="Publications Analyzed" data-balloon-pos="down">
+
+    <div class="level-item has-text-centered" aria-label="Keywords Analyzed" data-balloon-pos="down">
       <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{(Object.keys(citedRankData)).length}</p>
       <i class="fas fa-atom fa-2x" style="color: white; opacity: 75%;"></i>
     </div>
@@ -104,24 +103,27 @@
 
 
 
-  <div class="panel-block" style="padding-left: 0px; border: 0px solid white;">
+
+  <div class="panel-block" style="padding-left: 0px; border: 0px solid white; padding-right: 10px;">
     <p class="control has-icons-left" style="padding-right: 10px;">
-      <input class="input" id="autocomplete-input" type="text" style="width: 500px;" 
+      <input class="input" id="autocomplete-input" type="text" style="width: 350px;" 
         on:keydown={handleKeydown}
         on:focus={onFocus} on:blur={onBlur}
-        bind:value={$selectedResearchInterest} placeholder="Find a Researcher or query a Research Topic">
+        bind:value={$selectedResearchInterest} placeholder="Query a Researcher or Research Topic">
       <span class="icon is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
       </span>
     </p>
 
-  </div>
-
-  <button 
+    <a 
     on:click={() => {
       selectedResearchInterest.set("")
     }}
-    class="button" style="background: #8B72BE; color: white; margin-right: 10px;" > Clear </button>
+    class="delete is-large"></a>
+
+  </div>
+
+
 
 </nav>
 
