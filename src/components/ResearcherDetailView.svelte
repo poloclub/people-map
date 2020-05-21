@@ -20,13 +20,13 @@
   }
 
   .image-container {
-    background: grey;
+    background: #E5E5E5;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 150px;
     height: 150px;
-    border: 1px solid grey;
+    border: 1px solid #E5E5E5;
     border-radius: 50%;
     overflow: hidden;
   }
@@ -34,7 +34,7 @@
   .image-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 </style>
 
