@@ -3,7 +3,9 @@
   import { selectedResearcherInfo, selectedResearchInterest } from '../stores/MapStore.js'
   var researcherLocked = false;
   var lockedInterest = ""
-
+  selectedResearchInterest.subscribe((value) => {
+    if (value.length == 0) lockedInterest = "";
+  })
 </script>
 
 <style>
@@ -11,6 +13,10 @@
       background: #F8F8F8;
       overflow: hidden;
       text-overflow: ellipsis;
+  }
+
+  p:hover {
+    text-decoration: underline
   }
 </style>
 
@@ -36,11 +42,11 @@
       {#each $selectedResearcherInfo.scholarKeywords as scholarKeyword }
         { #if scholarKeyword.length != 0 }
         <!-- clean this up!!!!!!!!! break it out into seperate functions, etc.-->
-        <p on:click={() =>{ 
+        <p style="color: #8B72BE; text-align: left; margin-bottom: 0px; {lockedInterest == scholarKeyword ? "font-weight: bold;" : "font-weight: lighter;"} margin-left: 20%" on:click={() =>{ 
           if (lockedInterest.length == 0) 
             lockedInterest = scholarKeyword 
           else lockedInterest = ""
-          }} on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set(lockedInterest)}} class="text is-size-5" style="color: #8B72BE; text-align: left; margin-bottom: 0px; font-weight: lighter; margin-left: 20%"> 
+          }} on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set(lockedInterest)}} class="text is-size-5"> 
           {scholarKeyword} 
         </p>
         {/if}

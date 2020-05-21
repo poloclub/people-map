@@ -121,7 +121,11 @@
 
   </div>
 
-  <button class="button" style="background: #8B72BE; color: white; margin-right: 10px;" > Clear </button>
+  <button 
+    on:click={() => {
+      selectedResearchInterest.set("")
+    }}
+    class="button" style="background: #8B72BE; color: white; margin-right: 10px;" > Clear </button>
 
 </nav>
 
