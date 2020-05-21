@@ -90,19 +90,15 @@
   </div>
 
   <div class="level-item has-text-centered">
-    <div>
+    <div class="level-item has-text-centered" aria-label="Scholars Analyzed" data-balloon-pos="down">
       <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{citedCoordinates.length}</p>
-    </div>
-    <div>
       <i class="fas fa-child fa-2x" style="color: white; opacity: 75%;"></i>
     </div>
   </div>
   <div class="level-item has-text-centered">
-    <div class="tooltip">
-        <div class="level-item has-text-centered">
-          <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{(Object.keys(citedRankData)).length}</p>
-          <i class="fas fa-atom fa-2x" style="color: white; opacity: 75%;"></i>
-        </div>
+    <div class="level-item has-text-centered" aria-label="Publications Analyzed" data-balloon-pos="down">
+      <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{(Object.keys(citedRankData)).length}</p>
+      <i class="fas fa-atom fa-2x" style="color: white; opacity: 75%;"></i>
     </div>
   </div>
 
