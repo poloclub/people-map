@@ -15,7 +15,7 @@
       text-overflow: ellipsis;
   }
 
-  p:hover {
+  .scholar-keyword:hover {
     text-decoration: underline
   }
 </style>
@@ -46,7 +46,7 @@
           if (lockedInterest.length == 0) 
             lockedInterest = scholarKeyword 
           else lockedInterest = ""
-          }} on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set(lockedInterest)}} class="text is-size-5"> 
+          }} on:mouseenter={() => {selectedResearchInterest.set(scholarKeyword)}} on:mouseleave={() => {selectedResearchInterest.set(lockedInterest)}} class="text scholar-keyword is-size-5"> 
           {scholarKeyword} 
         </p>
         {/if}
