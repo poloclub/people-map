@@ -1,5 +1,1 @@
-/node_modules/
-/public/build/
-datapoints.js
-.DS_Store
-ML_clean.csv
+node_modules
