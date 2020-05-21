@@ -18,13 +18,31 @@
   .scholar-keyword:hover {
     text-decoration: underline
   }
+
+  .image-container {
+    background: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    border: 1px solid grey;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 </style>
 
 <div class="columns is-centered" style="background: #F8F8F8; min-width:410px;">
   <div class="column">
     <div class="photo" style="margin-left: auto; margin-right: auto; width: 45%; display: block; padding-left: 20px; padding-right: 20px; padding-top: 15%">
-      <div class="image_container" style="background: grey; display: flex; justify-content: center; align-items: center; width: 150px; height: 150px; border: 1px solid grey; border-radius: 50%; overflow: hidden; padding: 20px;">
-          <img src="{$selectedResearcherInfo.pictureURL}" style="width: 100%; height: auto;">
+      <div class="image-container">
+          <img src="{$selectedResearcherInfo.pictureURL}">
       </div>
     </div>
     <div class="content" style="min-width: 410px;">
