@@ -26,13 +26,16 @@
     }
 
     const selectionClickedEmphasis = (selection) => {
+      console.log(selection)
+      var adjustedSelection = selection + 1
       dropdownShownEmphasis = !dropdownShownEmphasis;
-      if (selection) {
-        visKeywordEmphasis.set(selection)
+      if (adjustedSelection) {
+        visKeywordEmphasis.set(adjustedSelection - 1)
       }
     }
 
     function displayAdjective(number) {
+      //console.log(number)
       if (number == 0) {
         return "No"
       } else if (number == 1) {
@@ -102,7 +105,7 @@
           
           </div>
           <div class="dropdown-menu" id="dropdown-menu" role="menu">
-            <div class="dropdown-content" style="background-color: #8B72BE;">
+            <div class="dropdown-content" style="background-color: #8B72BE; width: 150px;">
               <a class="dropdown-item" style="background: #8B72BE;" on:click={() => { selectionClickedEmphasis(0); }}>
                 <p style="color: white; font-size: 15px; background: #8B72BE;">No</p>
               </a>
