@@ -961,6 +961,13 @@ function renderGraph() {
 
 </script>
 
+<style>
+
+  .switch[type="checkbox"].is-small:checked + label::before {
+    background: #652DC1;
+  }
+
+</style>
 
 
 <nav class="level" style="padding-top: 0px; margin-top: 0px; padding-bottom: 15px; padding-left: 15px;">
