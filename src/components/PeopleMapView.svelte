@@ -350,7 +350,6 @@ function renderGraph() {
           .on("mouseover", function(dataPoint) {
 
               if (currentlyClicked == "") {
-
                   var keywordTokens = dataPoint.KeyWords.split(", ")
 
                   var finalTokens = ["","","","",""]
@@ -371,7 +370,6 @@ function renderGraph() {
                   selectedResearcherInfo.set(updatedResearcherSelection)
 
                   text.data(dataFilter)
-                      .transition()
                     .duration(300)
                       .attr("opacity", function(d) {
                           if (d.Author == dataPoint.Author & $displayNames == true) {
@@ -382,7 +380,6 @@ function renderGraph() {
                       })
 
                   dot.data(dataFilter)
-                      .transition()
                     .duration(300)
                       .attr("opacity", function(d) {
                           if (d.Author == dataPoint.Author) {
@@ -733,44 +730,45 @@ function renderGraph() {
           currentEllipseInfo = ellipseInfo
 
 
-            outerEllipse.data(ellipseInfo)
-                        .transition()
-                        .duration(1000)
-                        .attr("rx", function(d) {
-
-                                  var firstEigenvalue = d.Eigenvalues[0]
-                                  var secondEigenvalue = d.Eigenvalues[1]
-                                  var confidenceInterval = Math.sqrt(d.Eigenvalues[0] * 5.991 * 4)
-                                  return confidenceInterval * width / 2
-                                   
-
-                              })
-                        .attr("ry", function(d) {
-
-                                  var firstEigenvalue = d.Eigenvalues[0]
-                                  var secondEigenvalue = d.Eigenvalues[1]
-                                  var confidenceInterval = Math.abs(Math.sqrt(d.Eigenvalues[1] * 5.991 * 4))
-                                  return confidenceInterval * height / 2
-
-                              })
-                        .attr("transform", function(d) {
-                                    var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
-                                    angle = (angle / 3.1415) * 180
-                                    return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
-                              })
-                        .style("fill", function(d) {
-                            return "url(#radial-gradient" + d.Group + ")"
-                        })
-                        .style('mix-blend-mode',"multiply")
-                        .attr("opacity", function(d) {
-                            if (selectedOption == true) {
-                                return "50%"
-                            } else {
-                                return "0%"
-                            }
-                        });
-                
-      }
+          outerEllipse.data(ellipseInfo)
+                      // Temporarlly disable pointer events
+                      .attr('pointer-events', 'none')
+                      .transition()
+                      .duration(1000)
+                      .attr("rx", function(d) {
+                          var firstEigenvalue = d.Eigenvalues[0]
+                          var secondEigenvalue = d.Eigenvalues[1]
+                          var confidenceInterval = Math.sqrt(d.Eigenvalues[0] * 5.991 * 4)
+                          return confidenceInterval * width / 2
+                      })
+                      .attr("ry", function(d) {
+                          var firstEigenvalue = d.Eigenvalues[0]
+                          var secondEigenvalue = d.Eigenvalues[1]
+                          var confidenceInterval = Math.abs(Math.sqrt(d.Eigenvalues[1] * 5.991 * 4))
+                          return confidenceInterval * height / 2
+                      })
+                      .attr("transform", function(d) {
+                          var angle = Math.atan(d.Eigenvectors[0][1] / d.Eigenvectors[0][0])
+                          angle = (angle / 3.1415) * 180
+                          return "translate("+ x(d.CenterX) +"," + y(d.CenterY) + ") rotate(" + angle + ")"
+                            })
+                      .style("fill", function(d) {
+                          return "url(#radial-gradient" + d.Group + ")"
+                      })
+                      .style('mix-blend-mode',"multiply")
+                      .attr("opacity", function(d) {
+                          if (selectedOption == true) {
+                              return "50%"
+                          } else {
+                              return "0%"
+                          }
+                      })
+                      .on('end', (d, g, i) => {
+                        // Restore pointer events after the animation
+                        d3.select(g[i])
+                          .attr('pointer-events', 'auto');
+                      });
+          }
 
 
 
