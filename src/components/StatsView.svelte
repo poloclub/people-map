@@ -4,7 +4,9 @@
             background: #652DC1;
         }
 
-
+    .panel-block:hover {
+      text-decoration: none;
+    }
 
 </style>
 
@@ -72,56 +74,55 @@
 
 <nav style="padding:10px;margin-bottom:0;padding-bottom:20px;" class="level">
 
-  <!-- Left side -->
-  <div class="level-left">
-    <div class="level-item">
-      <img src="./logo.png" style="width: 50px%; height: 50px;">
-    </div>
-    <div class="level-item">
-      <p class="text has-text-white" style="font-size: 40px; font-weight: lighter">
+  <div class="flex-2" style="flex-2: flex-direction; row; justify-content: flex-start;">
+
+    <div class="level-left">
+      <img src="./logo.png" style="width: 50px%; height: 50px; padding-right: 10px;">
+      <p class="text has-text-white" style="font-size: 30px; font-weight: lighter; padding-right: 10px;">
           for
       </p>
-    </div>
-    <div class="level-item">
-      <p class="text has-text-white" style="font-size: 40px;">
-          IDEaS@GT Faculty
+      <p class="text has-text-white" style="font-size: 30px; padding-right: 25px; padding-right: 30px;">
+          Georgia Tech IDEaS
       </p>
-    </div>
+
+
+      <div class="level-item has-text-centered" aria-label="Scholars Analyzed" data-balloon-pos="down" style="padding-right: 20px;">
+        <p class="text has-text-white" style="opacity: 75%; padding-right: 5px; font-size: 1.8rem;">{citedCoordinates.length}</p>
+        <i class="fas fa-child fa-2x" style="color: white; opacity: 75%;"></i>
+      </div>
+
+      <div class="level-item has-text-centered" aria-label="Keywords Analyzed" data-balloon-pos="down">
+        <p class="text has-text-white" style="opacity: 75%; padding-right: 5px; font-size: 1.8rem;">{(Object.keys(citedRankData)).length}</p>
+        <i class="fas fa-atom fa-2x" style="color: white; opacity: 75%;"></i>
+      </div>
+
   </div>
 
-  <div class="level-item has-text-centered">
-    <div class="level-item has-text-centered" aria-label="Scholars Analyzed" data-balloon-pos="down">
-      <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{citedCoordinates.length}</p>
-      <i class="fas fa-child fa-2x" style="color: white; opacity: 75%;"></i>
-    </div>
-  </div>
-  <div class="level-item has-text-centered">
-    <div class="level-item has-text-centered" aria-label="Publications Analyzed" data-balloon-pos="down">
-      <p class="text has-text-white is-size-3 has-text-weight-bold" style="opacity: 75%; padding-right: 5px;">{(Object.keys(citedRankData)).length}</p>
-      <i class="fas fa-atom fa-2x" style="color: white; opacity: 75%;"></i>
-    </div>
-  </div>
+</div>
 
 
 
-  <div class="panel-block" style="padding-left: 0px; border: 0px solid white;">
+
+  <div class="panel-block" style="padding-left: 0px; border: 0px solid white; padding-right: 10px;">
     <p class="control has-icons-left" style="padding-right: 10px;">
-      <input class="input" id="autocomplete-input" type="text" style="width: 500px;" 
+      <input class="input" id="autocomplete-input" type="text" style="width: 350px;" 
         on:keydown={handleKeydown}
         on:focus={onFocus} on:blur={onBlur}
-        bind:value={$selectedResearchInterest} placeholder="Find a Researcher or query a Research Topic">
+        bind:value={$selectedResearchInterest} placeholder="Query a Researcher or Research Topic">
       <span class="icon is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
       </span>
     </p>
 
-  </div>
-
-  <button 
+    <a 
     on:click={() => {
       selectedResearchInterest.set("")
     }}
-    class="button" style="background: #8B72BE; color: white; margin-right: 10px;" > Clear </button>
+    class="delete is-large"></a>
+
+  </div>
+
+
 
 </nav>
 

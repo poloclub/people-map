@@ -90,8 +90,19 @@ function renderGraph() {
   
 
   var chartDiv = document.getElementById("PeopleMap");
+
   var width = chartDiv.clientWidth;
   var height = chartDiv.clientHeight;
+
+
+
+
+  // Calculate emphasis range
+  var countEmphasis = 0
+  while (currentSelectedFaculty[0]['x' + countEmphasis] != null) {
+      countEmphasis += 1
+  }
+  countEmphasis = countEmphasis - 1
 
 
   // append the svg object to the body of the page
@@ -102,13 +113,24 @@ function renderGraph() {
     .append("g");
 
 
+  // Rectangle for registering clicks on the graph
+  svg.append('rect')
+     .attr("width", width)
+     .attr("height", height)
+     .attr("opacity","0%")
+     .on("click", function(d) {
+        handleClick(currentlyClicked);
+     })
+    
+
+
       // Set domain of the xAxis
-      var x = d3.scaleLinear().range([50, width - 30]);
+      var x = d3.scaleLinear().range([80, width - 150]);
 
       x.domain([d3.min(currentSelectedFaculty, function(d) {
 
         var min = d.x0
-        for (var i = 0; i <= 15; i++) {
+        for (var i = 0; i <= countEmphasis; i++) {
           if (d["x" + i] < min) {
             min = d["x" + i]
           }
@@ -118,7 +140,7 @@ function renderGraph() {
       }), d3.max(currentSelectedFaculty, function(d) { 
         
           var max = d.x0
-          for (var i = 0; i <= 15; i++) {
+          for (var i = 0; i <= countEmphasis; i++) {
             if (d["x" + i] > max) {
               max = d["x" + i]
             }
@@ -136,10 +158,15 @@ function renderGraph() {
       // Set domain of yAxis
       var y = d3.scaleLinear().range([height - 60, 20]);
 
+
+
+
+      
+
       y.domain([d3.min(currentSelectedFaculty, function(d) {
 
           var min = d.y0
-          for (var i = 0; i <= 15; i++) {
+          for (var i = 0; i <= countEmphasis; i++) {
             if (d["y" + i] < min) {
               min = d["y" + i]
             }
@@ -149,7 +176,7 @@ function renderGraph() {
       }), d3.max(currentSelectedFaculty, function(d) { 
         
           var max = d.y0
-          for (var i = 0; i <= 15; i++) {
+          for (var i = 0; i <= countEmphasis; i++) {
             if (d["y" + i] > max) {
               max = d["y" + i]
             }
@@ -161,6 +188,8 @@ function renderGraph() {
       // Append yAxis
       var yAxis = svg.append("g");
 
+      
+
 
 
 
@@ -169,8 +198,8 @@ function renderGraph() {
       var colors = ["#0000CD","#FFA500", "#FF0000","#006400","#8B4513","#FFFF00","#A9A9A9","#000000","#FF1493"]
 
 
-      // 7 shade gradient of blue, starting with most dark and growing lighter after that
-      var blueGradient = ["#08306b","#08519c","#2171b5","#4292c6","#6baed6","#c6dbef","#c6dbef", "#c6dbef", "#c6dbef"]
+      // 7 shade gradient of purple, starting with most dark and growing lighter after that
+      var purpleGradient = ["#3f007d","#54278f","#6a51a3","#807dba","#9e9ac8","#bcbddc","#dadaeb","#efedf5","#fcfbfd"]
 
 
 
@@ -182,15 +211,16 @@ function renderGraph() {
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL} 
       })
 
+      
+
 
       // Currently click author
-
       var currentlyClicked = ""
 
 
 
       // Assign researcher detail view to display the first datapoint data
-      var keywordTokens = dataFilter[2].KeyWords.split(", ")
+      var keywordTokens = dataFilter[0].KeyWords.split(", ")
 
       var finalTokens = ["","","","",""]
 
@@ -199,12 +229,12 @@ function renderGraph() {
       }
       
       var updatedResearcherSelection = {
-          name: dataFilter[2].Author,
-          affiliation: dataFilter[2].Affiliation,
+          name: dataFilter[0].Author,
+          affiliation: dataFilter[0].Affiliation,
           scholarKeywords: finalTokens,
-          citations: dataFilter[2].Citations,
-          url: dataFilter[2].URL,
-          pictureURL: dataFilter[2].PictureURL
+          citations: dataFilter[0].Citations,
+          url: dataFilter[0].URL,
+          pictureURL: dataFilter[0].PictureURL
       }
 
       selectedResearcherInfo.set(updatedResearcherSelection)
@@ -350,6 +380,8 @@ function renderGraph() {
           .on("mouseover", function(dataPoint) {
 
               if (currentlyClicked == "") {
+
+
                   var keywordTokens = dataPoint.KeyWords.split(", ")
 
                   var finalTokens = ["","","","",""]
@@ -371,13 +403,13 @@ function renderGraph() {
 
                   text.data(dataFilter)
                     .duration(300)
-                      .attr("opacity", function(d) {
-                          if (d.Author == dataPoint.Author & $displayNames == true) {
-                            return "100%"
-                          } else {
-                            return "0%"
-                          }
-                      })
+                      .text(function(d) {
+                        if (d.Author == dataPoint.Author) {
+                          return d.Author
+                        } else {
+                          return ""
+                        }
+                    })
 
                   dot.data(dataFilter)
                     .duration(300)
@@ -403,13 +435,13 @@ function renderGraph() {
               text.data(dataFilter)
                 .transition()
               .duration(300)
-                .attr("opacity", function(d) {
-                    if ($displayNames == true) {
-                      return "100%"
-                    } else {
-                      return "0%"
-                    }
-                })
+                .text(function(d) {
+                        if ($displayNames == true) {
+                          return d.Author
+                        } else {
+                          return ""
+                        }
+                    })
 
               dot.data(dataFilter)
                 .transition()
@@ -446,21 +478,16 @@ function renderGraph() {
           })
           .on("click", function(dataPoint) {
 
-              handleClick(dataPoint);
+              handleClick(dataPoint.Author);
 
           })
-
-
-
-
-
 
           var text = svg.selectAll("text")
                     .data(dataFilter)
                  .enter()
                     .append("text")
                     .text(function(d) {
-                        return d.Author
+                        return ""
                     })
                     .attr("x", function(d) {
                         return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
@@ -475,7 +502,61 @@ function renderGraph() {
 
 
 
+          // Insert ResearchQuery Legend
+          var legend = svg.append("defs")
+                          .append("svg:linearGradient")
+                          .attr("id", "gradient")
+                          .attr("x1", "100%")
+                          .attr("y1", "0%")
+                          .attr("x2", "100%")
+                          .attr("y2", "100%")
+                          .attr("spreadMethod", "pad");
 
+                        legend.append("stop")
+                          .attr("offset", "0%")
+                          .attr("stop-color", "#3f007d")
+                          .attr("stop-opacity", 1);
+
+                        legend.append("stop")
+                          .attr("offset", "100%")
+                          .attr("stop-color", "#dadaeb")
+                          .attr("stop-opacity", 1);
+
+                        var legendRect = svg.append("rect")
+                                            .attr("width", 20)
+                                            .attr("height", 200)
+                                            .style("fill", "url(#gradient)")
+                                            .attr("transform", "translate(" + (width - 40) + ", 15)")
+                                            .attr("opacity", "0%");
+
+                        var yLegend = d3.scaleLinear()
+                          .range([199, 0])
+                          .domain([6, 1]);
+
+                        var yLegendAxis = d3.axisLeft()
+                          .scale(yLegend)
+                          .ticks(5)
+                          .tickFormat(function(d) {
+                              if (d == 1) {
+                                return "Most Aligned"
+                              } else if (d == 6) {
+                                return "Least Aligned"
+                              }
+                          });
+
+                        
+
+
+                        svg.append("g")
+                            .attr("class", "yAxisLegend")
+                            .attr("transform", "translate(" + (width - 40) + ", 15)")
+                            .call(yLegendAxis)
+                            .append("text");
+
+                        d3.select('.yAxisLegend')
+                                   .style("opacity", "0%");
+
+                    
 
 
 
@@ -485,8 +566,8 @@ function renderGraph() {
       //Append a radialGradient element to the defs and give it a unique id
       var radialGradient0 = defs.append("radialGradient")
           .attr("id", "radial-gradient0")
-          .attr("rx", "50%")   //The radius of the gradient
-          .attr("ry", "50%");   //The radius of the gradient
+          .attr("rx", "50%")   
+          .attr("ry", "50%");  
       radialGradient0.append("stop")
           .attr("offset", "0%")
           .attr("stop-color", colors[0])
@@ -498,8 +579,8 @@ function renderGraph() {
 
       var radialGradient1 = defs.append("radialGradient")
           .attr("id", "radial-gradient1")
-          .attr("rx", "50%")   //The radius of the gradient
-          .attr("ry", "50%");   //The radius of the gradient
+          .attr("rx", "50%")  
+          .attr("ry", "50%");  
       radialGradient1.append("stop")
           .attr("offset", "0%")
           .attr("stop-color", colors[1])
@@ -511,8 +592,8 @@ function renderGraph() {
 
       var radialGradient2 = defs.append("radialGradient")
           .attr("id", "radial-gradient2")
-          .attr("rx", "50%")   //The radius of the gradient
-          .attr("ry", "50%");   //The radius of the gradient
+          .attr("rx", "50%")   
+          .attr("ry", "50%");   
       radialGradient2.append("stop")
           .attr("offset", "0%")
           .attr("stop-color", colors[2])
@@ -524,8 +605,8 @@ function renderGraph() {
 
       var radialGradient3 = defs.append("radialGradient")
           .attr("id", "radial-gradient3")
-          .attr("rx", "50%")   //The radius of the gradient
-          .attr("ry", "50%");   //The radius of the gradient
+          .attr("rx", "50%")   
+          .attr("ry", "50%");   
       radialGradient3.append("stop")
           .attr("offset", "0%")
           .attr("stop-color", colors[3])
@@ -537,8 +618,8 @@ function renderGraph() {
 
       var radialGradient4 = defs.append("radialGradient")
           .attr("id", "radial-gradient4")
-          .attr("rx", "50%")   //The radius of the gradient
-          .attr("ry", "50%");   //The radius of the gradient
+          .attr("rx", "50%")   
+          .attr("ry", "50%");   
       radialGradient4.append("stop")
           .attr("offset", "0%")
           .attr("stop-color", colors[4])
@@ -550,8 +631,8 @@ function renderGraph() {
 
       var radialGradient5 = defs.append("radialGradient")
           .attr("id", "radial-gradient5")
-          .attr("rx", "50%")   //The radius of the gradient
-          .attr("ry", "50%");   //The radius of the gradient
+          .attr("rx", "50%")   
+          .attr("ry", "50%");   
       radialGradient5.append("stop")
           .attr("offset", "0%")
           .attr("stop-color", colors[5])
@@ -590,7 +671,7 @@ function renderGraph() {
             dot
               .data(dataFilter)
               .transition()
-              .duration(1000)
+              .duration(700)
                 .attr("cx", function(d) {
                   return x(+d.xCoordinate) + Math.random() * jitterWidth
                 })
@@ -603,16 +684,13 @@ function renderGraph() {
 
             text.data(dataFilter)
                 .transition()
-                .duration(1000)
+                .duration(700)
                 .attr("x", function(d) {
                     return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
                 })
                 .attr("y", function(d) {
                     return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
                 })
-
-            
-              
 
 
 
@@ -664,12 +742,21 @@ function renderGraph() {
           .transition()
           .duration(1000)
             .style("fill", function(d) {
-              if (d.CurrentRank == -1 || d.CurrentRank == 9) {
-                return blueGradient[8]
+              if (d.CurrentRank == -1 || d.CurrentRank >= 5) {
+                return purpleGradient[6]
               } else {
-                return blueGradient[d.CurrentRank]
+                return purpleGradient[d.CurrentRank]
               }
             })
+
+        legendRect.transition()
+                  .duration(1000)
+                  .attr("opacity","100%");
+
+        d3.select('.yAxisLegend').transition()
+                                 .duration(1000)
+                                 .style("opacity", "100%");
+     
 
     }
 
@@ -691,13 +778,13 @@ function renderGraph() {
                 .attr("font_family", "sans-serif")  // Font type
                 .attr("font-size", "11px")  // Font size
                 .attr("fill", "black")   // Font color
-                .attr("opacity", function(d){
-                    if (selectedOption == true) {
-                      return "100%"
-                    } else {
-                      return "0%"
-                    }
-                });
+                .text(function(d) {
+                        if (selectedOption == true) {
+                          return d.Author
+                        } else {
+                          return ""
+                        }
+                    })
 
 
       }
@@ -821,43 +908,45 @@ function renderGraph() {
       function handleClick(dataPoint) {
 
 
-          if (currentlyClicked == "") {
+          if (currentlyClicked == "" & dataPoint != "") {
 
-                    currentlyClicked = dataPoint.Author
+                    currentlyClicked = dataPoint
 
                     dot.data(dataFilter)
                         .transition()
                       .duration(300)
                         .attr("opacity", function(d) {
-                            if (d.Author == dataPoint.Author) {
+                            if (d.Author == dataPoint) {
                               return "100%"
                             } else {
                               return "20%"
                             }
                         })
                         .attr("r", function(d) {
-                            if (d.Author == dataPoint.Author) {
+                            if (d.Author == dataPoint) {
                               return 10
                             } else {
                               return 8
                             }
                         })
                         .attr("stroke-width", function(d) {
-                            if (d.Author == dataPoint.Author) {
+                            if (d.Author == dataPoint) {
                               return "2px"
                             } else {
                               return "0px"
                             }
                         })
                         .attr("stroke", function(d) {
-                            if (d.Author == dataPoint.Author) {
+                            if (d.Author == dataPoint) {
                               return "#6495ED"
                             } else {
                               return "black"
                             }
                         })
 
-                } else if (currentlyClicked != "" & dataPoint.Author == currentlyClicked) {
+                } else if (currentlyClicked != "" & dataPoint == currentlyClicked) {
+
+
 
                     dot.data(dataFilter)
                               .transition()
@@ -883,6 +972,14 @@ function renderGraph() {
         // run the updateChart function with this selected option
         updateKeywords(selectedOption, $visNumClusters)
         updateDistributions($displayDistributions, selectedOption, $visNumClusters)
+
+        legendRect.transition()
+                  .duration(1000)
+                  .attr("opacity","0%");
+
+        d3.select('.yAxisLegend').transition()
+                                 .duration(1000)
+                                 .style("opacity", "0%");
     })
     
 
@@ -891,6 +988,16 @@ function renderGraph() {
       // run the updateChart function with this selected option
       updateClusters(selectedOption, $visKeywordEmphasis)
       updateDistributions($displayDistributions, $visKeywordEmphasis, selectedOption)
+
+      $selectedResearchInterest = ""
+
+      legendRect.transition()
+                  .duration(1000)
+                  .attr("opacity","0%");
+
+      d3.select('.yAxisLegend').transition()
+                               .duration(1000)
+                               .style("opacity", "0%");
     })
 
 
@@ -907,25 +1014,36 @@ function renderGraph() {
       
       updateDistributions(selectedOption, $visKeywordEmphasis, $visNumClusters)
       updateClusters($visNumClusters, $visKeywordEmphasis)
+
+      $selectedResearchInterest = ""
+
+      legendRect.transition()
+                  .duration(1000)
+                  .attr("opacity","0%");
+
+      d3.select('.yAxisLegend').transition()
+                               .duration(1000)
+                               .style("opacity", "0%");
     })
 
 
-    // When a new keyword emphasis is inputted for the research query, update the graph with the new ranking
-    queryKeywordEmphasis.subscribe((emphasis) => {
-
-      var value = $selectedResearchInterest;
-      if (currentSelectedFacultyRankData[value.toLowerCase()]) {
-        updateRanking(value.toLowerCase(), emphasis)
-      }
-
-    })
 
     // When a new research query is inputted, update the graph with the new ranking
     selectedResearchInterest.subscribe((value) => {
       
       if (value == "") {
         updateClusters($visNumClusters, $visKeywordEmphasis)
+
+        legendRect.transition()
+                  .duration(1000)
+                  .attr("opacity","0%");
+
+        d3.select('.yAxisLegend').transition()
+                                 .duration(1000)
+                                 .style("opacity", "0%");
+
         return
+
       }
 
       var emphasis = $queryKeywordEmphasis;
@@ -934,6 +1052,7 @@ function renderGraph() {
         $displayDistributions = false
         updateDistributions($displayDistributions, $visKeywordEmphasis, $visNumClusters)
       }
+
 
     })
 
@@ -948,8 +1067,18 @@ function renderGraph() {
         currentSelectedFacultyRankData = recentResearchQuery;
       }
 
+      $selectedResearchInterest = ""
+
       updateDataset($visKeywordEmphasis, $visNumClusters)
       updateDistributions($displayDistributions, $visKeywordEmphasis, $visNumClusters)
+
+      legendRect.transition()
+                  .duration(1000)
+                  .attr("opacity","0%");
+
+      d3.select('.yAxisLegend').transition()
+                               .duration(1000)
+                               .style("opacity", "0%");
 
     })
 
@@ -967,13 +1096,20 @@ function renderGraph() {
 
 </style>
 
+<style>
+  .switch[type="checkbox"].is-small:checked + label::before {
+    background: #652DC1;
+  }
+</style>
+
+
 
 <nav class="level" style="padding-top: 0px; margin-top: 0px; padding-bottom: 15px; padding-left: 15px;">
 
   <input id="ShowNamesSwitch" type="checkbox" name="ShowNamesSwitch" 
-                class="switch is-small is-rounded" style="padding-top: 0px;" bind:checked={$displayNames}>
+                class="switch is-small is-rounded" style="padding-top: 0px; color: purple;" bind:checked={$displayNames}>
   <label for="ShowNamesSwitch" ></label>
-  <p class="text is-black" style="width: 105%; padding-top: 14px">Show Names</p>
+  <p class="text is-black" style="width: 105%; padding-top: 14px">Show All Names</p>
 
   <p class="text is-black" style="padding-top: 14px;">#Clusters</p>
   <input id="sliderWithValue" class="slider has-output svelte-1v4uv99 is-circle is-purple" bind:value={$visNumClusters} min="1" max="6" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 150px; padding-top: 37px; fill: #652DC1; padding-right: 25px">
