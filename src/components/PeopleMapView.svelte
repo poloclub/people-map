@@ -683,11 +683,10 @@ function renderGraph() {
               .style("fill", function(d) {
                 return colors[d.Group]
               })
-              .on('end', (d, g, i) => {
+              .on('end', (d, i, g) => {
                 // Restore pointer events after the animation
                 d3.select(g[i])
                   .attr('pointer-events', 'auto');
-                console.log('end')
               });
           
           text.data(dataFilter)
