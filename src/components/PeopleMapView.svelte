@@ -670,30 +670,35 @@ function renderGraph() {
 
             dot
               .data(dataFilter)
+              .attr('pointer-events', 'none')
               .transition()
               .duration(700)
-                .attr("cx", function(d) {
-                  return x(+d.xCoordinate) + Math.random() * jitterWidth
-                })
-                .attr("cy", function(d) { 
-                  return y(+d.yCoordinate) + Math.random() * jitterWidth 
-                })
-                .style("fill", function(d) {
-                  return colors[d.Group]
-                })
+              // Temporarlly disable pointer events
+              .attr("cx", function(d) {
+                return x(+d.xCoordinate) + Math.random() * jitterWidth
+              })
+              .attr("cy", function(d) { 
+                return y(+d.yCoordinate) + Math.random() * jitterWidth 
+              })
+              .style("fill", function(d) {
+                return colors[d.Group]
+              })
+              .on('end', (d, g, i) => {
+                // Restore pointer events after the animation
+                d3.select(g[i])
+                  .attr('pointer-events', 'auto');
+                console.log('end')
+              });
 
-            text.data(dataFilter)
-                .transition()
-                .duration(700)
-                .attr("x", function(d) {
-                    return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
-                })
-                .attr("y", function(d) {
-                    return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
-                })
-
-
-
+          text.data(dataFilter)
+              .transition()
+              .duration(700)
+              .attr("x", function(d) {
+                  return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
+              })
+              .attr("y", function(d) {
+                  return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
+              })
       }
 
       // A function that update the chart with a new cluster coloring
@@ -818,8 +823,6 @@ function renderGraph() {
 
 
           outerEllipse.data(ellipseInfo)
-                      // Temporarlly disable pointer events
-                      .attr('pointer-events', 'none')
                       .transition()
                       .duration(1000)
                       .attr("rx", function(d) {
@@ -849,11 +852,6 @@ function renderGraph() {
                           } else {
                               return "0%"
                           }
-                      })
-                      .on('end', (d, g, i) => {
-                        // Restore pointer events after the animation
-                        d3.select(g[i])
-                          .attr('pointer-events', 'auto');
                       });
           }
 
