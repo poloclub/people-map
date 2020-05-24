@@ -401,7 +401,7 @@ function renderGraph() {
 
                   selectedResearcherInfo.set(updatedResearcherSelection)
 
-                  text.data(dataFilter)
+                  text.data(dataFilter).transition()
                     .duration(300)
                       .text(function(d) {
                         if (d.Author == dataPoint.Author) {
@@ -411,7 +411,7 @@ function renderGraph() {
                         }
                     })
 
-                  dot.data(dataFilter)
+                  dot.data(dataFilter).transition()
                     .duration(300)
                       .attr("opacity", function(d) {
                           if (d.Author == dataPoint.Author) {
@@ -1090,16 +1090,11 @@ function renderGraph() {
 
 <style>
 
+  
   .switch[type="checkbox"].is-small:checked + label::before {
     background: #652DC1;
   }
 
-</style>
-
-<style>
-  .switch[type="checkbox"].is-small:checked + label::before {
-    background: #652DC1;
-  }
 </style>
 
 
