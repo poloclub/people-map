@@ -667,11 +667,10 @@ function renderGraph() {
                       Group: d["grouping" + clustersNumber + "," + selectedGroup], PictureURL: d.PictureURL} 
             })
 
-
             dot
               .data(dataFilter)
               .attr('pointer-events', 'none')
-              .transition()
+              .transition('dot-change')
               .duration(1000)
               // Temporarlly disable pointer events
               .attr("cx", function(d) {
