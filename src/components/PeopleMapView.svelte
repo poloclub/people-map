@@ -672,7 +672,7 @@ function renderGraph() {
               .data(dataFilter)
               .attr('pointer-events', 'none')
               .transition()
-              .duration(700)
+              .duration(1000)
               // Temporarlly disable pointer events
               .attr("cx", function(d) {
                 return x(+d.xCoordinate) + Math.random() * jitterWidth
@@ -689,16 +689,17 @@ function renderGraph() {
                   .attr('pointer-events', 'auto');
                 console.log('end')
               });
-
+          
           text.data(dataFilter)
               .transition()
-              .duration(700)
+              .duration(1000)
               .attr("x", function(d) {
                   return x(d.xCoordinate) + 10 + Math.random() * jitterWidth
               })
               .attr("y", function(d) {
                   return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
               })
+
       }
 
       // A function that update the chart with a new cluster coloring
