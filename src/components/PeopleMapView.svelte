@@ -700,6 +700,7 @@ function renderGraph() {
                   return y(d.yCoordinate) + 4 + Math.random() * jitterWidth
               })
 
+
       }
 
       // A function that update the chart with a new cluster coloring
