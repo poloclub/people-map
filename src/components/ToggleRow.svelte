@@ -26,7 +26,7 @@
     }
 
     const selectionClickedEmphasis = (selection) => {
-      console.log(selection)
+
       var adjustedSelection = selection + 1
       dropdownShownEmphasis = !dropdownShownEmphasis;
       if (adjustedSelection) {
@@ -35,7 +35,7 @@
     }
 
     function displayAdjective(number) {
-      //console.log(number)
+
       if (number == 0) {
         return "No"
       } else if (number == 1) {

@@ -219,6 +219,8 @@ function renderGraph() {
 
 
 
+
+
       // Assign researcher detail view to display the first datapoint data
       var keywordTokens = dataFilter[0].KeyWords.split(", ")
 
@@ -728,6 +730,7 @@ function renderGraph() {
     // A function that update the chart with a new ranking coloring
     function updateRanking(phrase, emphasis) {
 
+
         // Assign new ranking for current Research Query
         for(var i = 0; i < currentSelectedFaculty.length; i++) {
 
@@ -754,13 +757,22 @@ function renderGraph() {
               }
             })
 
+        
+
+
+
+
+
         legendRect.transition()
                   .duration(1000)
                   .attr("opacity","100%");
 
         d3.select('.yAxisLegend').transition()
                                  .duration(1000)
+                                 .ease(d3.easeLinear)
                                  .style("opacity", "100%");
+
+
      
 
     }
@@ -971,12 +983,16 @@ function renderGraph() {
         updateKeywords(selectedOption, $visNumClusters)
         updateDistributions($displayDistributions, selectedOption, $visNumClusters)
 
+
+        $selectedResearchInterest = ""
+
         legendRect.transition()
                   .duration(1000)
                   .attr("opacity","0%");
 
         d3.select('.yAxisLegend').transition()
                                  .duration(1000)
+                                 .ease(d3.easeLinear)
                                  .style("opacity", "0%");
     })
     
@@ -987,6 +1003,7 @@ function renderGraph() {
       updateClusters(selectedOption, $visKeywordEmphasis)
       updateDistributions($displayDistributions, $visKeywordEmphasis, selectedOption)
 
+
       $selectedResearchInterest = ""
 
       legendRect.transition()
@@ -995,6 +1012,7 @@ function renderGraph() {
 
       d3.select('.yAxisLegend').transition()
                                .duration(1000)
+                               .ease(d3.easeLinear)
                                .style("opacity", "0%");
     })
 
@@ -1011,23 +1029,29 @@ function renderGraph() {
     displayDistributions.subscribe((selectedOption) => {    
       
       updateDistributions(selectedOption, $visKeywordEmphasis, $visNumClusters)
-      updateClusters($visNumClusters, $visKeywordEmphasis)
+      
+      if (selectedOption == true) {
+          
 
-      $selectedResearchInterest = ""
+          $selectedResearchInterest = ""
 
-      legendRect.transition()
-                  .duration(1000)
-                  .attr("opacity","0%");
+          legendRect.transition()
+                    .duration(1000)
+                    .attr("opacity","0%");
 
-      d3.select('.yAxisLegend').transition()
-                               .duration(1000)
-                               .style("opacity", "0%");
+          d3.select('.yAxisLegend').transition()
+                                   .duration(1000)
+                                   .ease(d3.easeLinear)
+                                   .style("opacity", "0%");
+      }
+
     })
 
 
 
     // When a new research query is inputted, update the graph with the new ranking
     selectedResearchInterest.subscribe((value) => {
+
       
       if (value == "") {
         updateClusters($visNumClusters, $visKeywordEmphasis)
@@ -1038,6 +1062,7 @@ function renderGraph() {
 
         d3.select('.yAxisLegend').transition()
                                  .duration(1000)
+                                 .ease(d3.easeLinear)
                                  .style("opacity", "0%");
 
         return
@@ -1046,11 +1071,11 @@ function renderGraph() {
 
       var emphasis = $queryKeywordEmphasis;
       if (currentSelectedFacultyRankData[value.toLowerCase()]) {
-        updateRanking(value.toLowerCase(), emphasis)
         $displayDistributions = false
-        updateDistributions($displayDistributions, $visKeywordEmphasis, $visNumClusters)
+        updateRanking(value.toLowerCase(), emphasis)
       }
 
+      updateDistributions($displayDistributions, $visKeywordEmphasis, $visNumClusters)
 
     })
 
@@ -1065,6 +1090,7 @@ function renderGraph() {
         currentSelectedFacultyRankData = recentResearchQuery;
       }
 
+
       $selectedResearchInterest = ""
 
       updateDataset($visKeywordEmphasis, $visNumClusters)
@@ -1076,6 +1102,7 @@ function renderGraph() {
 
       d3.select('.yAxisLegend').transition()
                                .duration(1000)
+                               .ease(d3.easeLinear)
                                .style("opacity", "0%");
 
     })
