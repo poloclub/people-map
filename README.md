@@ -19,7 +19,7 @@ It runs on most web browsers. We suggest you use Google Chrome.
 
 
 # Credit
-PeopleMap was created by Jon Saad-Falcon, Omar Shaikh, and Polo Chau. We would also like to thank Austin Wright for assisting us in the development of the project.
+PeopleMap was created by Jon Saad-Falcon, Omar Shaikh, and Polo Chau. We would also like to thank Austin Wright and Jay Wang for assisting us in the development of the project.
 
 
 
