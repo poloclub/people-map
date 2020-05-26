@@ -228,7 +228,7 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 
 # TYPE YOUR LIST HERE
 # example_list = ['Isaac Newton', 'Albert Einstein', 'Galileo']
-scrape_list = []
+scrape_list = ['Anders Sandberg', 'J. Craig Venter']
 
 
 
