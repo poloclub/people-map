@@ -39,15 +39,11 @@
       if (number == 0) {
         return "No"
       } else if (number == 1) {
-        return "Minimal"
-      } else if (number == 2) {
-        return "Small"
+        return "Mild"
       } else if (number == 3) {
         return "Moderate"
-      } else if (number == 4) {
-        return "Strong"
       } else if (number == 5) {
-        return "Maximal"
+        return "Strong"
       } else {
         return "Not labeled"
       }
@@ -111,23 +107,15 @@
               </a>
               <hr class="dropdown-divider">
               <a class="dropdown-item" style="background: #8B72BE;" on:click={() => { selectionClickedEmphasis(1); }}>
-                <p style="color: white; font-size: 15px; background: #8B72BE;" >Minimal</p>
-              </a>
-              <hr class="dropdown-divider">
-              <a class="dropdown-item" style="background: #8B72BE;" on:click={() => { selectionClickedEmphasis(2); }}>
-                <p style="color: white; font-size: 15px; background: #8B72BE;" >Small</p>
+                <p style="color: white; font-size: 15px; background: #8B72BE;" >Mild</p>
               </a>
               <hr class="dropdown-divider">
               <a class="dropdown-item" style="background: #8B72BE;" on:click={() => { selectionClickedEmphasis(3); }}>
                 <p style="color: white; font-size: 15px; background: #8B72BE;" >Moderate</p>
               </a>
               <hr class="dropdown-divider">
-              <a class="dropdown-item" style="background: #8B72BE;" on:click={() => { selectionClickedEmphasis(4); }}>
-                <p style="color: white; font-size: 15px; background: #8B72BE;" >Strong</p>
-              </a>
-              <hr class="dropdown-divider">
               <a class="dropdown-item" style="background: #8B72BE;" on:click={() => { selectionClickedEmphasis(5); }}>
-                <p style="color: white; font-size: 15px; background: #8B72BE;" >Maximal</p>
+                <p style="color: white; font-size: 15px; background: #8B72BE;" >Strong</p>
               </a>
             </div>
           </div>

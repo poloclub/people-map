@@ -104,6 +104,10 @@ function renderGraph() {
   }
   countEmphasis = countEmphasis - 1
 
+  console.log(width)
+
+  console.log(height)
+
 
   // append the svg object to the body of the page
   var svg = d3.select("#PeopleMap")
@@ -194,8 +198,8 @@ function renderGraph() {
 
 
 
-      // Blue, Orange, Red, Green, Brown, Yellow, Gray, Black, Pink
-      var colors = ["#0000CD","#FFA500", "#FF0000","#006400","#8B4513","#FFFF00","#A9A9A9","#000000","#FF1493"]
+      // Red, Orange, Yellow, Green, Turqoise, Blue
+      var colors = ["#eb3b5a","#fa8231", "#f7b731","#20bf6b","#2d98da","#8854d0"]
 
 
       // 7 shade gradient of purple, starting with most dark and growing lighter after that
@@ -207,7 +211,7 @@ function renderGraph() {
 
       // Filter out data with the selection
       var dataFilter = currentSelectedFaculty.map(function(d) {
-        return {xCoordinate: d["x0"], yCoordinate: d["y0"], Author: d.Author, Group: d.grouping6,
+        return {xCoordinate: d["x3"], yCoordinate: d["y3"], Author: d.Author, Group: d.grouping6,
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL} 
       })
 
@@ -500,7 +504,8 @@ function renderGraph() {
                     .style("text-shadow","-1.5px 0 white, 0 1.5px white, 1.5px 0 white, 0 -1.5px white")
                     .attr("font_family", "sans-serif")  // Font type
                     .attr("font-size", "11px")  // Font size
-                    .attr("fill", "black");   // Font color
+                    .attr("fill", "black")   // Font color
+                    .style("cursor","pointer")
 
 
 
@@ -525,40 +530,31 @@ function renderGraph() {
                           .attr("stop-opacity", 1);
 
                         var legendRect = svg.append("rect")
-                                            .attr("width", 20)
-                                            .attr("height", 200)
+                                            .attr("width", 15)
+                                            .attr("height", 150)
                                             .style("fill", "url(#gradient)")
                                             .attr("transform", "translate(" + (width - 40) + ", 15)")
                                             .attr("opacity", "0%");
 
-                        var yLegend = d3.scaleLinear()
-                          .range([199, 0])
-                          .domain([6, 1]);
+            
+            // Legend tags    
+            var topTag = svg.append("text")
+                            .text("More Aligned")
+                            .attr("x", width - 110)
+                            .attr("y", 20)
+                            .attr("font_family", "sans-serif")  // Font type
+                            .attr("font-size", "10px")  // Font size
+                            .attr("fill", "black")   // Font color
+                            .attr("opacity","0%");
 
-                        var yLegendAxis = d3.axisLeft()
-                          .scale(yLegend)
-                          .ticks(5)
-                          .tickFormat(function(d) {
-                              if (d == 1) {
-                                return "Most Aligned"
-                              } else if (d == 6) {
-                                return "Least Aligned"
-                              }
-                          });
-
-                        
-
-
-                        svg.append("g")
-                            .attr("class", "yAxisLegend")
-                            .attr("transform", "translate(" + (width - 40) + ", 15)")
-                            .call(yLegendAxis)
-                            .append("text");
-
-                        d3.select('.yAxisLegend')
-                                   .style("opacity", "0%");
-
-                    
+            var bottomTag = svg.append("text")
+                               .text("Less Aligned")
+                               .attr("x", width - 110)
+                               .attr("y", 165)
+                               .attr("font_family", "sans-serif")  // Font type
+                               .attr("font-size", "10px")  // Font size
+                               .attr("fill", "black")   // Font color
+                               .attr("opacity","0%");
 
 
 
@@ -767,10 +763,13 @@ function renderGraph() {
                   .duration(1000)
                   .attr("opacity","100%");
 
-        d3.select('.yAxisLegend').transition()
-                                 .duration(1000)
-                                 .ease(d3.easeLinear)
-                                 .style("opacity", "100%");
+        topTag.transition()
+              .duration(1000)
+              .attr("opacity","100%");
+
+        bottomTag.transition()
+              .duration(1000)
+              .attr("opacity","100%");
 
 
      
@@ -990,10 +989,15 @@ function renderGraph() {
                   .duration(1000)
                   .attr("opacity","0%");
 
-        d3.select('.yAxisLegend').transition()
-                                 .duration(1000)
-                                 .ease(d3.easeLinear)
-                                 .style("opacity", "0%");
+        topTag.transition()
+              .duration(1000)
+              .attr("opacity","0%");
+
+        bottomTag.transition()
+                 .duration(1000)
+                 .attr("opacity","0%");
+
+
     })
     
 
@@ -1010,10 +1014,15 @@ function renderGraph() {
                   .duration(1000)
                   .attr("opacity","0%");
 
-      d3.select('.yAxisLegend').transition()
-                               .duration(1000)
-                               .ease(d3.easeLinear)
-                               .style("opacity", "0%");
+      topTag.transition()
+            .duration(1000)
+            .attr("opacity","0%");
+
+      bottomTag.transition()
+               .duration(1000)
+               .attr("opacity","0%");
+
+
     })
 
 
@@ -1039,10 +1048,13 @@ function renderGraph() {
                     .duration(1000)
                     .attr("opacity","0%");
 
-          d3.select('.yAxisLegend').transition()
-                                   .duration(1000)
-                                   .ease(d3.easeLinear)
-                                   .style("opacity", "0%");
+          topTag.transition()
+                .duration(1000)
+                .attr("opacity","0%");
+
+          bottomTag.transition()
+                   .duration(1000)
+                   .attr("opacity","0%");
       }
 
     })
@@ -1052,6 +1064,7 @@ function renderGraph() {
     // When a new research query is inputted, update the graph with the new ranking
     selectedResearchInterest.subscribe((value) => {
 
+
       
       if (value == "") {
         updateClusters($visNumClusters, $visKeywordEmphasis)
@@ -1060,10 +1073,15 @@ function renderGraph() {
                   .duration(1000)
                   .attr("opacity","0%");
 
-        d3.select('.yAxisLegend').transition()
-                                 .duration(1000)
-                                 .ease(d3.easeLinear)
-                                 .style("opacity", "0%");
+        topTag.transition()
+              .duration(1000)
+              .attr("opacity","0%");
+
+        bottomTag.transition()
+                 .duration(1000)
+                 .attr("opacity","0%");
+
+
 
         return
 
@@ -1100,10 +1118,14 @@ function renderGraph() {
                   .duration(1000)
                   .attr("opacity","0%");
 
-      d3.select('.yAxisLegend').transition()
-                               .duration(1000)
-                               .ease(d3.easeLinear)
-                               .style("opacity", "0%");
+      topTag.transition()
+            .duration(1000)
+            .attr("opacity","0%");
+
+      bottomTag.transition()
+               .duration(1000)
+               .attr("opacity","0%");
+
 
     })
 
@@ -1124,7 +1146,7 @@ function renderGraph() {
 
 
 
-<nav class="level" style="padding-top: 0px; margin-top: 0px; padding-bottom: 15px; padding-left: 15px;">
+<nav class="level" style="padding-top: 0px; margin-top: 0px; padding-bottom: 15px; padding-left: 15px; height: 30px;">
 
   <input id="ShowNamesSwitch" type="checkbox" name="ShowNamesSwitch" 
                 class="switch is-small is-rounded" style="padding-top: 0px; color: purple;" bind:checked={$displayNames}>
@@ -1137,6 +1159,6 @@ function renderGraph() {
   <input id="ShowGradientsSwitch" type="checkbox" name="ShowGradientsSwitch" 
                 class="switch is-small is-rounded" style="padding-top: 0px" bind:checked={$displayDistributions}>
   <label for="ShowGradientsSwitch" ></label>
-  <p class="text is-black" style="padding-top: 14px; width: 20%">Show Gradients</p>
+  <p class="text is-black" style="padding-top: 14px; width: 20%; min-width: 150px;">Show Gradients</p>
 
 </nav>

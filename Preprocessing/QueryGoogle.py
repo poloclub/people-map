@@ -1,6 +1,9 @@
 
 import scholarly
 import numpy
+import re
+
+regex = re.compile('[^a-zA-Z]')
 
 
 # Method for cleaning the abstract text of html tags
@@ -55,12 +58,14 @@ def generateCitedGoogleScholarCSV(list_of_researchers):
 	        title = ''
 	        try:
 	        	title = str(author.publications[i].fill().bib['title'])
+	        	title = regex.sub(' ', title)
 	        except:
 	        	title = 'error'
 	        title = title.replace(',', ' ')
 	        abstract = ''
 	        try:
 	        	abstract = clean_abstract(str(author.publications[i].fill().bib['abstract']))
+	        	abstract = regex.sub(' ', abstract)
 	        except:
 	        	abstract = 'error'
 	        abstract = abstract.replace(',', ' ')
@@ -95,7 +100,7 @@ def generateCitedGoogleScholarCSV(list_of_researchers):
 	        affiliation = affiliation.replace(',','/')
 
 	        
-	        test_array = [name, url, title, abstract, interests, citations, affiliation, year, pictureURL]
+	        test_array = [str(name), url, str(title), str(abstract), str(interests), citations, str(affiliation), year, pictureURL]
 	        grid.append(test_array)
 
     return grid
@@ -176,12 +181,14 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 							title = ''
 							try:
 								title = str(publication.fill().bib['title'])
+								title = regex.sub(' ', title)
 							except:
 								title = 'error'
 							title = title.replace(',', ' ')
 							abstract = ''
 							try:
 								abstract = clean_abstract(str(publication.fill().bib['abstract']))
+								abstract = regex.sub(' ', abstract)
 							except:
 								abstract = 'error'
 							abstract = abstract.replace(',', ' ')
@@ -195,6 +202,7 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 							except:
 								interests = 'error'
 							interests = interests.replace(',',' ')
+
 
 							citations = ''
 							try:
@@ -216,7 +224,7 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 							except:
 								year = -1
 
-							test_array = [name, url, title, abstract, interests, citations, affiliation, year, pictureURL]
+							test_array = [str(name), url, str(title), str(abstract), str(interests), citations, str(affiliation), year, pictureURL]
 							grid.append(test_array)
 					except:
 						test_array = []
@@ -228,7 +236,7 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 
 # TYPE YOUR LIST HERE
 # example_list = ['Isaac Newton', 'Albert Einstein', 'Galileo']
-scrape_list = ['Anders Sandberg', 'J. Craig Venter']
+scrape_list = []
 
 
 

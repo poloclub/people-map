@@ -299,7 +299,7 @@ def vectorizeTopic(dataset, topic, maxfeatures):
     tf_idf_vectorizor = TfidfVectorizer(stop_words = 'english', max_features = maxfeatures)
     
     topic_series = pd.Series()
-    topic_series.set_value(0, topic)
+    topic_series.append(pd.Series([topic]))
     dataset = pd.concat([dataset, topic_series])
     
     tf_idf = tf_idf_vectorizor.fit_transform(dataset)

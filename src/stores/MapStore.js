@@ -3,7 +3,7 @@ import { writable } from 'svelte/store';
 
 
 const queryKeywordEmphasis = writable(3)
-const visKeywordEmphasis = writable(0)
+const visKeywordEmphasis = writable(3)
 const visNumClusters = writable(5)
 const displayNames = writable(false)
 const datasetChoice = writable("Most Cited Publications")
