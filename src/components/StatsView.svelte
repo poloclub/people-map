@@ -1,8 +1,11 @@
 <style>
 
     .level{
-            background: #652DC1;
-        }
+      background: #652DC1;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
 
     .panel-block:hover {
       text-decoration: none;
