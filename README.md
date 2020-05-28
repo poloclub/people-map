@@ -8,17 +8,27 @@ By analyzing this information through a variety of natural language processing t
 
 ![PeopleMapPhoto](PeopleMap.png)
 
-# Working Demo
-Click the following link to access a live demo:
+# Live Demo
+Click the following links to access two live demos:
 
-https://poloclub.github.io/people-map/
+https://poloclub.github.io/people-map/ideas/
 
-It runs on most web browsers. We suggest you use Google Chrome.
+https://poloclub.github.io/people-map/ml/
+
+They run on most web browsers. We suggest you use Google Chrome or Firefox.
 
 # Development
+For steps on how to download and set up PeopleMap, please go to the following documentation site:
 
+https://app.gitbook.com/@poloclub/s/people-map/
 
 # Credit
 PeopleMap was created by Jon Saad-Falcon, Omar Shaikh, Jay Wang, Austin Wright, and Polo Chau. We would also like to thank everyone in the Polo Club of Data Science for assisting us in the development of the project.
 
+# License
 
+The software is available under the [MIT License](https://github.com/poloclub/people-map/blob/master/LICENSE).
+
+# Contact
+
+If you have any questions, feel free to [open an issue](https://github.com/poloclub/people-map/issues) or contact [Jon Saad-Falcon](https://www.linkedin.com/in/jonsaadfalcon/).
