@@ -83,8 +83,40 @@ var currTimeout = null;
 var currentSelectedFaculty = citedCoordinates;
 var currentSelectedFacultyRankData = citedResearchQuery;
 
+let hideAllTextTimeout = null;
+let hideTextAnimating = false;
 
 onMount(renderGraph);
+
+// Hide all names when user hovers over the white space
+const hideNames = (duration = 300) => {
+  if (!hideTextAnimating){
+    hideTextAnimating = true;
+    d3.select('#PeopleMap')
+      .select('svg')
+      .selectAll('text.name-text')
+      .transition('hideText')
+      .duration(duration)
+      .ease(d3.easeCubicInOut)
+      .style('opacity', 0)
+      .on('end', () => {hideTextAnimating = false;});
+  }
+
+  // Refresh the timeout
+  clearTimeout(hideAllTextTimeout);
+  hideAllTextTimeout = setTimeout(showNames, 300);
+}
+
+// Show name if the mouse doesnt move for a certain time
+const showNames = (duration = 300) => {
+  d3.select('#PeopleMap')
+    .select('svg')
+    .selectAll('text.name-text')
+    .transition('showText')
+    .duration(duration)
+    .ease(d3.easeCubicInOut)
+    .style('opacity', 1);
+}
 
 function renderGraph() {
   
@@ -125,6 +157,7 @@ function renderGraph() {
      .on("click", function(d) {
         handleClick(currentlyClicked);
      })
+     .on('mousemove', () => {});
     
 
 
@@ -352,19 +385,8 @@ function renderGraph() {
                     .style('mix-blend-mode',"multiply")
                     .attr("opacity", "0%");
 
-
-
-
-
-
-
       // Set the jittering width
       var jitterWidth = 0
-
-
-
-
-
 
       // Initialize dots with Zero Keywords and Five Clusters
       var dot = svg
@@ -383,10 +405,11 @@ function renderGraph() {
               return colors[d.Group]
           })
           .attr("opacity", "70%")
+          .on('mousemove', () => {d3.event.stopPropagation();})
           .on("mouseover", function(dataPoint) {
-
               if (currentlyClicked == "") {
-
+                  // Bypass the hide text timeout and show all text
+                  showNames(0);
 
                   var keywordTokens = dataPoint.KeyWords.split(", ")
 
@@ -438,9 +461,10 @@ function renderGraph() {
 
           })
           .on("mouseout", function(dataPoint) {
+              hideNames(0);
               text.data(dataFilter)
                 .transition()
-              .duration(300)
+                .duration(300)
                 .text(function(d) {
                         if ($displayNames == true) {
                           return d.Author
@@ -492,6 +516,7 @@ function renderGraph() {
                     .data(dataFilter)
                  .enter()
                     .append("text")
+                    .attr('class', 'name-text')
                     .text(function(d) {
                         return ""
                     })
@@ -642,18 +667,6 @@ function renderGraph() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
       // Upon change of keywords emphasis, updates the graph visualization
       function updateKeywords(selectedGroup, clustersNumber) {
 
@@ -787,6 +800,8 @@ function renderGraph() {
                          Citations: d.Citations, URL: d.URL, Rank: d.Rank, PictureURL: d.PictureURL } 
             })
 
+            // Track mousemove in show all name mode
+            svg.on('mousemove', selectedOption ? hideNames : () => {});
 
             text.data(dataFilter)
                 .transition()
@@ -1136,8 +1151,16 @@ function renderGraph() {
 </script>
 
 <style>
+  /* Need to disable interaction of ellipse to detect mousemove on svg */
+  :global(svg ellipse) {
+    pointer-events: none;
+  }
 
-  
+  :global(svg text.name-text) {
+    cursor: default;
+    pointer-events: none;
+  }
+
   .switch[type="checkbox"].is-small:checked + label::before {
     background: #652DC1;
   }
