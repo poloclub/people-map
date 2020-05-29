@@ -74,8 +74,11 @@ def generateCitedGoogleScholarCSV(list_of_researchers):
 	        	for i in range(0, len(author.interests)):
 	        		if len(interests) == 0:
 	        			interests = str(author.interests[i])
+	        			interests = regex.sub(' ', interests)
 	        		else:
-	        			interests = interests + '/' + str(author.interests[i])
+	        			nextInterest = str(author.interests[i])
+	        			nextInterest = regex.sub(' ', nextInterest)
+	        			interests = interests + '/' + nextInterest
 	        except:
 	        	interests = 'error'
 	        interests = interests.replace(',',' ')
@@ -90,6 +93,9 @@ def generateCitedGoogleScholarCSV(list_of_researchers):
 	        affiliation = ''
 	        try:
 	        	affiliation = str(author.affiliation)
+	        	affiliation = affiliation.replace(',','XYZ')
+	        	affiliation = regex.sub(' ', affiliation)
+	        	affiliation = affiliation.replace('XYZ',',')
 	        except:
 	        	affiliation = 'error'
 
@@ -196,9 +202,12 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 							try:
 								for j in range(0, len(author.interests)):
 									if len(interests) == 0:
-										interests = str(author.interests[j])
-									else:
-										interests = interests + '/' + str(author.interests[j])
+					        			interests = str(author.interests[j])
+					        			interests = regex.sub(' ', interests)
+					        		else:
+					        			nextInterest = str(author.interests[j])
+					        			nextInterest = regex.sub(' ', nextInterest)
+					        			interests = interests + '/' + nextInterest
 							except:
 								interests = 'error'
 							interests = interests.replace(',',' ')
@@ -214,6 +223,10 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 							affiliation = ''
 							try:
 								affiliation = str(author.affiliation)
+					        	affiliation = affiliation.replace(',','XYZ')
+					        	affiliation = regex.sub(' ', affiliation)
+					        	affiliation = affiliation.replace('XYZ',',')
+
 							except:
 								affiliation = 'error'
 							affiliation = affiliation.replace(',','/')

@@ -1174,7 +1174,7 @@ function renderGraph() {
   <input id="ShowNamesSwitch" type="checkbox" name="ShowNamesSwitch" 
                 class="switch is-small is-rounded" style="padding-top: 0px; color: purple;" bind:checked={$displayNames}>
   <label for="ShowNamesSwitch" ></label>
-  <p class="text is-black" style="width: 105%; padding-top: 14px">Show All Names</p>
+  <p class="text is-black" style="width: 105%; padding-top: 14px; min-width: 140px;">Show All Names</p>
 
   <p class="text is-black" style="padding-top: 14px;">#Clusters</p>
   <input id="sliderWithValue" class="slider has-output svelte-1v4uv99 is-circle is-purple" bind:value={$visNumClusters} min="1" max="6" step="1" type="range" style="margin-top: 0px;outline: none;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;border-bottom-width: 0px; width: 150px; padding-top: 37px; fill: #652DC1; padding-right: 25px">

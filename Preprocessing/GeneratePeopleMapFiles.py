@@ -299,7 +299,8 @@ def vectorizeTopic(dataset, topic, maxfeatures):
     tf_idf_vectorizor = TfidfVectorizer(stop_words = 'english', max_features = maxfeatures)
     
     topic_series = pd.Series()
-    topic_series.append(pd.Series([topic]))
+    topic_series = topic_series.append(pd.Series([topic]))
+
     dataset = pd.concat([dataset, topic_series])
     
     tf_idf = tf_idf_vectorizor.fit_transform(dataset)
@@ -453,7 +454,7 @@ def generateKeywordsClustersCoordinatesJS(df, dataName, maxNumberOfClusters, max
     string_js = str(js_list)
     string_js = "export default " + string_js.replace("'", '"')
 
-    text_file = open(dataName + ".js", "w")
+    text_file = open(dataName + ".js", "w", encoding="utf-8")
     n = text_file.write(string_js)
     text_file.close()
 
@@ -581,7 +582,7 @@ def generateResearchQueryJS(df, keywords, number_of_top_picks):
                     erroredOut += 1
         if erroredOut < 10:
             final_list.append({keyword : current_dictionary})
-            
+
     return final_list
 
 
@@ -684,7 +685,7 @@ def generatePeopleMapFiles(givenCSV, specifiedName, maxClusters, maxKeywordsEmph
     string_js = str(final_dict)
     string_js = "export default " + string_js.replace("'", '"')
 
-    text_file = open(str(specifiedName) + "ResearchQuery.js", "w")
+    text_file = open(str(specifiedName) + "ResearchQuery.js", "w", encoding="utf-8")
     n = text_file.write(string_js)
     text_file.close()
     

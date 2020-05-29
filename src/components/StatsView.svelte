@@ -105,10 +105,10 @@
 
   <div class="panel-block" style="padding-left: 0px; border: 0px solid white; padding-left: 10px; padding-right: 10px; min-width: 300px; overflow: visible;">
     <p class="control has-icons-left" style="padding-right: 10px;">
-      <input class="input" id="autocomplete-input" type="text" style="width: 350px;" 
+      <input class="input" id="autocomplete-input" type="text" style="width: 320px;" 
         on:keydown={handleKeydown}
         on:focus={onFocus} on:blur={onBlur}
-        bind:value={$selectedResearchInterest} placeholder="Query a Researcher or Research Topic">
+        bind:value={$selectedResearchInterest} placeholder="Query a Researcher or Area of Study">
       <span class="icon is-left">
         <i class="fas fa-search" aria-hidden="true"></i>
       </span>
@@ -118,7 +118,13 @@
     on:click={() => {
       selectedResearchInterest.set("")
     }}
-    class="delete is-large"></a>
+    class="delete is-large" style="padding-right: 15px;"></a>
+
+    <a href= https://github.com/poloclub/people-map target="_blank" style="color: white; margin-left: 20px; padding-top: 12px;">
+        <span class="icon is-small">
+          <i class="fab fa-github fa-2x"></i>
+        </span>
+    </a>
 
   </div>
 
@@ -126,7 +132,7 @@
 
 </nav>
 
-<div id="autocomplete-choices" style="visibility: overflow; top: 1000px; left: 1000px; z-index: 100; position: absolute; width: 300px; background: white;">
+<div id="autocomplete-choices" style="visibility: overflow; top: 1000px; left: 10000px; z-index: 100; position: absolute; width: 300px; background: white;">
   {#each choices as choice}
     <a on:mousedown = {() => { handleInterestSelect(choice) }} class="panel-block">
       <span class="panel-icon">
