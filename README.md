@@ -1,5 +1,5 @@
 # PeopleMap: Visualization Tool for Mapping Out Researchers using Natural Language Processing
-By Jon Saad-Falcon, Omar Shaikh, Jay Wang, Austin Wright, and Polo Chau
+By [Jon Saad-Falcon](https://www.linkedin.com/in/jonsaadfalcon/), [Omar Shaikh](https://www.linkedin.com/in/oshaikh13/), [Jay Wang](https://zijie.wang/), [Austin Wright](https://austinpwright.com/), and [Polo Chau](https://poloclub.github.io/polochau/).
 
 # Overview
 PeopleMap is an interactive, web-based tool that uses natural language processing (NLP) techniques to improve the accuracy of the information and characterization of researchers. The tool maps out researchers through graphical representations that make use of a variety of textual characteristics related to each researcher, such as college/school of their professorship, laboratory affiliation, titles and abstracts of their papers found on Google Scholar, and Google Scholar keywords. 
@@ -23,7 +23,7 @@ For steps on how to download and set up PeopleMap, please go to the following do
 https://app.gitbook.com/@poloclub/s/people-map/
 
 # Credit
-PeopleMap was created by Jon Saad-Falcon, Omar Shaikh, Jay Wang, Austin Wright, and Polo Chau. We would also like to thank everyone in the Polo Club of Data Science for assisting us in the development of the project.
+PeopleMap was created by [Jon Saad-Falcon](https://www.linkedin.com/in/jonsaadfalcon/), [Omar Shaikh](https://www.linkedin.com/in/oshaikh13/), [Jay Wang](https://zijie.wang/), [Austin Wright](https://austinpwright.com/), and [Polo Chau](https://poloclub.github.io/polochau/). We would also like to thank everyone in the Polo Club of Data Science for assisting us in the development of the project.
 
 # License
 
