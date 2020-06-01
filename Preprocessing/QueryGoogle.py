@@ -93,6 +93,8 @@ def generateCitedGoogleScholarCSV(list_of_researchers):
 	        affiliation = ''
 	        try:
 	        	affiliation = str(author.affiliation)
+
+	        	# Take note of position of commas using unusual alphabetic series
 	        	affiliation = affiliation.replace(',','XYZ')
 	        	affiliation = regex.sub(' ', affiliation)
 	        	affiliation = affiliation.replace('XYZ',',')
@@ -223,6 +225,8 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 							affiliation = ''
 							try:
 								affiliation = str(author.affiliation)
+
+								# Take note of position of commas using unusual alphabetic series
 					        	affiliation = affiliation.replace(',','XYZ')
 					        	affiliation = regex.sub(' ', affiliation)
 					        	affiliation = affiliation.replace('XYZ',',')
@@ -244,7 +248,6 @@ def generateRecentGoogleScholarCSV(list_of_researchers):
 	return grid
 
 
-
 #######################################################################################
 
 # TYPE YOUR LIST HERE
@@ -257,14 +260,14 @@ cited = generateCitedGoogleScholarCSV(scrape_list)
 
 print("Completed Cited Publication Scraping!")
 citedArray = numpy.array(cited)
-numpy.savetxt('citedScholarDataset.csv', citedArray, delimiter=',', fmt='%s')
+numpy.savetxt('citedScholarDataset.csv', citedArray, delimiter=',', fmt='%s', encoding ='utf8')
 
 
 recent = generateRecentGoogleScholarCSV(scrape_list)
 
 print("Completed Recent Publication Scraping!")
 recentArray = numpy.array(recent)
-numpy.savetxt('recentScholarDataset.csv', recentArray, delimiter=',', fmt='%s')
+numpy.savetxt('recentScholarDataset.csv', recentArray, delimiter=',', fmt='%s', encoding ='utf8')
 
 
 #########################################################################################
