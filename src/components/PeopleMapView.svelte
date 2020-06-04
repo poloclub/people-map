@@ -1104,7 +1104,6 @@ function renderGraph() {
       console.log(value)
       
       if (value == "") {
-        updateClusters($visNumClusters, $visKeywordEmphasis)
 
         legendRect.transition()
                   .duration(1000)
@@ -1118,7 +1117,14 @@ function renderGraph() {
                  .duration(1000)
                  .attr("opacity","0%");
 
+        console.log("Hello")
 
+        updateClusters($visNumClusters, $visKeywordEmphasis)
+
+        console.log(currentlyClicked)
+        handleClick(currentlyClicked)
+
+        //updateClusters($visNumClusters, $visKeywordEmphasis)
 
         return
 
