@@ -952,6 +952,16 @@ function renderGraph() {
 
                             if (d.Author == dataPoint) {
 
+                              var keywordTokens = d.KeyWords.split(", ")
+
+                              console.log(keywordTokens)
+
+                              var finalTokens = ["","","","",""]
+
+                              for (var i = 0; i < keywordTokens.length; i++) {
+                                  finalTokens[i] = keywordTokens[i]
+                              }
+
                               var updatedResearcherSelection = {
                                 name: d.Author,
                                 affiliation: d.Affiliation,
@@ -964,8 +974,11 @@ function renderGraph() {
                               selectedResearcherInfo.set(updatedResearcherSelection)
 
                               return "100%"
+
                             } else {
+
                               return "20%"
+                              
                             }
                         })
                         .attr("r", function(d) {

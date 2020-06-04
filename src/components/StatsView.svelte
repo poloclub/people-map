@@ -149,7 +149,7 @@
 
 </nav>
 
-<div id="autocomplete-choices" style="visibility: overflow; top: 1000px; left: 10000px; z-index: 100; position: absolute; width: 300px; background: white;">
+<div id="autocomplete-choices" style="visibility: hidden; top: 100px; left: 100px; z-index: 100; position: absolute; width: 300px; background: white;">
   {#each choices as choice}
     <a on:mousedown = {() => { handleInterestSelect(choice["name"]) }} class="panel-block">
       <span class="panel-icon">

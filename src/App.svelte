@@ -22,7 +22,7 @@
   <div class="column" style="min-height: 625px; padding-bottom: 35px; margin-bottom: 0px; background: #FFFFFF; padding-right: 0px; padding-left: 0px; margin-left: 0px; margin-right: 0px; width: 100%; padding-top: 0px;">
     <PeopleMapView />
   </div>
-  <div class="column is-narrow" style="padding-right: 20px; margin: 0px">
+  <div class="column is-narrow" style="padding-right: 20px; margin: 0px; padding-left: 18px;">
     <div class="level-item" style="width: 400px;">
       <ResearcherDetailView />
     </div>

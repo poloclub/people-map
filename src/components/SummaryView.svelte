@@ -27,4 +27,6 @@
     <li> <a href="https://app.gitbook.com/@poloclub/s/people-map/" target="_blank" style="color: #652DC1;">PeopleMap Documentation</a>
     </li>
   </ul>
+  <p class="text is-size-5"> PeopleMap is brought to you by: <a href="https://www.linkedin.com/in/jonsaadfalcon/" target="_blank" style="color: #652DC1;">Jon Saad-Falcon</a>, <a href="https://www.linkedin.com/in/oshaikh13/" target="_blank" style="color: #652DC1;">Omar Shaikh</a>, <a href="https://zijie.wang/" target="_blank" style="color: #652DC1;">Jay Wang</a>, <a href="https://austinpwright.com/" target="_blank" style="color: #652DC1;">Austin Wright</a>, <a href="https://www.linkedin.com/in/sasha-richardson/" target="_blank" style="color: #652DC1;">Sasha Richardson</a>, and <a href="https://poloclub.github.io/polochau/" target="_blank" style="color: #652DC1;">Polo Chau</a>.
+  </p>
 </div>
