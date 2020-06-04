@@ -18,7 +18,7 @@ https://poloclub.github.io/people-map/ideas/
 
 https://poloclub.github.io/people-map/ml/
 
-We have tested the PeopleMap on Google Chrome, Firefox, Safari. It should run on all modern web browsers.
+We have tested PeopleMap on Google Chrome, Firefox, Safari. It should run on all modern web browsers.
 
 # Development
 For steps on how to set up and deploy PeopleMap, please see PeopleMap's GitBook documentation at:
