@@ -1,4 +1,3 @@
-
 <div id="PeopleMap" style = "width: 100%; height: 100%; background: #FFFFFF; "></div>
 
 <script>
@@ -248,7 +247,7 @@ function renderGraph() {
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL} 
       })
 
-      
+  
 
 
       // Currently click author
@@ -1169,10 +1168,9 @@ function renderGraph() {
 
 
 
-<nav class="level" style="padding-top: 0px; margin-top: 0px; padding-bottom: 15px; padding-left: 15px; height: 30px;">
-
+<nav class="level is-mobile" style="padding-top: 0px; margin-top: 0px; padding-bottom: 15px; padding-left: 15px; height: 30px; min-width: 1340;">
   <input id="ShowNamesSwitch" type="checkbox" name="ShowNamesSwitch" 
-                class="switch is-small is-rounded" style="padding-top: 0px; color: purple;" bind:checked={$displayNames}>
+                class="switch is-small is-rounded" style="padding-top: 0px; color: purple; min-width: 200px;" bind:checked={$displayNames}>
   <label for="ShowNamesSwitch" ></label>
   <p class="text is-black" style="width: 105%; padding-top: 14px; min-width: 140px;">Show All Names</p>
 

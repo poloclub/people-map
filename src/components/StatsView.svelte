@@ -75,14 +75,16 @@
 
 </script>
 
-<nav style="padding:10px;margin-bottom:0;padding-bottom:20px;" class="level">
+<div style="background-color: #652DC1;">
+
+<nav class="level is-mobile" style="padding: 10px 10px; margin-bottom: 0px; width:1340px; margin-left:auto; margin-right: auto;">
 
   <div class="flex-2" style="flex-2: flex-direction; row; justify-content: flex-start; min-width: 820px;">
 
     <div class="level-left">
-      <img src="./logo.png" style="width: 50px%; height: 50px;">
+      <img src="./logo.png" style="width: 50px%; height: 50px; margin-right: 10px;">
       <p class="text has-text-white" style="font-size: 30px; padding-right: 25px; padding-right: 30px; min-width: 400px;">
-          : Georgia Tech IDEaS Faculty
+          Georgia Tech IDEaS Faculty
       </p>
 
 
@@ -143,3 +145,4 @@
   {/each}
 </div>
 
+</div>

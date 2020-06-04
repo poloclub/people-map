@@ -18,7 +18,7 @@
 
 <StatsView />
 <!-- <SettingsView /> -->
-<div class="columns" style="padding-top: 0px; margin-bottom: 0px; margin-left: 0px; padding-left: 0px; padding-right: 0px; margin-right: 0px; width: 100%;">
+<div class="columns is-mobile" style="margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-left: 0px; padding-right: 0px; min-width: 1300px; width:1340px; margin-left:auto; margin-right: auto;">
   <div class="column" style="min-height: 625px; padding-bottom: 35px; margin-bottom: 0px; background: #FFFFFF; padding-right: 0px; padding-left: 0px; margin-left: 0px; margin-right: 0px; width: 100%; padding-top: 0px;">
     <PeopleMapView />
   </div>
