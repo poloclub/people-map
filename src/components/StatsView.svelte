@@ -23,6 +23,15 @@
 
   var newRankData = {}
   var fixedKeys = []
+  var authors = {}
+
+
+  // TODO: add this to app store.
+
+  citedCoordinates.forEach((curr) => { 
+    authors[curr["Author"]] = true;
+  })
+  
 
 
   datasetChoice.subscribe((value) => {
@@ -32,15 +41,21 @@
       newRankData = recentRankData
     }
 
-    fixedKeys = Object.keys(newRankData).map((key) => 
-      key.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
-    )
+    fixedKeys = Object.keys(newRankData).map((key) => {
+      var name = key.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+      var type = "interest"
+      return {name, type};
+    })
+    
+    for (var key in authors) {
+      fixedKeys.push({name: key, type: "author"})
+    }
   })
 
   var choices = []
 
   selectedResearchInterest.subscribe((val) => {
-    choices = fixedKeys.sort((a, b) => b.score(val) - a.score(val)).slice(0, 5)
+    choices = fixedKeys.sort((a, b) => b["name"].score(val) - a["name"].score(val)).slice(0, 5)
   })
 
   var handleInterestSelect = (choice) => {
@@ -136,11 +151,14 @@
 
 <div id="autocomplete-choices" style="visibility: overflow; top: 1000px; left: 10000px; z-index: 100; position: absolute; width: 300px; background: white;">
   {#each choices as choice}
-    <a on:mousedown = {() => { handleInterestSelect(choice) }} class="panel-block">
+    <a on:mousedown = {() => { handleInterestSelect(choice["name"]) }} class="panel-block">
       <span class="panel-icon">
-        <i class="fas fa-book" aria-hidden="true"></i>
+        <div>
+            <i class="fas {choice["type"] == "author" ? "fa-user-graduate" : "fa-book"}" aria-hidden="true"></i>
+            
+        </div>
       </span>
-      {choice}
+      {choice["name"]}
     </a>
   {/each}
 </div>

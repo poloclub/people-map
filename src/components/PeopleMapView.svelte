@@ -247,7 +247,17 @@ function renderGraph() {
                 Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL} 
       })
 
-  
+
+      var totalAuthors = {}
+      for (var i = 0; i < dataFilter.length; i++) {
+        totalAuthors[dataFilter[i].Author] = true
+      }
+      // hacky for now...
+      // window.totalAuthors = {}
+      // for (var i = 0; i < dataFilter.length; i++) {
+      //   window.totalAuthors[dataFilter[i].Author] = true;
+      // }
+      // console.log(window.totalAuthors)
 
 
       // Currently click author
@@ -939,7 +949,20 @@ function renderGraph() {
                         .transition()
                       .duration(300)
                         .attr("opacity", function(d) {
+
                             if (d.Author == dataPoint) {
+
+                              var updatedResearcherSelection = {
+                                name: d.Author,
+                                affiliation: d.Affiliation,
+                                scholarKeywords: finalTokens,
+                                citations: d.Citations,
+                                url: d.URL,
+                                pictureURL: d.PictureURL
+                              }
+
+                              selectedResearcherInfo.set(updatedResearcherSelection)
+
                               return "100%"
                             } else {
                               return "20%"
@@ -1078,7 +1101,7 @@ function renderGraph() {
     // When a new research query is inputted, update the graph with the new ranking
     selectedResearchInterest.subscribe((value) => {
 
-
+      console.log(value)
       
       if (value == "") {
         updateClusters($visNumClusters, $visKeywordEmphasis)
@@ -1099,6 +1122,13 @@ function renderGraph() {
 
         return
 
+      }
+
+
+      if (totalAuthors[value]) {
+        console.log("AUTHOR SELECT")
+        handleClick(value)
+        return
       }
 
       var emphasis = $queryKeywordEmphasis;
