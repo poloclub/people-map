@@ -65,8 +65,10 @@
   var handleKeydown = () => {
     var key = event.key;
     var keyCode = event.keyCode;
+    // debugger;
     if (keyCode == 13) {
-      selectedResearchInterest.set(choices[0])
+      // debugger;
+      selectedResearchInterest.set(choices[0]["name"])
     }
   }
 
@@ -148,10 +150,11 @@
 
 
 </nav>
-
+ <!-- on:mouseleave={() => {handleInterestSelect("")}} -->
+<!-- on:mouseenter={() => {handleInterestSelect(choice["name"])}} -->
 <div id="autocomplete-choices" style="visibility: hidden; top: 100px; left: 100px; z-index: 100; position: absolute; width: 300px; background: white;">
   {#each choices as choice}
-    <a on:mouseenter={() => {handleInterestSelect(choice["name"])}} on:mousedown = {() => { handleInterestSelect(choice["name"])}} on:mouseleave={() => {handleInterestSelect("")}} class="panel-block">
+    <a class="panel-block" on:mousedown = {() => { handleInterestSelect(choice["name"])}}>
       <span class="panel-icon">
         <div>
             <i class="fas {choice["type"] == "author" ? "fa-user-graduate" : "fa-book"}" aria-hidden="true"></i>

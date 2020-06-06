@@ -6,6 +6,7 @@
   selectedResearchInterest.subscribe((value) => {
     if (value.length == 0) lockedInterest = "";
   })
+
 </script>
 
 <style>
@@ -54,7 +55,7 @@
         <p class="text is-size-5" style="color: #484848; text-align: center; margin-bottom: 0px;"> {$selectedResearcherInfo.affiliation} </p>
 
         <p class="text is-size-6" style="color: #484848; text-align: center; margin-bottom: 20px"> 
-              <span class="light-font" >Citations:</span> {$selectedResearcherInfo.citations} 
+              <span class="light-font" >Citations:</span> {parseInt($selectedResearcherInfo.citations)} 
         </p>
 
         <p class="text is-size-6" style="color: #484848; text-align: left; margin-bottom: 0px; padding-left: 20%"> 
