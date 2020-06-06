@@ -151,7 +151,7 @@
 
 <div id="autocomplete-choices" style="visibility: hidden; top: 100px; left: 100px; z-index: 100; position: absolute; width: 300px; background: white;">
   {#each choices as choice}
-    <a on:mousedown = {() => { handleInterestSelect(choice["name"]) }} class="panel-block">
+    <a on:mouseenter={() => {handleInterestSelect(choice["name"])}} on:mousedown = {() => { handleInterestSelect(choice["name"])}} on:mouseleave={() => {handleInterestSelect("")}} class="panel-block">
       <span class="panel-icon">
         <div>
             <i class="fas {choice["type"] == "author" ? "fa-user-graduate" : "fa-book"}" aria-hidden="true"></i>
