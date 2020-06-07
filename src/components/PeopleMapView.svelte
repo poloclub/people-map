@@ -154,7 +154,27 @@ function renderGraph() {
      .attr("height", height)
      .attr("opacity","0%")
      .on("click", function(d) {
+
+        legendRect.transition()
+                  .duration(1000)
+                  .attr("opacity","0%");
+
+        topTag.transition()
+              .duration(1000)
+              .attr("opacity","0%");
+
+        bottomTag.transition()
+                 .duration(1000)
+                 .attr("opacity","0%");
+
+        if ($selectedResearchInterest != "") {
+            $selectedResearchInterest = ""
+        }
+
         handleClick(currentlyClicked);
+
+
+
      })
      .on('mousemove', () => {});
     
@@ -940,14 +960,20 @@ function renderGraph() {
 
       function handleClick(dataPoint) {
 
+          var dataFilter = currentSelectedFaculty.map(function(d) {
+                        return { Grouping: d["grouping" + $visNumClusters + "," + $visKeywordEmphasis], Author: d.Author, Affiliation: d.Affiliation, KeyWords: d.KeyWords, Citations: d.Citations, URL: d.URL, PictureURL: d.PictureURL } 
+                  })
+
 
           if (currentlyClicked == "" & dataPoint != "") {
+
+                    console.log("Did this one")
 
                     currentlyClicked = dataPoint
 
                     dot.data(dataFilter)
                         .transition()
-                      .duration(300)
+                      .duration(200)
                         .attr("opacity", function(d) {
 
                             if (d.Author == dataPoint) {
@@ -1005,14 +1031,18 @@ function renderGraph() {
 
                 } else if (currentlyClicked != "" & dataPoint == currentlyClicked) {
 
-
+                    console.log("We did this one")
 
                     dot.data(dataFilter)
                               .transition()
-                            .duration(300)
+                            .duration(200)
                               .attr("opacity", "70%")
                               .attr("r", 8)
                               .attr("stroke-width", "0px")
+                              .attr("stroke", "black")
+                              .style("fill", function(d) {
+                                return colors[d.Grouping]
+                              })
 
                     currentlyClicked = ""
 
@@ -1130,14 +1160,13 @@ function renderGraph() {
                  .duration(1000)
                  .attr("opacity","0%");
 
-        console.log("Hello")
-
         updateClusters($visNumClusters, $visKeywordEmphasis)
 
-        console.log(currentlyClicked)
+        console.log("Still got here")
+
         handleClick(currentlyClicked)
 
-        //updateClusters($visNumClusters, $visKeywordEmphasis)
+
 
         return
 
