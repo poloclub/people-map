@@ -1252,6 +1252,6 @@ function renderGraph() {
   <input id="ShowGradientsSwitch" type="checkbox" name="ShowGradientsSwitch" 
                 class="switch is-small is-rounded" style="padding-top: 0px" bind:checked={$displayDistributions}>
   <label for="ShowGradientsSwitch" ></label>
-  <p class="text is-black" style="padding-top: 14px; width: 20%; min-width: 150px;">Show Gradients</p>
+  <p class="text is-black" style="padding-top: 14px; width: 20%; min-width: 150px;">Show Distributions</p>
 
 </nav>
