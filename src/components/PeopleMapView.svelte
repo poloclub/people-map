@@ -135,9 +135,6 @@ function renderGraph() {
   }
   countEmphasis = countEmphasis - 1
 
-  console.log(width)
-
-  console.log(height)
 
 
   // append the svg object to the body of the page
@@ -277,7 +274,6 @@ function renderGraph() {
       // for (var i = 0; i < dataFilter.length; i++) {
       //   window.totalAuthors[dataFilter[i].Author] = true;
       // }
-      // console.log(window.totalAuthors)
 
 
       // Currently click author
@@ -967,7 +963,6 @@ function renderGraph() {
 
           if (currentlyClicked == "" & dataPoint != "") {
 
-                    console.log("Did this one")
 
                     currentlyClicked = dataPoint
 
@@ -980,7 +975,7 @@ function renderGraph() {
 
                               var keywordTokens = d.KeyWords.split(", ")
 
-                              console.log(keywordTokens)
+
 
                               var finalTokens = ["","","","",""]
 
@@ -1031,7 +1026,7 @@ function renderGraph() {
 
                 } else if (currentlyClicked != "" & dataPoint == currentlyClicked) {
 
-                    console.log("We did this one")
+
 
                     dot.data(dataFilter)
                               .transition()
@@ -1144,7 +1139,7 @@ function renderGraph() {
     // When a new research query is inputted, update the graph with the new ranking
     selectedResearchInterest.subscribe((value) => {
 
-      console.log(value)
+
       
       if (value == "") {
 
@@ -1162,7 +1157,7 @@ function renderGraph() {
 
         updateClusters($visNumClusters, $visKeywordEmphasis)
 
-        console.log("Still got here")
+
 
         handleClick(currentlyClicked)
 
@@ -1174,7 +1169,6 @@ function renderGraph() {
 
 
       if (totalAuthors[value]) {
-        console.log("AUTHOR SELECT")
         handleClick(value)
         return
       }
