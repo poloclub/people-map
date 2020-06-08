@@ -145,7 +145,7 @@ function renderGraph() {
     .append("g");
 
 
-  // Rectangle for registering clicks on the graph
+  // Rectangle for registering clicks on the map
   svg.append('rect')
      .attr("width", width)
      .attr("height", height)
@@ -269,11 +269,7 @@ function renderGraph() {
       for (var i = 0; i < dataFilter.length; i++) {
         totalAuthors[dataFilter[i].Author] = true
       }
-      // hacky for now...
-      // window.totalAuthors = {}
-      // for (var i = 0; i < dataFilter.length; i++) {
-      //   window.totalAuthors[dataFilter[i].Author] = true;
-      // }
+
 
 
       // Currently click author
@@ -692,7 +688,7 @@ function renderGraph() {
 
 
 
-      // Upon change of keywords emphasis, updates the graph visualization
+      // Upon change of keywords emphasis, updates the map visualization
       function updateKeywords(selectedGroup, clustersNumber) {
 
 
@@ -737,7 +733,7 @@ function renderGraph() {
 
       }
 
-      // A function that update the chart with a new cluster coloring
+      // A function that updates the map with a new cluster coloring
       function updateClusters(selectedGroup, keywordsEmphasis) {
 
        
@@ -761,7 +757,7 @@ function renderGraph() {
 
       }
 
-    // A function that update the chart with a new ranking coloring
+    // A function that update the map with a new ranking coloring
     function updateRanking(phrase, emphasis) {
 
 
@@ -816,7 +812,7 @@ function renderGraph() {
 
 
 
-    // A function that update the chart with the researcher names, either displayed or undisplayed
+    // A function that updates the map with the researcher names, either displayed or undisplayed
     function updateNames(selectedOption) {
 
             // Filter out data with the selection
@@ -848,7 +844,7 @@ function renderGraph() {
 
 
 
-      // A function that updates the chart with a new Gaussian distribution set
+      // A function that updates the map with a new Gaussian distribution set
       function updateDistributions(selectedOption, keywordsEmphasis, clustersNumber) {
 
 
@@ -910,7 +906,7 @@ function renderGraph() {
 
 
 
-      // A function that updates the graph with the new dataset
+      // A function that updates the map with the new dataset
       function updateDataset(selectedKeywords, selectedClusters) {
 
 
@@ -1051,9 +1047,9 @@ function renderGraph() {
 
 
 
-    // When the button is changed, run the updateKeywords function and update the graph
+    // When the button is changed, run the updateKeywords function and update the map
     visKeywordEmphasis.subscribe((selectedOption) => {        
-        // run the updateChart function with this selected option
+        
         updateKeywords(selectedOption, $visNumClusters)
         updateDistributions($displayDistributions, selectedOption, $visNumClusters)
 
@@ -1076,9 +1072,9 @@ function renderGraph() {
     })
     
 
-    // When the button is changed, run the updateClusters function and update the graph
+    // When the button is changed, run the updateClusters function and update the map
     visNumClusters.subscribe((selectedOption) => {    
-      // run the updateChart function with this selected option
+      
       updateClusters(selectedOption, $visKeywordEmphasis)
       updateDistributions($displayDistributions, $visKeywordEmphasis, selectedOption)
 
@@ -1102,14 +1098,14 @@ function renderGraph() {
 
 
 
-    // When the button is changed, run the updateNames function and update the graph
+    // When the button is changed, run the updateNames function and update the map
     displayNames.subscribe((selectedOption) => {    
       // run the updateNames function with this selected option
       updateNames(selectedOption)
     })
 
 
-    // When the button is changed, run the updateDistributions function and update the graph
+    // When the button is changed, run the updateDistributions function and update the map
     displayDistributions.subscribe((selectedOption) => {    
       
       updateDistributions(selectedOption, $visKeywordEmphasis, $visNumClusters)
@@ -1136,7 +1132,7 @@ function renderGraph() {
 
 
 
-    // When a new research query is inputted, update the graph with the new ranking
+    // When a new research query is inputted, update the map with the new ranking
     selectedResearchInterest.subscribe((value) => {
 
 
@@ -1183,7 +1179,7 @@ function renderGraph() {
 
     })
 
-    // When a new dataset is selected, update the graph with the new dataset
+    // When a new dataset is selected, update the map with the new dataset
     datasetChoice.subscribe((value) => {
 
       if (value == "Most Cited Publications") {

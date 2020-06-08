@@ -64,7 +64,7 @@
 
         {#each $selectedResearcherInfo.scholarKeywords as scholarKeyword }
           { #if scholarKeyword.length != 0 }
-          <!-- clean this up!!!!!!!!! break it out into seperate functions, etc.-->
+          
           <p style="cursor: pointer; color: #8B72BE; text-align: left; margin-bottom: 0px; {lockedInterest == scholarKeyword ? "font-weight: bold;" : "font-weight: normal;"} margin-left: 20%" on:click={() =>{ 
             if (lockedInterest.length == 0) 
               lockedInterest = scholarKeyword 

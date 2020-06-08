@@ -26,7 +26,6 @@
   var authors = {}
 
 
-  // TODO: add this to app store.
 
   citedCoordinates.forEach((curr) => { 
     authors[curr["Author"]] = true;
@@ -65,9 +64,9 @@
   var handleKeydown = () => {
     var key = event.key;
     var keyCode = event.keyCode;
-    // debugger;
+
     if (keyCode == 13) {
-      // debugger;
+
       selectedResearchInterest.set(choices[0]["name"])
     }
   }
