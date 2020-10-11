@@ -4,11 +4,15 @@ A visualization tool that visually “maps out” researchers based on their res
 
 Brought to you [Jon Saad-Falcon](https://www.linkedin.com/in/jonsaadfalcon/), [Omar Shaikh](https://www.linkedin.com/in/oshaikh13/), [Jay Wang](https://zijie.wang/), [Austin Wright](https://austinpwright.com/), [Sasha Richardson](https://www.linkedin.com/in/sasha-richardson/), and [Polo Chau](https://poloclub.github.io/polochau/).
 
+
+
+
 [**Mapping Researchers with PeopleMap**](https://arxiv.org/abs/2009.00091)
 
 Jon Saad-Falcon, Omar Shaikh, Jay Wang, Austin Wright, Sasha Richardson, and Polo Chau
 
 *2020 IEEE Visualization (VIS'20)*
+
 
 [**PeopleMap: Visualization Tool for Mapping Out Researchers using Natural Language Processing**](https://arxiv.org/abs/2006.06105)
 
