@@ -14,8 +14,8 @@ Jon Saad-Falcon, Omar Shaikh, Jay Wang, Austin Wright, Sasha Richardson, and Pol
 *2020 IEEE Visualization (VIS'20)*
 
 [**PeopleMap: Visualization Tool for Mapping Out Researchers using Natural Language Processing**](https://arxiv.org/abs/2006.06105)                                         
-Jon Saad-Falcon, Omar Shaikh, Jay Wang, Austin Wright, Sasha Richardson, and Polo Chau
-
+Jon Saad-Falcon, Omar Shaikh, Jay Wang, Austin Wright, Sasha Richardson, and Polo Chau                                                    
+arXiv Preprint
 <br/>
 <a href="https://poloclub.github.io/people-map/ideas/" target="_blank"><img src="PeopleMap.png" style="max-width:100%;"></a>
 
