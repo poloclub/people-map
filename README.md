@@ -4,6 +4,10 @@ A visualization tool that visually “maps out” researchers based on their res
 
 Discovering research expertise at institutions can be a difficult task. Manually curated university directories easily become out of date and often lack the information necessary to understand a researcher’s interests and past work, making it harder to explore the diversity of research at an institution and pinpoint potential collaborators. PeopleMap solves these problems! To generate a PeopleMap, you only need to provide the researchers’ Google Scholar profile URLs.
 
+**Live Demos**: https://poloclub.github.io/people-map/ideas/ & https://poloclub.github.io/people-map/ml/                                                 
+**Video**: https://www.youtube.com/watch?v=kfKOoR4H1PE                                                                       
+**Documentation**: https://app.gitbook.com/@poloclub/s/people-map/                                                                             
+
 Brought to you [Jon Saad-Falcon](https://www.linkedin.com/in/jonsaadfalcon/), [Omar Shaikh](https://www.linkedin.com/in/oshaikh13/), [Jay Wang](https://zijie.wang/), [Austin Wright](https://austinpwright.com/), [Sasha Richardson](https://www.linkedin.com/in/sasha-richardson/), and [Polo Chau](https://poloclub.github.io/polochau/).
 
 
