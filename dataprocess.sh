@@ -4,8 +4,11 @@ set -e
 
 pip install -r requirements.txt
 #nltk.download('stopwords')
-python ./Preprocessing/QueryGoogle.py
-python ./Preprocessing/GeneratePeopleMapFiles.py
+python Preprocessing/NewGoogleQueryCited.py
+python Preprocessing/NewGoogleQueryRecent.py
+
+python Preprocessing/NewGeneratePeopleMapFilesCited.py
+python Preprocessing/NewGeneratePeopleMapFilesRecent.py
 
 #Moves the files to the folder before running npm
 mv "citedClusters.js" "src/components"

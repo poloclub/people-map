@@ -657,7 +657,7 @@ def generatePeopleMapFiles(givenCSV, specifiedName, maxClusters, maxKeywordsEmph
 
 
     # Generate coordinates JS file
-    js_list, total_clusters = generateKeywordsClustersCoordinatesJS(df, str(specifiedName) + "Coordinates.js", maxClusters, maxKeywordsEmphasis)
+    js_list, total_clusters = generateKeywordsClustersCoordinatesJS(df, str(specifiedName) + "Coordinates", maxClusters, maxKeywordsEmphasis)
     print("Complete generating Keywords JS and Clusters JS")
 
 
@@ -712,8 +712,8 @@ print("Started")
 generatePeopleMapFiles(mostCitedCSV, specifiedCitedName, maxClusters, maxKeywordsEmphasis)
 print("Completed Generating Files for Most Cited Dataset")
 
-generatePeopleMapFiles(mostRecentCSV, specifiedRecentName, maxClusters, maxKeywordsEmphasis)
-print("Completed Generating Files for Most Recent Dataset")
+#generatePeopleMapFiles(mostRecentCSV, specifiedRecentName, maxClusters, maxKeywordsEmphasis)
+#print("Completed Generating Files for Most Recent Dataset")
 
 print("Completed Generating all the Files!")
 
