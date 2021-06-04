@@ -10,3 +10,5 @@ Flask_Cors==3.0.8
 beautifulsoup4==4.9.1
 scikit_learn==0.23.1
 scholarly==0.5.1
+pyarrow
+fastparquet

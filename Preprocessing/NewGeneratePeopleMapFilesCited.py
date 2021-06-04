@@ -23,6 +23,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 # Other libraries
 import re
 import math
+import pyarrow
+import fastparquet
 
 
 
@@ -651,7 +653,8 @@ def changeRecoloring(total_clusters, maxNumberOfClusters, maxNumberOfKeywords):
 def generatePeopleMapFiles(givenCSV, specifiedName, maxClusters, maxKeywordsEmphasis):
     
     # Load the CSV file
-    df = pd.read_csv(givenCSV)
+    #df = pd.read_csv(givenCSV)
+    df = pd.read_parquet(givenCSV)
     df = cleanCSV(df)
     print("Completed cleaning CSV")
 
@@ -702,10 +705,10 @@ maxClusters = 6
 maxKeywordsEmphasis = 5
 
 specifiedCitedName = "cited"
-mostCitedCSV = "citedScholarDataset.csv"
+mostCitedCSV = "citedScholarDataset.gzip"
 
 specifiedRecentName = "recent"
-mostRecentCSV = "recentScholarDataset.csv"
+mostRecentCSV = "recentScholarDataset.gzip"
 
 print("Started")
 

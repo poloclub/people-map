@@ -2,6 +2,8 @@ from scholarly import scholarly
 import numpy
 import re
 import pandas as pd
+import pyarrow
+import fastparquet
 
 regex = re.compile('[^a-zA-Z]')
 
@@ -25,8 +27,8 @@ def clean_abstract(ab):
 def newGenerateCitedGoogleScholarCSV(list_of_researchers):
     grid = []
 
-    titles_array = ['Author','URL','Title','Abstract','Keywords','Citations','Affiliation','Year', 'PictureURL']
-    grid.append(titles_array)
+    #titles_array = ['Author','URL','Title','Abstract','Keywords','Citations','Affiliation','Year', 'PictureURL']
+    #grid.append(titles_array)
 
     outputGrid = []
     output_columns = ['Name', 'URL', 'SuccessfullyScraped']
@@ -168,8 +170,8 @@ def newGenerateCitedGoogleScholarCSV(list_of_researchers):
 def newGenerateRecentGoogleScholarCSV(list_of_researchers):
 	grid = []
 
-	titles_array = ['Author','URL','Title','Abstract','Keywords','Citations','Affiliation','Year', 'PictureURL']
-	grid.append(titles_array)
+	#titles_array = ['Author','URL','Title','Abstract','Keywords','Citations','Affiliation','Year', 'PictureURL']
+	#grid.append(titles_array)
 
 	outputGrid = []
 	output_columns = ['Name', 'URL', 'SuccessfullyScraped']
@@ -354,11 +356,22 @@ df = pd.read_csv('ResearchersDataset.csv')
 
 cited, results = newGenerateCitedGoogleScholarCSV(df)
 
-citedArray = numpy.array(cited)
-numpy.savetxt('citedScholarDataset.csv', citedArray, delimiter=',', fmt='%s', encoding ='utf8')
+titles_array = ['Author','URL','Title','Abstract','Keywords','Citations','Affiliation','Year', 'PictureURL']
+cited = pd.DataFrame(cited, columns=titles_array) 
+print(cited.columns)
+print(cited.head())
+
+cited.to_parquet('citedScholarDataset.gzip')
+
+#citedArray = numpy.array(cited)
+#numpy.savetxt('citedScholarDataset.csv', citedArray, delimiter=',', fmt='%s', encoding ='utf8')
 
 resultsArray = numpy.array(results)
 numpy.savetxt('ResearchersScrapedCited.csv', resultsArray, delimiter=',', fmt='%s', encoding ='utf8')
+
+
+############################################################
+
 
 
 
