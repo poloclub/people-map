@@ -37,7 +37,7 @@ def newGenerateCitedGoogleScholarCSV(list_of_researchers):
 
     	#researcher = list_of_researchers.iloc[i][0]
     	researcher = ""
-    	researcher_URL = list_of_researchers.iloc[i][0]
+    	researcher_URL = list_of_researchers.iloc[i][1]
 
     	researcherID = researcher_URL.replace("https://scholar.google.com/citations?user=", "")
     	researcherID = researcherID.replace("&hl=en&oi=ao", "")
@@ -72,10 +72,38 @@ def newGenerateCitedGoogleScholarCSV(list_of_researchers):
 	    		outputGrid.append([researcher, str(researcher_URL), "False"])
 
     	except:
-    		search_query = 'error'
-    		author = 'error'
 
-    		outputGrid.append([researcher, str(researcher_URL), "False"])
+    		try:
+
+    			search_query = next(scholarly.search_author(list_of_researchers.iloc[i][0]))
+	    		author = search_query.fill()
+				
+
+
+	    		researcher = author.name
+
+	    		print(researcher)
+				
+
+
+	    		if author != None:
+
+	    			publications = author.publications
+
+	    			outputGrid.append([researcher, str(researcher_URL), "True"])
+
+	    		else:
+	    			search_query = 'error'
+		    		author = 'error'
+
+		    		outputGrid.append([researcher, str(researcher_URL), "False"])
+
+    		except:
+
+	    		search_query = 'error'
+	    		author = 'error'
+
+	    		outputGrid.append([researcher, str(researcher_URL), "False"])
 
 
     	if search_query != 'error':
