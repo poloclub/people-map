@@ -216,35 +216,35 @@ def newGenerateRecentGoogleScholarCSV(list_of_researchers):
 
 			try:
 
-	    		search_query = next(scholarly.search_author(list_of_researchers.iloc[i][0]))
-	    		author = search_query.fill()
+				search_query = next(scholarly.search_author(list_of_researchers.iloc[i][0]))
+				author = search_query.fill()
 				
 
 
-	    		researcher = author.name
+				researcher = author.name
 
-	    		print(researcher)
+				print(researcher)
 				
 
 
-	    		if author != None:
+				if author != None:
 
-	    			publications = author.publications
+					publications = author.publications
 
-	    			outputGrid.append([researcher, str(researcher_URL), "True"])
+					outputGrid.append([researcher, str(researcher_URL), "True"])
 
-	    		else:
-	    			search_query = 'error'
-		    		author = 'error'
+				else:
+					search_query = 'error'
+					author = 'error'
 
-		    		outputGrid.append([researcher, str(researcher_URL), "False"])
+					outputGrid.append([researcher, str(researcher_URL), "False"])
 
-    		except:
+			except:
 
-	    		search_query = 'error'
-	    		author = 'error'
+				search_query = 'error'
+				author = 'error'
 
-	    		outputGrid.append([researcher, str(researcher_URL), "False"])
+				outputGrid.append([researcher, str(researcher_URL), "False"])
       
 
 		if search_query != 'error':

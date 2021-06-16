@@ -18503,3 +18503,24 @@ INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&view_op=view_c
 INFO:scholarly:Session proxy config is {}
 INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&view_op=view_citation&citation_for_view=HOYJ86sAAAAJ:2osOgNQ5qMEC
 INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=a6-onLoAAAAJ&hl=en&cstart=100&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=https://scholar.google.co.uk/citations?user=OkUv-F4AAAAJ&hl=en&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=https://scholar.google.co.uk/citations?user=9L-xODcAAAAJ&hl=en&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=poIiHR0AAAAJ&hl=en&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=poIiHR0AAAAJ&hl=en&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=vD2DRqoAAAAJ&hl=en&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=vD2DRqoAAAAJ&hl=en&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=vD2DRqoAAAAJ&hl=en&cstart=100&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=HOYJ86sAAAAJ&hl=en&pagesize=100
+INFO:scholarly:Session proxy config is {}
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&user=HOYJ86sAAAAJ&hl=en&pagesize=100
+INFO:scholarly:Session proxy config is {}
