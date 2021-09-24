@@ -8,7 +8,7 @@ Discovering research expertise at institutions can be a difficult task. Manually
 **Video**: https://www.youtube.com/watch?v=kfKOoR4H1PE                                                                       
 **Documentation**: https://app.gitbook.com/@poloclub/s/people-map/                                                                             
 
-Brought to you [Jon Saad-Falcon](https://www.linkedin.com/in/jonsaadfalcon/), [Omar Shaikh](https://www.linkedin.com/in/oshaikh13/), [Jay Wang](https://zijie.wang/), [Austin Wright](https://austinpwright.com/), [Sasha Richardson](https://www.linkedin.com/in/sasha-richardson/), and [Polo Chau](https://poloclub.github.io/polochau/).
+Brought to you by [Jon Saad-Falcon](https://www.linkedin.com/in/jonsaadfalcon/), [Omar Shaikh](https://www.linkedin.com/in/oshaikh13/), [Jay Wang](https://zijie.wang/), [Austin Wright](https://austinpwright.com/), [Sasha Richardson](https://www.linkedin.com/in/sasha-richardson/), and [Polo Chau](https://poloclub.github.io/polochau/).
 
 
 
