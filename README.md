@@ -38,7 +38,7 @@ We have tested PeopleMap on Google Chrome, Firefox, Safari. It should run on all
 # Development
 For steps on how to set up and deploy PeopleMap, please see PeopleMap's GitBook documentation at:
 
-https://app.gitbook.com/@poloclub/s/people-map/
+https://poloclub.gitbook.io/people-map/
 
 # Credit
 PeopleMap was created by [Jon Saad-Falcon](https://www.linkedin.com/in/jonsaadfalcon/), [Omar Shaikh](https://www.linkedin.com/in/oshaikh13/), [Jay Wang](https://zijie.wang/), [Austin Wright](https://austinpwright.com/), [Sasha Richardson](https://www.linkedin.com/in/sasha-richardson/), and [Polo Chau](https://poloclub.github.io/polochau/) from Georgia Tech. 
